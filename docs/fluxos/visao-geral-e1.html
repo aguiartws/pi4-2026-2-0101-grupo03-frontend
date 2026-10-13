@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FindUHouse - Visão Geral e Fluxo E1</title>
+    <style>
+      @page {
+        size: A4;
+        margin: 1.5cm;
+      }
+
+      body {
+        font-family: Arial, Helvetica, sans-serif;
+        margin: 0;
+        padding: 0;
+        color: #1f2937;
+        background: #ffffff;
+        line-height: 1.5;
+      }
+
+      .page {
+        max-width: 760px;
+        margin: 0 auto;
+        padding: 24px 18px 48px;
+      }
+
+      h1, h2, h3 {
+        color: #0f172a;
+        margin-top: 0;
+      }
+
+      h1 {
+        font-size: 26px;
+        margin-bottom: 8px;
+      }
+
+      h2 {
+        font-size: 18px;
+        margin-top: 22px;
+        border-bottom: 1px solid #dbe3ee;
+        padding-bottom: 6px;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 12px 0 18px;
+        font-size: 12px;
+      }
+
+      th, td {
+        border: 1px solid #d1d5db;
+        padding: 7px 8px;
+        text-align: left;
+        vertical-align: top;
+      }
+
+      th {
+        background: #f3f4f6;
+        font-weight: 700;
+      }
+
+      p, li {
+        font-size: 12px;
+      }
+
+      ul, ol {
+        margin: 8px 0 14px 20px;
+        padding-left: 18px;
+      }
+
+      code {
+        background: #f3f4f6;
+        padding: 2px 5px;
+        border-radius: 3px;
+        font-size: 11px;
+      }
+
+      .box {
+        border: 1px solid #cbd5e1;
+        background: #f8fafc;
+        padding: 12px 14px;
+        border-radius: 6px;
+        margin: 16px 0;
+      }
+
+      .note {
+        font-weight: 700;
+      }
+
+      @media print {
+        body {
+          -webkit-print-color-adjust: exact;
+          print-color-adjust: exact;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page">
+      <h1>Parte 1: Visão Geral — Sistema FindUHouse</h1>
+
+      <h2>1. Módulos do Sistema</h2>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Módulo</th>
+            <th>O que faz</th>
+            <th>Tecnologia</th>
+            <th>Repositório</th>
+            <th>Responsável</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Frontend</strong></td>
+            <td>Interface web responsiva com as telas do estudante e do responsável pela moradia</td>
+            <td>HTML, CSS e JavaScript</td>
+            <td>pi4-2026-2-0101-grupo03-frontend</td>
+            <td>Ana Clara Chaves</td>
+          </tr>
+          <tr>
+            <td><strong>Backend</strong></td>
+            <td>Processa regras de negócio, cálculo de compatibilidade, autenticação e gerenciamento de vagas</td>
+            <td>Java (Spring Boot)</td>
+            <td>pi4-2026-2-0101-grupo03-backend</td>
+            <td>Maria Julia Pereira</td>
+          </tr>
+          <tr>
+            <td><strong>Banco de Dados</strong></td>
+            <td>Armazena dados de usuários, perfis, vagas, questionários, favoritos e denúncias</td>
+            <td>PostgreSQL</td>
+            <td>Junto do Backend</td>
+            <td>Brenda Maia</td>
+          </tr>
+          <tr>
+            <td><strong>Serviço de E-mail (externo)</strong></td>
+            <td>Envia notificações por e-mail quando há solicitação de interesse em uma vaga</td>
+            <td>Serviço de Terceiros (SMTP)</td>
+            <td>Não se aplica</td>
+            <td>Caio Cantarin</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h2>2. Diagrama de Contêineres</h2>
+
+      <div class="box">
+        <p><strong>Usuários</strong>: estudante e responsável pela moradia.</p>
+        <p><strong>Frontend</strong>: telas do estudante e do responsável.</p>
+        <p><strong>Backend</strong>: regras de negócio, busca, compatibilidade e autenticação.</p>
+        <p><strong>Banco de Dados</strong>: PostgreSQL com usuários, vagas, questionários e favoritos.</p>
+        <p><strong>Serviço externo</strong>: envio de e-mails por SMTP.</p>
+      </div>
+
+      <div class="box">
+        <p><span class="note">Fluxo principal</span>: estudante/responsável → Frontend → Backend → Banco de Dados</p>
+        <p>O Backend também se comunica com o serviço externo de e-mail para envio de notificações.</p>
+      </div>
+
+      <h2>3. Convenção de Nomes</h2>
+
+      <p><strong>Idioma:</strong> português, sem acentos, em todos os nomes de campos, rotas e operações.</p>
+
+      <ul>
+        <li><strong>Campos entre módulos/API/JSON:</strong> camelCase. Ex.: <code>valorAluguel</code>, <code>regrasCasa</code>, <code>criadoEm</code>.</li>
+        <li><strong>Campos no banco:</strong> snake_case. Ex.: <code>orcamento_min</code>, <code>distancia_maxima</code>, <code>criado_em</code>.</li>
+        <li><strong>Tabelas:</strong> no singular. Ex.: <code>estudante</code>, <code>vaga</code>, <code>favorito</code>.</li>
+        <li><strong>Valores fixos de domínio:</strong> snake_case minúsculo. Ex.: <code>em_analise</code>, <code>antes_das_22</code>.</li>
+        <li><strong>Operações:</strong> verbo no infinitivo + objeto, em camelCase. Ex.: <code>cadastrarVaga</code>, <code>buscarVagas</code>.</li>
+        <li><strong>Rotas HTTP:</strong> prefixo <code>/api/</code> e substantivos no plural, em minúsculas. Ex.: <code>/api/vagas</code>.</li>
+        <li><strong>Códigos de erro:</strong> em maiúsculas com underscore. Ex.: <code>VAGA_NAO_ENCONTRADA</code>.</li>
+      </ul>
+
+      <h1 style="margin-top: 32px;">Fluxo do E1: Cadastro de perfil do estudante</h1>
+
+      <p><strong>Feito quando:</strong> O estudante preenche nome, e-mail, curso, faixa de orçamento e distância máxima do campus, salva, e o perfil aparece na tela “Meu perfil” com os dados que ele digitou.</p>
+
+      <h2>Passos</h2>
+      <ol>
+        <li>O estudante preenche o formulário de perfil e clica em “Salvar”.</li>
+        <li>O Frontend envia os dados do perfil para o Backend através da operação <code>cadastrarPerfil</code> (CT1).</li>
+        <li>O Backend valida os dados recebidos (campos obrigatórios e formatos).</li>
+        <li>O Backend grava as informações no Banco de Dados na tabela <code>estudante</code> (CT2).</li>
+        <li>O Backend grava o acesso do estudante (e-mail, senha criptografada e perfil) na tabela <code>usuario</code> do Banco de Dados (CT8).</li>
+        <li>O Banco de Dados confirma a gravação.</li>
+        <li>O Backend responde ao Frontend confirmando o cadastro do perfil.</li>
+        <li>O Frontend redireciona o estudante e exibe a tela “Meu perfil” com os dados atualizados.</li>
+      </ol>
+
+      <h2>Diagrama do fluxo</h2>
+      <div class="box">
+        <p><strong>Estudante</strong> → Frontend: preenche dados e clica em “Salvar”</p>
+        <p><strong>Frontend</strong> → Backend: CT1 <code>cadastrarPerfil</code></p>
+        <p><strong>Backend</strong> → Banco: grava em <code>estudante</code> e <code>usuario</code></p>
+        <p><strong>Banco</strong> → Backend: confirmação de gravação</p>
+        <p><strong>Backend</strong> → Frontend: resposta de perfil criado</p>
+        <p><strong>Frontend</strong> → Estudante: exibe tela “Meu perfil” com os dados salvos</p>
+      </div>
+
+      <p><strong>Contratos usados:</strong> CT1 <code>cadastrarPerfil</code>, CT2 <code>estudante</code>, CT8 <code>usuario</code>.</p>
+    </div>
+  </body>
+</html>
