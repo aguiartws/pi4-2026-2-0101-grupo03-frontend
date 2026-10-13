@@ -19,7 +19,7 @@ sequenceDiagram
     actor Responsavel as Responsável
     participant Frontend
     participant Backend
-    participant Banco
+    participant Banco as Banco de Dados
 
     Responsavel->>Frontend: Preenche dados da vaga e clica em "Cadastrar vaga"
     Frontend->>Backend: CT3 cadastrarVaga
@@ -28,3 +28,6 @@ sequenceDiagram
     Banco-->>Backend: Confirmação de gravação
     Backend-->>Frontend: Resposta do CT3 (Vaga criada)
     Frontend-->>Responsavel: Exibe vaga na lista de vagas ativas
+```
+
+**Contratos usados:** CT3 cadastrarVaga, CT4 vaga

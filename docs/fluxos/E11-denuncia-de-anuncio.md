@@ -20,7 +20,7 @@ sequenceDiagram
     actor Estudante
     participant Frontend
     participant Backend
-    participant Banco
+    participant Banco as Banco de Dados
 
     Estudante->>Frontend: Seleciona motivo e clica em "Enviar denúncia"
     Frontend->>Backend: CT19 denunciarVaga
@@ -30,3 +30,6 @@ sequenceDiagram
     Banco-->>Backend: Confirmação de alteração
     Backend-->>Frontend: Resposta do CT19 (Denúncia recebida)
     Frontend-->>Estudante: Oculta a vaga da tela e exibe aviso de denúncia enviada
+```
+
+**Contratos usados:** CT4 vaga, CT19 denunciarVaga, CT20 denuncia

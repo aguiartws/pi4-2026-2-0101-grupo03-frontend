@@ -6,7 +6,7 @@
 
 1. O estudante clica no botão "Tenho interesse" na página do anúncio.
 2. O Frontend envia a solicitação ao Backend pela operação `solicitarInteresse` (CT17).
-3. O Backend consulta os dados e telefones do estudante (CT2) e do responsável pela vaga (CT4) no Banco de Dados.
+3. O Backend consulta os dados e o telefone do estudante (CT2) e a vaga (CT4); em seguida consulta o e-mail e o telefone do responsável na tabela `usuario`, pelo responsavel_id da vaga (CT8).
 4. O Banco de Dados devolve as informações de contato dos envolvidos.
 5. O Backend monta as mensagens com os respectivos links `wa.me` diretos para conversa.
 6. O Backend aciona a API externa de e-mail utilizando `enviarEmailNotificacao` (CT18).
@@ -21,15 +21,20 @@ sequenceDiagram
     actor Estudante
     participant Frontend
     participant Backend
-    participant Banco
+    participant Banco as Banco de Dados
     participant ServiçoEmail as Serviço de E-mail (externo)
 
     Estudante->>Frontend: Clica no botão "Tenho interesse"
     Frontend->>Backend: CT17 solicitarInteresse
-    Backend->>Banco: CT2 estudante & CT4 vaga (busca dados de contato)
-    Banco-->>Backend: Retorna e-mails e telefones
+    Backend->>Banco: CT2 estudante e CT4 vaga (dados do estudante e da vaga)
+    Banco-->>Backend: Retorna dados do estudante e da vaga
+    Backend->>Banco: CT8 usuario (contato do responsável)
+    Banco-->>Backend: Retorna e-mail e telefone do responsável
     Backend->>Backend: Gera links no formato wa.me/numero
     Backend->>ServiçoEmail: CT18 enviarEmailNotificacao (dados + link wa.me)
     ServiçoEmail-->>Backend: Confirmação de envio aceito
     Backend-->>Frontend: Resposta do CT17 (Interesse registrado)
     Frontend-->>Estudante: Exibe confirmação na tela
+```
+
+**Contratos usados:** CT2 estudante, CT4 vaga, CT8 usuario, CT17 solicitarInteresse, CT18 enviarEmailNotificacao

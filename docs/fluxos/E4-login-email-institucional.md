@@ -20,7 +20,7 @@ sequenceDiagram
     actor Usuario as Usuário
     participant Frontend
     participant Backend
-    participant Banco
+    participant Banco as Banco de Dados
 
     Usuario->>Frontend: Digita e-mail e senha e clica em "Entrar"
     Frontend->>Backend: CT7 autenticarUsuario
@@ -30,3 +30,6 @@ sequenceDiagram
     Backend->>Backend: Valida senha digitada
     Backend-->>Frontend: Resposta do CT7 (Token de acesso / Erro)
     Frontend-->>Usuario: Libera acesso ao sistema ou exibe mensagem de erro
+```
+
+**Contratos usados:** CT7 autenticarUsuario, CT8 usuario

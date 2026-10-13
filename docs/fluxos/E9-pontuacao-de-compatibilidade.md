@@ -11,7 +11,7 @@
 5. O Backend executa internamente o algoritmo de regras ponderadas de compatibilidade (calcula nota de 0 a 100 e ponderação dos critérios).
 6. O Backend retorna a nota e os principais critérios positivos/negativos para o Frontend.
 7. O Frontend exibe a pontuação e os critérios destacados.
-8. Mais tarde, se o estudante atualiza um hábito no seu questionário (CT14) e reabre a mesma vaga, o Backend recalcula a compatibilidade com base nos dados novos e retorna uma pontuação atualizada.
+8. Mais tarde, se o estudante atualiza um hábito no seu questionário (fluxo E8) e reabre a mesma vaga, o Backend recalcula a compatibilidade com base nos dados novos e retorna uma pontuação atualizada.
 
 ## Diagrama
 
@@ -20,7 +20,7 @@ sequenceDiagram
     actor Estudante
     participant Frontend
     participant Backend
-    participant Banco
+    participant Banco as Banco de Dados
 
     Estudante->>Frontend: Abre a página de detalhes de uma vaga
     Frontend->>Backend: CT16 obterDetalhesVagaCompatibilidade
@@ -31,3 +31,6 @@ sequenceDiagram
     Backend->>Backend: Calcula nota (0-100) e ranqueia critérios mais pesados
     Backend-->>Frontend: Resposta do CT16 (Nota + Critérios destacados)
     Frontend-->>Estudante: Exibe nota de compatibilidade e critérios de convivência
+```
+
+**Contratos usados:** CT4 vaga, CT15 questionario_estudante, CT16 obterDetalhesVagaCompatibilidade

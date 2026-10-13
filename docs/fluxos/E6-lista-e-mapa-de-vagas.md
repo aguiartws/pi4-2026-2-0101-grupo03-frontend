@@ -18,7 +18,7 @@ sequenceDiagram
     actor Estudante
     participant Frontend
     participant Backend
-    participant Banco
+    participant Banco as Banco de Dados
 
     Estudante->>Frontend: Acessa a tela de vagas
     Frontend->>Backend: CT10 listarVagasMapa
@@ -26,3 +26,6 @@ sequenceDiagram
     Banco-->>Backend: Retorna dados e coordenadas das vagas
     Backend-->>Frontend: Resposta do CT10 (Vagas com coordenadas)
     Frontend-->>Estudante: Renderiza lista e marcadores de vagas no mapa
+```
+
+**Contratos usados:** CT4 vaga, CT10 listarVagasMapa
