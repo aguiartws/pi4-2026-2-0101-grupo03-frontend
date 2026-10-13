@@ -36,3 +36,33 @@ graph TD
     Front -->|operações HTTP / REST| Back
     Back -->|lê e grava, SQL| BD
     Back -->|pede envio de e-mail, HTTPS| EmailService
+
+```
+---
+
+## 3. Convenção de Nomes
+
+**Idioma:** português, sem acentos, em todos os nomes de campos, rotas e operações.
+
+**Campos nas mensagens entre módulos (API / JSON):** camelCase
+(ex: `valorAluguel`, `regrasCasa`, `criadoEm`). Referências a outra entidade
+usam o sufixo `Id` (ex: `vagaId`, `estudanteId`, `responsavelId`).
+
+**Campos no banco de dados:** snake_case
+(ex: `orcamento_min`, `distancia_maxima`, `criado_em`, `estudante_id`).
+Tabelas ficam no singular (ex: `estudante`, `vaga`, `favorito`, `denuncia`).
+
+**Mesmo campo entre camadas:** muda só a grafia
+(ex: `criadoEm` na API ↔ `criado_em` no banco; `vagaId` ↔ `vaga_id`).
+
+**Valores fixos de domínio (status e enumerações):** snake_case minúsculo
+(ex: `em_analise`, `antes_das_22`).
+
+**Operações:** verbo no infinitivo mais o objeto, em camelCase
+(ex: `cadastrarVaga`, `buscarVagas`, `favoritarVaga`).
+
+**Rotas HTTP:** prefixo `/api/` e substantivos no plural, em minúsculas
+(ex: `/api/vagas`, `/api/favoritos`).
+
+**Códigos de erro:** MAIÚSCULAS separadas por underscore
+(ex: `VAGA_NAO_ENCONTRADA`, `ERRO_INTERNO`).
