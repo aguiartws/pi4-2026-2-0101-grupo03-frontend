@@ -19,7 +19,7 @@ sequenceDiagram
     actor Estudante
     participant Frontend
     participant Backend
-    participant Banco
+    participant Banco as Banco de Dados
 
     Estudante->>Frontend: Responde às 10 perguntas e clica em "Salvar questionário"
     Frontend->>Backend: CT14 salvarQuestionario
@@ -28,3 +28,6 @@ sequenceDiagram
     Banco-->>Backend: Confirmação de gravação
     Backend-->>Frontend: Resposta do CT14 (Questionário salvo)
     Frontend-->>Estudante: Exibe mensagem de confirmação de respostas salvas
+```
+
+**Contratos usados:** CT14 salvarQuestionario, CT15 questionario_estudante

@@ -22,7 +22,7 @@ sequenceDiagram
     actor Estudante
     participant Frontend
     participant Backend
-    participant Banco
+    participant Banco as Banco de Dados
 
     Estudante->>Frontend: Clica em "Salvar" na vaga
     Frontend->>Backend: CT11 favoritarVaga
@@ -38,3 +38,6 @@ sequenceDiagram
     Banco-->>Backend: Retorna lista de vagas salvas
     Backend-->>Frontend: Resposta do CT13 (Lista de favoritos)
     Frontend-->>Estudante: Exibe as vagas favoritadas na tela
+```
+
+**Contratos usados:** CT11 favoritarVaga, CT12 favorito, CT13 listarFavoritos

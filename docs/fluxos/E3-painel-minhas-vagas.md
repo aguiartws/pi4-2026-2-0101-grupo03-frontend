@@ -22,7 +22,7 @@ sequenceDiagram
     actor Responsavel as Responsável
     participant Frontend
     participant Backend
-    participant Banco
+    participant Banco as Banco de Dados
 
     Responsavel->>Frontend: Abre tela "Minhas vagas"
     Frontend->>Backend: CT5 listarMinhasVagas
@@ -36,3 +36,6 @@ sequenceDiagram
     Banco-->>Backend: Confirmação de atualização
     Backend-->>Frontend: Resposta do CT6 (Vaga atualizada)
     Frontend-->>Responsavel: Atualiza e exibe novo valor no painel público
+```
+
+**Contratos usados:** CT4 vaga, CT5 listarMinhasVagas, CT6 editarVaga

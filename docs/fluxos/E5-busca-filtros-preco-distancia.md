@@ -19,7 +19,7 @@ sequenceDiagram
     actor Estudante
     participant Frontend
     participant Backend
-    participant Banco
+    participant Banco as Banco de Dados
 
     Estudante->>Frontend: Define preço máximo, distância e clica em "Aplicar filtros"
     Frontend->>Backend: CT9 buscarVagas
@@ -27,3 +27,6 @@ sequenceDiagram
     Banco-->>Backend: Retorna lista de vagas filtradas
     Backend-->>Frontend: Resposta do CT9 (Lista de vagas)
     Frontend-->>Estudante: Exibe vagas que atendem aos dois limites
+```
+
+**Contratos usados:** CT4 vaga, CT9 buscarVagas
