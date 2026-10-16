@@ -32,8 +32,3 @@ sequenceDiagram
 
 **Contratos usados:** CT23 autenticarUsuario, CT8 usuario
 
-
-criar 
-CT21  ok 
-CT22  ok  
-CT23
