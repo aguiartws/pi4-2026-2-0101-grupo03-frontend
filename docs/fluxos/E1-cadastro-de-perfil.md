@@ -1,6 +1,6 @@
 # Fluxo do E1: Cadastro de perfil do estudante
 
-**Feito quando:** O estudante preenche nome, e-mail, curso, faixa de orçamento e distância máxima do campus, salva, e o perfil aparece na tela "Meu perfil" com os dados que ele digitou.
+**Feito quando:** O estudante preenche nome, e-mail, curso, salva, e o perfil aparece na tela "Meu perfil" com os dados que ele digitou.
 
 ## Passos
 
