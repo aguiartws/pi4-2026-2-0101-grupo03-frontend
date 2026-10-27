@@ -1,0 +1,12 @@
+{
+  "name": "finduhouse",
+  "version": "1.0.0",
+  "private": true,
+  "main": "questionario-proprietario.js",
+  "scripts": {
+    "start": "questionario-proprietario.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2"
+  }
+}

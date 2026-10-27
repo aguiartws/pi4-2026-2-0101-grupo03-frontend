@@ -1,0 +1,504 @@
+```html
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <!-- Configurações básicas da página -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FindUHouse – Questionário de compatibilidade</title>
+
+  <!-- Fontes utilizadas na página -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Caveat:wght@600&display=swap" rel="stylesheet">
+
+  <!-- Arquivo CSS responsável pelo visual -->
+  <link rel="stylesheet" href="../css/questionario-proprietario.css">
+</head>
+
+<body>
+
+<!-- ================================================== -->
+<!-- 1. ÍCONES SVG UTILIZADOS EM DIFERENTES PARTES DA TELA -->
+<!-- ================================================== -->
+<svg width="0" height="0" style="position:absolute">
+  <symbol id="i-home" viewBox="0 0 24 24"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></symbol>
+  <symbol id="i-users" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c0-3.5 3-6 6.5-6s6.5 2.5 6.5 6"/><circle cx="17" cy="9" r="2.5"/><path d="M17 14c2.5 0 4.5 1.8 4.5 5"/></symbol>
+  <symbol id="i-clip" viewBox="0 0 24 24"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4h6v3H9zM9 12h6M9 16h4"/></symbol>
+  <symbol id="i-chat" viewBox="0 0 24 24"><path d="M4 5h16v11H9l-5 4z"/></symbol>
+  <symbol id="i-gear" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2"/></symbol>
+  <symbol id="i-bell" viewBox="0 0 24 24"><path d="M6 17V11a6 6 0 1112 0v6l2 2H4z"/><path d="M10 21h4"/></symbol>
+  <symbol id="i-chev" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></symbol>
+  <symbol id="i-arrow-l" viewBox="0 0 24 24"><path d="M19 12H5M11 6l-6 6 6 6"/></symbol>
+  <symbol id="i-arrow-r" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+  <symbol id="i-party" viewBox="0 0 24 24"><path d="M3 21l5-13 8 8z"/><path d="M14 4v2M20 10h-2M18 5l-1.5 1.5"/></symbol>
+  <symbol id="i-paw" viewBox="0 0 24 24"><circle cx="6" cy="10" r="2"/><circle cx="10" cy="6" r="2"/><circle cx="14" cy="6" r="2"/><circle cx="18" cy="10" r="2"/><path d="M12 12c-3 0-5.5 3-5.5 5.5 0 2 2 2.5 5.5 2.5s5.5-.5 5.5-2.5C17.5 15 15 12 12 12z"/></symbol>
+  <symbol id="i-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/></symbol>
+  <symbol id="i-bulb" viewBox="0 0 24 24"><path d="M9 18h6M10 21h4M12 3a6 6 0 00-3.5 11c.6.5 1 1.2 1 2h5c0-.8.4-1.5 1-2A6 6 0 0012 3z"/></symbol>
+  <symbol id="i-heart" viewBox="0 0 24 24"><path d="M12 20s-8-5-8-11a4.5 4.5 0 018-2.5A4.5 4.5 0 0120 9c0 6-8 11-8 11z"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12l5 5 9-10"/></symbol>
+</svg>
+
+
+<!-- ================================================== -->
+<!-- 2. CABEÇALHO SUPERIOR: LOGO, NAVEGAÇÃO E USUÁRIO -->
+<!-- ================================================== -->
+<header class="topbar">
+
+  <a class="logo" href="#">
+    <svg><use href="#i-home"/></svg>
+    FindUHouse
+  </a>
+
+  <nav class="topnav">
+    <a href="#">Início</a>
+    <a href="#">Minhas buscas</a>
+    <a href="#">Favoritos</a>
+  </nav>
+
+  <div class="topbar-right">
+    <button class="bell" aria-label="Notificações">
+      <svg><use href="#i-bell"/></svg>
+    </button>
+
+    <div class="user">
+      <span class="avatar"></span>
+      Carlos Silva
+      <svg><use href="#i-chev"/></svg>
+    </div>
+  </div>
+
+</header>
+
+
+<!-- ================================================== -->
+<!-- 3. LAYOUT PRINCIPAL: ORGANIZA AS COLUNAS DA PÁGINA -->
+<!-- ================================================== -->
+<div class="layout">
+
+
+  <!-- ================================================== -->
+  <!-- 4. MENU LATERAL: PERFIL DO PROPRIETÁRIO E NAVEGAÇÃO -->
+  <!-- ================================================== -->
+  <aside class="sidebar">
+
+    <div class="profile">
+      <svg><use href="#i-home"/></svg>
+      <div>
+        <strong>Proprietário</strong>
+        Sua casa, no lugar certo.
+      </div>
+    </div>
+
+    <ul class="menu">
+      <li><a href="#"><svg><use href="#i-users"/></svg>Meu painel</a></li>
+      <li><a href="#"><svg><use href="#i-home"/></svg>Minha moradia</a></li>
+      <li><a class="active" href="#"><svg><use href="#i-clip"/></svg>Questionário de compatibilidade</a></li>
+      <li><a href="#"><svg><use href="#i-chat"/></svg>Minhas mensagens</a></li>
+      <li><a href="#"><svg><use href="#i-gear"/></svg>Configurações</a></li>
+    </ul>
+
+    <!-- Mensagem informativa no menu lateral -->
+    <div class="promo">
+      <div class="promo-icon">
+        <svg><use href="#i-home"/></svg>
+      </div>
+
+      Quanto mais detalhes, melhor a compatibilidade com os estudantes!
+
+      <svg class="heart"><use href="#i-heart"/></svg>
+    </div>
+
+  </aside>
+
+
+  <!-- ================================================== -->
+  <!-- 5. ÁREA VISUAL DECORATIVA -->
+  <!-- ================================================== -->
+  <div class="photo" aria-hidden="true">
+    <p>Encontre estudantes que combinam com o seu espaço!</p>
+  </div>
+
+
+  <!-- ================================================== -->
+  <!-- 6. CONTEÚDO PRINCIPAL: QUESTIONÁRIO DA MORADIA -->
+  <!-- ================================================== -->
+  <main class="card">
+
+    <!-- Cabeçalho do questionário: voltar e indicação de etapas -->
+    <div class="card-head">
+
+      <a class="back" href="#">
+        <svg><use href="#i-arrow-l"/></svg>
+        Voltar
+      </a>
+
+      <div class="steps" aria-label="Etapa 2 de 6">
+        <span class="done">1</span>
+        <span class="current">2</span>
+        <span>3</span>
+        <span>4</span>
+        <span>5</span>
+        <span>6</span>
+      </div>
+
+      <span>2 de 6</span>
+    </div>
+
+    <!-- Título e explicação da página -->
+    <h1 class="title">
+      <svg><use href="#i-home"/></svg>
+      Sobre a sua moradia
+    </h1>
+
+    <p class="subtitle">
+      Responda algumas perguntas sobre a sua residência para que possamos mostrar a ela os estudantes mais compatíveis.
+    </p>
+
+
+    <!-- ================================================== -->
+    <!-- 7. FORMULÁRIO COM AS 10 PERGUNTAS -->
+    <!-- ================================================== -->
+    <form>
+
+      <!-- PERGUNTA 1: TIPO DE MORADIA -->
+      <fieldset class="question" style="border:0">
+        <svg><use href="#i-home"/></svg>
+
+        <div class="q-body">
+          <h3>1. Sua moradia é uma república ou uma kitnet?</h3>
+          <p>Selecione a opção que melhor descreve o seu imóvel:</p>
+
+          <div class="options" style="--cols:2">
+            <label class="option">
+              <input type="radio" name="tipo" value="republica">
+              <span class="box">
+                <svg><use href="#i-users"/></svg>
+                <span>
+                  <b>República</b>
+                  <small>Quarto compartilhado, com áreas comuns.</small>
+                </span>
+              </span>
+            </label>
+
+            <label class="option">
+              <input type="radio" name="tipo" value="kitnet">
+              <span class="box">
+                <svg><use href="#i-home"/></svg>
+                <span>
+                  <b>Kitnet</b>
+                  <small>Espaço individual, com cozinha e banheiro próprios.</small>
+                </span>
+              </span>
+            </label>
+          </div>
+        </div>
+      </fieldset>
+
+
+      <!-- PERGUNTA 2: FREQUÊNCIA DE FESTAS -->
+      <fieldset class="question" style="border:0">
+        <svg><use href="#i-party"/></svg>
+
+        <div class="q-body">
+          <h3>2. Sua moradia costuma ter festas?</h3>
+          <p>Selecione com que frequência isso acontece.</p>
+
+          <div class="options" style="--cols:4">
+            <label class="option">
+              <input type="radio" name="festas" value="frequente">
+              <span class="box"><b>Sim, com frequência</b></span>
+            </label>
+
+            <label class="option">
+              <input type="radio" name="festas" value="ocasional">
+              <span class="box"><b>Sim, de vez em quando</b></span>
+            </label>
+
+            <label class="option">
+              <input type="radio" name="festas" value="raramente">
+              <span class="box"><b>Raramente</b></span>
+            </label>
+
+            <label class="option">
+              <input type="radio" name="festas" value="nao">
+              <span class="box"><b>Não costuma ter</b></span>
+            </label>
+          </div>
+        </div>
+      </fieldset>
+
+
+      <!-- PERGUNTA 3: PRESENÇA DE ANIMAIS NA MORADIA -->
+      <fieldset class="question" style="border:0">
+        <svg><use href="#i-paw"/></svg>
+
+        <div class="q-body">
+          <h3>3. Sua moradia possui pets?</h3>
+          <p>Você tem algum animal de estimação na residência?</p>
+
+          <div class="options" style="--cols:2; max-width:210px">
+            <label class="option">
+              <input type="radio" name="pets" value="sim">
+              <span class="box"><b>Sim</b></span>
+            </label>
+
+            <label class="option">
+              <input type="radio" name="pets" value="nao">
+              <span class="box"><b>Não</b></span>
+            </label>
+          </div>
+        </div>
+      </fieldset>
+
+
+      <!-- PERGUNTA 4: ACEITAÇÃO DE PETS DOS ESTUDANTES -->
+      <fieldset class="question" style="border:0">
+        <svg><use href="#i-paw"/></svg>
+
+        <div class="q-body">
+          <h3>4. Sua moradia aceita pets?</h3>
+          <p>Você permite que estudantes tragam seus animais de estimação?</p>
+
+          <div class="options" style="--cols:2; max-width:210px">
+            <label class="option">
+              <input type="radio" name="aceita" value="sim">
+              <span class="box"><b>Sim</b></span>
+            </label>
+
+            <label class="option">
+              <input type="radio" name="aceita" value="nao">
+              <span class="box"><b>Não</b></span>
+            </label>
+          </div>
+        </div>
+      </fieldset>
+
+
+      <!-- PERGUNTA 5: CAPACIDADE DA MORADIA -->
+      <fieldset class="question" style="border:0">
+        <svg><use href="#i-users"/></svg>
+
+        <div class="q-body">
+          <h3>5. Quantos estudantes sua moradia acomoda?</h3>
+          <p>Informe a quantidade máxima de estudantes que podem morar no local.</p>
+
+          <div class="options" style="--cols:3">
+            <label class="option">
+              <input type="radio" name="capacidade" value="1-2">
+              <span class="box"><b>1 a 2 estudantes</b></span>
+            </label>
+
+            <label class="option">
+              <input type="radio" name="capacidade" value="3-5">
+              <span class="box"><b>3 a 5 estudantes</b></span>
+            </label>
+
+            <label class="option">
+              <input type="radio" name="capacidade" value="6+">
+              <span class="box"><b>6 ou mais</b></span>
+            </label>
+          </div>
+        </div>
+      </fieldset>
+
+
+      <!-- PERGUNTA 6: VALOR DO ALUGUEL -->
+      <fieldset class="question" style="border:0">
+        <svg><use href="#i-home"/></svg>
+
+        <div class="q-body">
+          <h3>6. Qual é o valor mensal por pessoa?</h3>
+          <p>Selecione a faixa de preço do aluguel mensal por estudante.</p>
+
+          <div class="options" style="--cols:3">
+            <label class="option">
+              <input type="radio" name="valor" value="ate500">
+              <span class="box"><b>Até R$ 500</b></span>
+            </label>
+
+            <label class="option">
+              <input type="radio" name="valor" value="500-1000">
+              <span class="box"><b>R$ 500 a R$ 1.000</b></span>
+            </label>
+
+            <label class="option">
+              <input type="radio" name="valor" value="acima1000">
+              <span class="box"><b>Acima de R$ 1.000</b></span>
+            </label>
+          </div>
+        </div>
+      </fieldset>
+
+
+      <!-- PERGUNTA 7: CONTAS INCLUÍDAS NO ALUGUEL -->
+      <fieldset class="question" style="border:0">
+        <svg><use href="#i-check"/></svg>
+
+        <div class="q-body">
+          <h3>7. As contas de água, luz e internet estão incluídas no aluguel?</h3>
+          <p>Escolha a opção que corresponde às despesas da moradia.</p>
+
+          <div class="options" style="--cols:3">
+            <label class="option">
+              <input type="radio" name="contas" value="todas">
+              <span class="box"><b>Sim, todas</b></span>
+            </label>
+
+            <label class="option">
+              <input type="radio" name="contas" value="algumas">
+              <span class="box"><b>Algumas contas</b></span>
+            </label>
+
+            <label class="option">
+              <input type="radio" name="contas" value="nenhuma">
+              <span class="box"><b>Nenhuma</b></span>
+            </label>
+          </div>
+        </div>
+      </fieldset>
+
+
+      <!-- PERGUNTA 8: MOBÍLIA -->
+      <fieldset class="question" style="border:0">
+        <svg><use href="#i-home"/></svg>
+
+        <div class="q-body">
+          <h3>8. A moradia é mobiliada?</h3>
+          <p>Os quartos e os espaços principais já possuem móveis?</p>
+
+          <div class="options" style="--cols:3">
+            <label class="option">
+              <input type="radio" name="mobilia" value="completa">
+              <span class="box"><b>Sim, completamente</b></span>
+            </label>
+
+            <label class="option">
+              <input type="radio" name="mobilia" value="parcial">
+              <span class="box"><b>Parcialmente</b></span>
+            </label>
+
+            <label class="option">
+              <input type="radio" name="mobilia" value="nao">
+              <span class="box"><b>Não é mobiliada</b></span>
+            </label>
+          </div>
+        </div>
+      </fieldset>
+
+
+      <!-- PERGUNTA 9: ACESSO À INTERNET -->
+      <fieldset class="question" style="border:0">
+        <svg><use href="#i-check"/></svg>
+
+        <div class="q-body">
+          <h3>9. A moradia possui internet Wi-Fi?</h3>
+          <p>Informe se os estudantes terão acesso à internet na residência.</p>
+
+          <div class="options" style="--cols:2; max-width:300px">
+            <label class="option">
+              <input type="radio" name="internet" value="sim">
+              <span class="box"><b>Sim</b></span>
+            </label>
+
+            <label class="option">
+              <input type="radio" name="internet" value="nao">
+              <span class="box"><b>Não</b></span>
+            </label>
+          </div>
+        </div>
+      </fieldset>
+
+
+      <!-- PERGUNTA 10: DISTÂNCIA ATÉ A FACULDADE -->
+      <fieldset class="question" style="border:0">
+        <svg><use href="#i-target"/></svg>
+
+        <div class="q-body">
+          <h3>10. Qual é a distância aproximada até a faculdade?</h3>
+          <p>Considere a faculdade que os estudantes pretendem frequentar.</p>
+
+          <div class="options" style="--cols:3">
+            <label class="option">
+              <input type="radio" name="distancia" value="ate1km">
+              <span class="box"><b>Até 1 km</b></span>
+            </label>
+
+            <label class="option">
+              <input type="radio" name="distancia" value="1a5km">
+              <span class="box"><b>De 1 a 5 km</b></span>
+            </label>
+
+            <label class="option">
+              <input type="radio" name="distancia" value="mais5km">
+              <span class="box"><b>Mais de 5 km</b></span>
+            </label>
+          </div>
+        </div>
+      </fieldset>
+
+
+      <!-- BOTÃO PARA CONTINUAR O QUESTIONÁRIO -->
+      <button class="next" type="submit">
+        Próximo
+        <svg><use href="#i-arrow-r"/></svg>
+      </button>
+
+    </form>
+  </main>
+
+
+  <!-- ================================================== -->
+  <!-- 8. PAINEL LATERAL: PROGRESSO E DICAS -->
+  <!-- ================================================== -->
+  <aside class="progress">
+
+    <!-- Mensagem sobre o preenchimento do perfil -->
+    <h2>
+      <svg><use href="#i-target"/></svg>
+      Seu perfil está em construção!
+    </h2>
+
+    <p class="hint">
+      Quanto mais informações, melhores serão as sugestões de estudantes.
+    </p>
+
+    <!-- Indicador visual de progresso -->
+    <div class="donut" style="--pct:33" role="img" aria-label="33% concluído">
+      <span>33%</span>
+    </div>
+
+    <!-- Lista das etapas do questionário -->
+    <ol class="checklist">
+      <li class="ok">
+        <span class="dot"><svg><use href="#i-check"/></svg></span>
+        <div>Tipo de moradia<em>Concluído</em></div>
+      </li>
+
+      <li class="now">
+        <span class="dot">2</span>
+        <div><b>Sobre a moradia</b><em>Em andamento</em></div>
+      </li>
+
+      <li><span class="dot">3</span><div>Regras e preferências</div></li>
+      <li><span class="dot">4</span><div>Estrutura e comodidades</div></li>
+      <li><span class="dot">5</span><div>Localização</div></li>
+      <li><span class="dot">6</span><div>Finalização</div></li>
+    </ol>
+
+    <!-- Dica exibida no final do painel lateral -->
+    <div class="tip">
+      <svg><use href="#i-bulb"/></svg>
+      <span>
+        Dica: seja o mais sincero possível! Assim, você atrai estudantes que realmente combinam com o seu estilo de moradia.
+      </span>
+    </div>
+
+  </aside>
+
+</div>
+<!-- FIM DO LAYOUT PRINCIPAL -->
+
+</body>
+</html>
+```
