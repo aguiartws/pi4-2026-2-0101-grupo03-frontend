@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FindUHouse | Login</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat+Brush&family=Kumbh+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/login.css">
+</head>
+<body>
+  <main class="page">
+
+    <!-- ========== LADO ESQUERDO ========== -->
+    <aside class="hero">
+      <div class="hero__content">
+        <a class="logo" href="..imagens/logo.png" aria-label="FindUHouse">
+          <svg viewBox="0 0 64 64" width="64" height="64" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M6 30 32 6l26 24v24a4 4 0 0 1-4 4H10a4 4 0 0 1-4-4Z"/>
+            <path d="M20 26v16a12 12 0 0 0 24 0V26"/>
+            <path d="M27 26v16a5 5 0 0 0 10 0V26"/>
+          </svg>
+          <span>FindUHouse</span>
+        </a>
+
+        <p class="hero__tagline">
+          Mais que um lugar para morar, é<br>o lugar certo para a sua fase.
+        </p>
+
+        <ul class="features">
+          <li class="feature">
+            <span class="feature__icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3"/><circle cx="5" cy="10" r="2"/><circle cx="19" cy="10" r="2"/><path d="M6.5 20a5.5 5.5 0 0 1 11 0Z"/><path d="M1.5 17a3.5 3.5 0 0 1 4-3M22.5 17a3.5 3.5 0 0 0-4-3"/></svg>
+            </span>
+            <div>
+              <h3>Encontre sua república ideal</h3>
+              <p>Conecte-se com casas e repúblicas que combinam com o seu estilo de vida.</p>
+            </div>
+          </li>
+
+          <li class="feature">
+            <span class="feature__icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11 12 3l9 8v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1Z"/></svg>
+            </span>
+            <div>
+              <h3>Para proprietários</h3>
+              <p>Divulgue sua residência e encontre estudantes compatíveis.</p>
+            </div>
+          </li>
+
+          <li class="feature">
+            <span class="feature__icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 4 6v6c0 4.5 3.2 8 8 9 4.8-1 8-4.5 8-9V6Z"/><path d="m8.5 12 2.5 2.5 4.5-5"/></svg>
+            </span>
+            <div>
+              <h3>Ambiente seguro</h3>
+              <p>Perfis verificados e mais tranquilidade para todos.</p>
+            </div>
+          </li>
+        </ul>
+
+        <div class="hero__slogan">
+          <span>Estudantes<br>conectando<br>lares!</span>
+          <svg viewBox="0 0 170 20" preserveAspectRatio="none" aria-hidden="true"><path d="M3 17C50 6 110 3 167 4" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round"/></svg>
+        </div>
+      </div>
+    </aside>
+
+    <!-- ========== LADO DIREITO ========== -->
+    <section class="login">
+      <p class="login__top">
+        Ainda não tem uma conta? <a href="#">Cadastre-se</a>
+      </p>
+
+      <div class="login__box">
+        <h1>Bem-vindo(a) de volta!</h1>
+        <p class="login__subtitle">Faça login para continuar encontrando o seu lugar.</p>
+
+        <form id="loginForm" novalidate>
+          <!-- Aluno / Proprietário -->
+          <div class="tabs" role="tablist">
+            <button type="button" class="tab is-active" role="tab" aria-selected="true" data-role="aluno">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0Z"/></svg>
+              Aluno
+            </button>
+            <button type="button" class="tab" role="tab" aria-selected="false" data-role="proprietario">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11 12 3l9 8v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1Z"/></svg>
+              Proprietário
+            </button>
+          </div>
+
+          <!-- E-mail -->
+          <div class="field">
+            <label for="email">E-mail</label>
+            <div class="input">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="5" width="19" height="14" rx="2"/><path d="m3 7 9 6.5L21 7"/></svg>
+              <input type="email" id="email" placeholder="seu@gmail.com" autocomplete="email" required>
+            </div>
+          </div>
+
+          <!-- Senha -->
+          <div class="field">
+            <label for="senha">Senha</label>
+            <div class="input">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="10.5" width="14" height="10.5" rx="2.5"/><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3"/></svg>
+              <input type="password" id="senha" placeholder="Digite sua senha" autocomplete="current-password" required>
+              <button type="button" class="eye" id="toggleSenha" aria-label="Mostrar senha">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1.5 12S5.5 5 12 5s10.5 7 10.5 7-4 7-10.5 7S1.5 12 1.5 12Z"/><circle cx="12" cy="12" r="3"/></svg>
+              </button>
+            </div>
+          </div>
+
+          <div class="row">
+            <label class="check">
+              <input type="checkbox" checked>
+              <span class="check__box">
+                <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg>
+              </span>
+              Lembrar de mim
+            </label>
+            <a href="#" class="link">Esqueceu sua senha?</a>
+          </div>
+
+          <button type="submit" class="btn btn--primary">Entrar</button>
+
+          <div class="divider"><span>ou</span></div>
+
+          <button type="button" class="btn btn--google">
+            <svg viewBox="0 0 48 48" width="28" height="28" aria-hidden="true">
+              <path fill="#EA4335" d="M24 9.5c3.5 0 6.6 1.2 9.1 3.6l6.8-6.8C35.8 2.4 30.3 0 24 0 14.6 0 6.5 5.4 2.6 13.2l7.9 6.1C12.4 13.6 17.7 9.5 24 9.5z"/>
+              <path fill="#4285F4" d="M46.5 24.5c0-1.6-.1-3.1-.4-4.5H24v9h12.7c-.6 3-2.3 5.5-4.8 7.2l7.6 5.9c4.4-4.1 7-10.1 7-17.6z"/>
+              <path fill="#FBBC05" d="M10.5 28.7c-.5-1.4-.8-3-.8-4.7s.3-3.2.8-4.7l-7.9-6.1C1 16.5 0 20.1 0 24s1 7.5 2.6 10.8l7.9-6.1z"/>
+              <path fill="#34A853" d="M24 48c6.5 0 11.9-2.1 15.9-5.8l-7.6-5.9c-2.1 1.4-4.9 2.3-8.3 2.3-6.3 0-11.6-4.1-13.5-9.8l-7.9 6.1C6.5 42.6 14.6 48 24 48z"/>
+            </svg>
+            Entrar com o Google
+          </button>
+        </form>
+      </div>
+    </section>
+
+  </main>
+
+  <script>
+    // Alternar Aluno / Proprietário
+    document.querySelectorAll('.tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        document.querySelectorAll('.tab').forEach(t => {
+          t.classList.remove('is-active');
+          t.setAttribute('aria-selected', 'false');
+        });
+        tab.classList.add('is-active');
+        tab.setAttribute('aria-selected', 'true');
+      });
+    });
+
+    // Mostrar / ocultar senha
+    const senha = document.getElementById('senha');
+    document.getElementById('toggleSenha').addEventListener('click', () => {
+      senha.type = senha.type === 'password' ? 'text' : 'password';
+    });
+
+    // Exemplo de submit (troque pela chamada ao seu back-end)
+    document.getElementById('loginForm').addEventListener('submit', e => {
+      e.preventDefault();
+      const perfil = document.querySelector('.tab.is-active').dataset.role;
+      console.log({ perfil, email: email.value, senha: senha.value });
+    });
+  </script>
+</body>
+</html>

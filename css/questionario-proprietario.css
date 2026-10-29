@@ -12,6 +12,7 @@
   --radius: 14px;
 }
 
+
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
 body {
@@ -35,7 +36,12 @@ a { color: inherit; text-decoration: none; }
   color: #fff;
 }
 .logo { display: flex; align-items: center; width: 170px; }
-.logo img { display: block; height: 36px; width: auto; max-width: 100%; object-fit: contain; }
+.logo img {
+    width: 300px;
+    height: auto;
+    display: block;
+    object-fit: contain;
+}
 .topnav { display: flex; gap: 28px; margin-left: 36px; font-size: 12px; font-weight: 600; }
 .topbar-right { margin-left: auto; display: flex; align-items: center; gap: 22px; }
 .topbar-right .bell { font-size: 18px; }
