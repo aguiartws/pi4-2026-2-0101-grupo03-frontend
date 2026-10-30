@@ -1,0 +1,208 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Cadastro do Proprietário | FindUHouse</title>
+
+    <link rel="stylesheet" href="../css/cadastro-proprietario.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+    <main class="layout">
+
+        <!-- LADO ESQUERDO: APRESENTAÇÃO -->
+        <section class="hero">
+
+            <a class="logo" href="login-proprietario.html">
+                <img src="../imagens/logo.png" alt="Logo FindUHouse">
+            </a>
+
+            <div class="hero-content">
+                <h1>Encontre as pessoas certas para sua moradia.</h1>
+
+                <p>
+                    Cadastre sua residência no FindUHouse e conecte-se
+                    com estudantes que procuram um novo lugar para morar.
+                </p>
+
+                <div class="features">
+
+                    <div class="feature">
+                        <span class="feature-icon">✓</span>
+                        <span>Divulgue sua moradia para estudantes</span>
+                    </div>
+
+                    <div class="feature">
+                        <span class="feature-icon">✓</span>
+                        <span>Encontre pessoas compatíveis</span>
+                    </div>
+
+                    <div class="feature">
+                        <span class="feature-icon">✓</span>
+                        <span>Facilite o processo de encontrar moradores</span>
+                    </div>
+
+                </div>
+            </div>
+
+            <p class="hero-footer">
+                Sua próxima conexão começa aqui.
+            </p>
+
+        </section>
+
+
+        <!-- LADO DIREITO: FORMULÁRIO DE CADASTRO -->
+        <section class="form-section">
+
+            <div class="form-container">
+
+                <div class="form-header">
+                    <span class="profile-label">CADASTRO DO PROPRIETÁRIO</span>
+
+                    <h2>Crie sua conta</h2>
+
+                    <p>Preencha seus dados para começar.</p>
+                </div>
+
+
+                <form id="cadastroForm">
+
+                    <!-- CAMPO DE E-MAIL -->
+                    <div class="form-group">
+                        <label for="email">E-mail</label>
+
+                        <input
+                            type="email"
+                            id="email"
+                            name="email"
+                            placeholder="Digite seu e-mail"
+                            autocomplete="email"
+                            required
+                        >
+                    </div>
+
+
+                    <!-- CAMPO DE CRIAR SENHA -->
+                    <div class="form-group">
+                        <label for="senha">Criar senha</label>
+
+                        <div class="password-container">
+                            <input
+                                type="password"
+                                id="senha"
+                                name="senha"
+                                placeholder="Crie uma senha"
+                                autocomplete="new-password"
+                                required
+                            >
+
+                            <button
+                                type="button"
+                                class="eye"
+                                id="toggleSenha"
+                                aria-label="Mostrar senha"
+                                aria-pressed="false"
+                            >
+                                <svg viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12Z"/>
+                                    <circle cx="12" cy="12" r="3"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+
+
+                    <!-- CAMPO DE CONFIRMAR SENHA -->
+                    <div class="form-group">
+                        <label for="confirmarSenha">Confirmar senha</label>
+
+                        <div class="password-container">
+                            <input
+                                type="password"
+                                id="confirmarSenha"
+                                name="confirmarSenha"
+                                placeholder="Digite novamente sua senha"
+                                autocomplete="new-password"
+                                required
+                            >
+
+                            <button
+                                type="button"
+                                class="eye"
+                                id="toggleConfirmarSenha"
+                                aria-label="Mostrar senha"
+                                aria-pressed="false"
+                            >
+                                <svg viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12Z"/>
+                                    <circle cx="12" cy="12" r="3"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+
+
+                    <!-- CAMPO DE TELEFONE -->
+                    <div class="form-group">
+                        <label for="telefone">Número de telefone</label>
+
+                        <input
+                            type="tel"
+                            id="telefone"
+                            name="telefone"
+                            placeholder="(00) 00000-0000"
+                            autocomplete="tel"
+                            required
+                        >
+                    </div>
+
+
+                    <!-- CAMPO DE CIDADE -->
+                    <div class="form-group">
+                        <label for="cidade">Cidade onde fica a moradia</label>
+
+                        <input
+                            type="text"
+                            id="cidade"
+                            name="cidade"
+                            placeholder="Digite a cidade"
+                            required
+                        >
+                    </div>
+
+
+                    <!-- MENSAGEM DE VALIDAÇÃO -->
+                    <p id="mensagemErro" class="mensagem-erro"></p>
+
+
+                    <!-- BOTÃO DE CADASTRO -->
+                    <button type="submit" class="btn-cadastro">
+                        Criar conta
+                    </button>
+
+                </form>
+
+            </div>
+
+        </section>
+
+    </main>
+
+    <script src="../js/cadastro-proprietario.js"></script>
+
+</body>
+</html>

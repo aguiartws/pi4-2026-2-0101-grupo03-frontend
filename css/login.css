@@ -2,7 +2,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Kumbh+Sans:wght@300;400;500;600;700;800&display=swap');
 
 :root {
-  --primary: #3f3cd6;
+  --primary: #8684ff;
   --primary-dark: #3330b8;
   --primary-soft: #eceafd;
   --lilac: #c9c3fa;
@@ -90,23 +90,24 @@ button {
 /* LOGO */
 
 .logo {
-  display: inline-flex;
+  display: flex;
   align-items: center;
+  justify-content: flex-start;
   align-self: flex-start;
-  gap: 12px;
+  width: 220px;
+  height: 130px;
   margin-bottom: 40px;
-  color: var(--white);
-  text-decoration: none;
-  font-size: 27px;
-  font-weight: 800;
   position: relative;
-  z-index: 1;
+  z-index: 10;
+  text-decoration: none;
 }
 
 .logo img {
-  width: 55px;
-  height: 55px;
+  display: block;
+  width: 220px;
+  height: 130px;
   object-fit: contain;
+  object-position: left center;
   flex-shrink: 0;
 }
 
@@ -141,7 +142,7 @@ button {
 
 .hero__description {
   max-width: 420px;
-  color: rgba(255, 255, 255, 0.84);
+  color: rgba(255, 255, 255, 0.932);
   font-size: 14px;
   line-height: 1.9;
 }
@@ -359,13 +360,14 @@ button {
   }
 
   .logo {
+    width: 180px;
+    height: 110px;
     margin-bottom: 25px;
-    font-size: 23px;
   }
 
   .logo img {
-    width: 43px;
-    height: 43px;
+    width: 180px;
+    height: 110px;
   }
 
   .hero h1 {
@@ -466,23 +468,4 @@ button {
   *::after {
     transition-duration: 0.01ms !important;
   }
-}
-
-/* TAMANHO VISUAL DA LOGO */
-
-.logo {
-  position: absolute;
-  top: 30px;
-  left: 35px;
-  width: 85px;
-  height: 85px;
-  z-index: 100;
-}
-
-.logo img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  transform: scale(2.5);
-  transform-origin: top left;
 }

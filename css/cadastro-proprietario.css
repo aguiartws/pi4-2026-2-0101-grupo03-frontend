@@ -1,0 +1,289 @@
+
+/* CONFIGURAÇÕES GERAIS */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    color: #222;
+    min-height: 100vh;
+}
+
+.layout {
+    display: flex;
+    min-height: 100vh;
+}
+
+
+/* LADO ESQUERDO: APRESENTAÇÃO */
+.hero {
+    width: 50%;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #414851, #3b4754);
+    color: white;
+    padding: 45px 7%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.logo {
+    display: inline-block;
+    width: fit-content;
+}
+
+.logo img {
+    width: 360px;
+    max-width: 100%;
+    height: auto;
+    object-fit: contain;
+    object-position: left center;
+}
+
+.hero-content {
+    max-width: 500px;
+    margin: 55px 0;
+}
+
+.hero-content h1 {
+    font-size: 38px;
+    line-height: 1.2;
+    margin-bottom: 22px;
+    font-weight: 800;
+}
+
+.hero-content p {
+    font-size: 16px;
+    line-height: 1.7;
+    color: #e3edf8;
+    margin-bottom: 30px;
+}
+
+.features {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.feature {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 15px;
+}
+
+.feature-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 25px;
+    height: 25px;
+    min-width: 25px;
+    border-radius: 50%;
+    background: white;
+    color: #295990;
+    font-weight: 800;
+}
+
+.hero-footer {
+    color: #d5e3f3;
+    font-size: 14px;
+}
+
+
+/* LADO DIREITO: FORMULÁRIO */
+.form-section {
+    width: 50%;
+    min-height: 100vh;
+    background: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px;
+}
+
+.form-container {
+    width: 100%;
+    max-width: 440px;
+}
+
+.form-header {
+    margin-bottom: 28px;
+}
+
+.profile-label {
+    display: inline-block;
+    color: #295990;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 1.2px;
+    margin-bottom: 13px;
+}
+
+.form-header h2 {
+    color: #222;
+    font-size: 30px;
+    font-weight: 800;
+    margin-bottom: 9px;
+}
+
+.form-header p {
+    color: #777;
+    font-size: 14px;
+}
+
+
+/* CAMPOS DO FORMULÁRIO */
+.form-group {
+    margin-bottom: 17px;
+}
+
+.form-group label {
+    display: block;
+    color: #333;
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.form-group input {
+    width: 100%;
+    height: 48px;
+    padding: 0 14px;
+    border: 1px solid #d9dce2;
+    border-radius: 8px;
+    outline: none;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    color: #222;
+    background: #fff;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.form-group input::placeholder {
+    color: #a1a1a1;
+}
+
+.form-group input:focus {
+    border-color: #295990;
+    box-shadow: 0 0 0 3px rgba(41, 89, 144, 0.10);
+}
+
+
+/* CAMPOS DE SENHA E ÍCONES DE OLHO */
+.password-container {
+    position: relative;
+}
+
+.password-container input {
+    padding-right: 48px;
+}
+
+.eye {
+    position: absolute;
+    right: 13px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4px;
+    border: none;
+    background: transparent;
+    color: #777;
+    cursor: pointer;
+}
+
+.eye svg {
+    width: 20px;
+    height: 20px;
+    pointer-events: none;
+}
+
+.eye:hover {
+    color: #295990;
+}
+
+
+/* MENSAGEM DE ERRO */
+.mensagem-erro {
+    min-height: 18px;
+    margin: -3px 0 10px;
+    color: #c0392b;
+    font-size: 12px;
+}
+
+
+/* BOTÃO CRIAR CONTA */
+.btn-cadastro {
+    width: 100%;
+    height: 49px;
+    border: none;
+    border-radius: 8px;
+    background: #295990;
+    color: white;
+    font-family: 'Inter', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.btn-cadastro:hover {
+    background: #1d426d;
+}
+
+
+/* RESPONSIVIDADE */
+@media (max-width: 900px) {
+    .hero {
+        padding: 35px 5%;
+    }
+
+    .logo img {
+        width: 300px;
+    }
+
+    .hero-content h1 {
+        font-size: 30px;
+    }
+
+    .form-section {
+        padding: 30px;
+    }
+}
+
+@media (max-width: 700px) {
+    .layout {
+        flex-direction: column;
+    }
+
+    .hero,
+    .form-section {
+        width: 100%;
+        min-height: auto;
+    }
+
+    .hero {
+        padding: 30px 25px;
+    }
+
+    .hero-content {
+        margin: 35px 0;
+    }
+
+    .hero-content h1 {
+        font-size: 28px;
+    }
+
+    .hero-footer {
+        margin-top: 15px;
+    }
+
+    .form-section {
+        padding: 40px 25px;
+    }
+}

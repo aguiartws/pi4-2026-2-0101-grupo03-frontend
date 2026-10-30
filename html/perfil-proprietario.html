@@ -1,0 +1,82 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FindUHouse – Meu perfil</title>
+  <link rel="stylesheet" href="../css/perfil-proprietario.css">
+</head>
+<body>
+  <div class="app">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <a class="logo" href="#" aria-label="FindUHouse">
+        <img src="../imagens/logo.png" alt="FindUHouse">
+      </a>
+
+      <nav class="nav" aria-label="Menu principal">
+        <a class="nav-item active" href="#">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/>
+          </svg>
+          <span>Meu<br>perfil</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-footer" aria-hidden="true"></div>
+    </aside>
+
+    <!-- CONTEÚDO -->
+    <main class="content">
+
+      <!-- Cabeçalho do perfil -->
+      <section class="card profile">
+        <div class="banner"></div>
+        <div class="profile-body">
+          <div class="avatar" aria-label="Foto de Ana Clara">AC</div>
+          <div class="profile-info">
+            <h1>
+              Ana Clara
+              <svg class="verified" viewBox="0 0 24 24" width="18" height="18" aria-label="Verificado">
+                <circle cx="12" cy="12" r="11" fill="currentColor"/>
+                <path d="m7.5 12.5 3 3 6-6.5" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </h1>
+            <p>Proprietário</p>
+          </div>
+        </div>
+      </section>
+
+      <div class="row">
+        <!-- Ações -->
+        <section class="card actions">
+          <button class="action" type="button" onclick="window.location.href='questionario-proprietario.html'">
+            <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true">
+              <path d="M12 4v16M4 12h16"/>
+            </svg>
+            <span class="action-title">adicionar casa</span>
+          </button>
+
+          <button class="action" type="button">
+            <svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M3 11 12 4l9 7"/><path d="M5 10v10h14V10"/><path d="M10 20v-5h4v5"/>
+            </svg>
+            <span class="action-title">Suas casas</span>
+          </button>
+
+          <button class="action small" type="button">
+            <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="12" cy="12" r="3"/>
+              <path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/>
+            </svg>
+            <span class="action-title">Configurações</span>
+          </button>
+        </section>
+      </div>
+
+    </main>
+  </div>
+</body>
+</html>
