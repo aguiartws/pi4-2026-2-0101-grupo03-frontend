@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>FindUHouse | Compatibilidade</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Kumbh+Sans:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet">
+
+  <link rel="stylesheet" href="../css/perguntas-deslizantes.css">
+</head>
+
+<body>
+
+  <main class="app">
+
+    <!-- CABEÇALHO: LOGO + PROGRESSO -->
+    <header class="app__header">
+      <a class="logo" href="login.html" aria-label="FindUHouse">
+        <img src="../imagens/logo.png" alt="Logo FindUHouse">
+      </a>
+
+      <div class="progress">
+        <div class="progress__bar">
+          <span id="progressFill"></span>
+        </div>
+        <span id="progressLabel">1 / 10</span>
+      </div>
+    </header>
+
+    <!-- INTRODUÇÃO -->
+    <section class="intro" id="intro">
+      <h1>Vamos encontrar quem combina com você?</h1>
+      <p>
+        Arraste o cartão para a <strong>direita</strong> se for <strong>sim</strong>
+        ou para a <strong>esquerda</strong> se for <strong>não</strong>.
+      </p>
+    </section>
+
+    <!-- BARALHO DE CARTÕES -->
+    <section class="deck" id="deck" aria-live="polite"></section>
+
+    <!-- BOTÕES DE AÇÃO -->
+    <div class="controls" id="controls">
+      <button class="btn btn--no" id="btnNo" type="button" aria-label="Não">
+        <svg viewBox="0 0 24 24" width="28" height="28" fill="none"
+             stroke="currentColor" stroke-width="2.5"
+             stroke-linecap="round" stroke-linejoin="round">
+          <path d="M6 6l12 12M18 6L6 18"/>
+        </svg>
+      </button>
+
+      <button class="btn btn--yes" id="btnYes" type="button" aria-label="Sim">
+        <svg viewBox="0 0 24 24" width="28" height="28" fill="none"
+             stroke="currentColor" stroke-width="2.5"
+             stroke-linecap="round" stroke-linejoin="round">
+          <path d="M5 12.5l4.5 4.5L19 7.5"/>
+        </svg>
+      </button>
+    </div>
+
+    <!-- RESULTADO FINAL -->
+    <section class="result" id="result" aria-live="polite">
+      <h2>Tudo pronto! 🎉</h2>
+      <p>Suas preferências foram registradas. Vamos usar isso para encontrar as melhores combinações.</p>
+
+      <ul class="result__list" id="resultList"></ul>
+
+      <button class="btn-primary" id="btnRestart" type="button">Refazer respostas</button>
+    </section>
+
+  </main>
+
+  <script src="../js/perguntas-deslizantes.js"></script>
+
+</body>
+
+</html>
