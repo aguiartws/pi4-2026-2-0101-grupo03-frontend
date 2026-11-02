@@ -1,208 +1,126 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Cadastro do Aluno | FindUHouse</title>
-
-    <link rel="stylesheet" href="../css/cadastro-aluno.css">
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FindUHouse – Suas Casas</title>
+  
+  <!-- Reaproveita a fonte do projeto -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Link para o CSS específico desta página -->
+  <link rel="stylesheet" href="../css/suas-casas.css">
 </head>
-
 <body>
+  <div class="app">
 
-    <main class="layout">
+    <!-- SIDEBAR (Mesma estrutura do perfil) -->
+    <aside class="sidebar">
+      <a class="logo" href="#" aria-label="FindUHouse">
+        <img src="../imagens/logo.png" alt="FindUHouse">
+      </a>
 
-        <!-- LADO ESQUERDO: APRESENTAÇÃO -->
-        <section class="hero">
+      <nav class="nav" aria-label="Menu principal">
+        <a class="nav-item" href="perfil-proprietario.html">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/>
+          </svg>
+          <span>Meu<br>perfil</span>
+        </a>
+        <a class="nav-item active" href="suas-casas.html">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M3 11 12 4l9 7"/><path d="M5 10v10h14V10"/><path d="M10 20v-5h4v5"/>
+          </svg>
+          <span>Suas<br>casas</span>
+        </a>
+      </nav>
 
-            <a class="logo" href="login-aluno.html">
-                <img src="../imagens/logo.png" alt="Logo FindUHouse">
-            </a>
+      <div class="sidebar-footer" aria-hidden="true"></div>
+    </aside>
 
-            <div class="hero-content">
-                <h1>Encontre as pessoas certas para sua moradia.</h1>
+    <!-- CONTEÚDO -->
+    <main class="content">
 
-                <p>
-                    Cadastre sua residência no FindUHouse e conecte-se
-                    com estudantes que procuram um novo lugar para morar.
-                </p>
+      <!-- Cabeçalho da Página -->
+      <section class="page-header">
+        <div class="header-text">
+            <h1>As suas propriedades</h1>
+            <p>Faça a gestão dos anúncios que tem ativos na plataforma.</p>
+        </div>
+        <button class="btn-novo" type="button" onclick="window.location.href='questionario-proprietario.html'">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true">
+              <path d="M12 5v14M5 12h14"/>
+            </svg>
+            Nova Casa
+        </button>
+      </section>
 
-                <div class="features">
-
-                    <div class="feature">
-                        <span class="feature-icon">✓</span>
-                        <span>Divulgue sua moradia para estudantes</span>
-                    </div>
-
-                    <div class="feature">
-                        <span class="feature-icon">✓</span>
-                        <span>Encontre pessoas compatíveis</span>
-                    </div>
-
-                    <div class="feature">
-                        <span class="feature-icon">✓</span>
-                        <span>Facilite o processo de encontrar moradores</span>
-                    </div>
-
-                </div>
+      <!-- Grelha de Casas -->
+      <section class="houses-grid">
+        
+        <!-- Exemplo de Card de Casa 1 -->
+        <div class="house-card card">
+          <div class="house-header">
+            <span class="status badge-active">Ativa</span>
+            <div class="price">R$ 1.200<span>/mês</span></div>
+          </div>
+          
+          <div class="house-body">
+            <h3>Quarto individual próximo à PUC</h3>
+            <p class="address">Rua das Acácias, 123 - Campinas</p>
+            
+            <div class="house-specs">
+              <div class="spec">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                </svg>
+                <span>3 Moradores</span>
+              </div>
+              <div class="spec">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+                </svg>
+                <span>Despesas Inclusas</span>
+              </div>
             </div>
+          </div>
 
-            <p class="hero-footer">
-                Sua próxima conexão começa aqui.
-            </p>
+          <div class="house-footer">
+            <button class="btn-edit">Editar anúncio</button>
+          </div>
+        </div>
 
-        </section>
-
-
-        <!-- LADO DIREITO: FORMULÁRIO DE CADASTRO -->
-        <section class="form-section">
-
-            <div class="form-container">
-
-                <div class="form-header">
-                    <span class="profile-label">CADASTRO DO ALUNO</span>
-
-                    <h2>Crie sua conta</h2>
-
-                    <p>Preencha seus dados para começar.</p>
-                </div>
-
-
-                <form id="cadastroForm">
-
-                    <!-- CAMPO DE E-MAIL -->
-                    <div class="form-group">
-                        <label for="email">E-mail</label>
-
-                        <input
-                            type="email"
-                            id="email"
-                            name="email"
-                            placeholder="Digite seu e-mail"
-                            autocomplete="email"
-                            required
-                        >
-                    </div>
-
-
-                    <!-- CAMPO DE CRIAR SENHA -->
-                    <div class="form-group">
-                        <label for="senha">Criar senha</label>
-
-                        <div class="password-container">
-                            <input
-                                type="password"
-                                id="senha"
-                                name="senha"
-                                placeholder="Crie uma senha"
-                                autocomplete="new-password"
-                                required
-                            >
-
-                            <button
-                                type="button"
-                                class="eye"
-                                id="toggleSenha"
-                                aria-label="Mostrar senha"
-                                aria-pressed="false"
-                            >
-                                <svg viewBox="0 0 24 24" fill="none"
-                                    stroke="currentColor" stroke-width="2"
-                                    stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12Z"/>
-                                    <circle cx="12" cy="12" r="3"/>
-                                </svg>
-                            </button>
-                        </div>
-                    </div>
-
-
-                    <!-- CAMPO DE CONFIRMAR SENHA -->
-                    <div class="form-group">
-                        <label for="confirmarSenha">Confirmar senha</label>
-
-                        <div class="password-container">
-                            <input
-                                type="password"
-                                id="confirmarSenha"
-                                name="confirmarSenha"
-                                placeholder="Digite novamente sua senha"
-                                autocomplete="new-password"
-                                required
-                            >
-
-                            <button
-                                type="button"
-                                class="eye"
-                                id="toggleConfirmarSenha"
-                                aria-label="Mostrar senha"
-                                aria-pressed="false"
-                            >
-                                <svg viewBox="0 0 24 24" fill="none"
-                                    stroke="currentColor" stroke-width="2"
-                                    stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12Z"/>
-                                    <circle cx="12" cy="12" r="3"/>
-                                </svg>
-                            </button>
-                        </div>
-                    </div>
-
-
-                    <!-- CAMPO DE TELEFONE -->
-                    <div class="form-group">
-                        <label for="telefone">Número de telefone</label>
-
-                        <input
-                            type="tel"
-                            id="telefone"
-                            name="telefone"
-                            placeholder="(00) 00000-0000"
-                            autocomplete="tel"
-                            required
-                        >
-                    </div>
-
-
-                    <!-- CAMPO DE CIDADE -->
-                    <div class="form-group">
-                        <label for="cidade">Cidade onde fica a moradia</label>
-
-                        <input
-                            type="text"
-                            id="cidade"
-                            name="cidade"
-                            placeholder="Digite a cidade"
-                            required
-                        >
-                    </div>
-
-
-                    <!-- MENSAGEM DE VALIDAÇÃO -->
-                    <p id="mensagemErro" class="mensagem-erro"></p>
-
-
-                    <!-- BOTÃO DE CADASTRO -->
-                    <button type="submit" class="btn-cadastro">
-                        Criar conta
-                    </button>
-
-                </form>
-
+        <!-- Exemplo de Card de Casa 2 -->
+        <div class="house-card card">
+          <div class="house-header">
+            <span class="status badge-analysis">Em Análise</span>
+            <div class="price">R$ 850<span>/mês</span></div>
+          </div>
+          
+          <div class="house-body">
+            <h3>Quarto compartilhado (2 pessoas)</h3>
+            <p class="address">Av. Brasil, 456 - Barão Geraldo</p>
+            
+            <div class="house-specs">
+              <div class="spec">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                </svg>
+                <span>5 Moradores</span>
+              </div>
             </div>
+          </div>
 
-        </section>
+          <div class="house-footer">
+            <button class="btn-edit">Editar anúncio</button>
+          </div>
+        </div>
+
+      </section>
 
     </main>
-
-    <script src="../js/cadastro-aluno.js"></script>
-
+  </div>
 </body>
 </html>
