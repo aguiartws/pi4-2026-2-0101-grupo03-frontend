@@ -98,7 +98,7 @@
         </p>
 
         <!-- FORMULÁRIO DE LOGIN -->
-        <form id="loginForm">
+        <form id="loginForm" novalidate>
 
           <!-- Identificação do aluno (ícone de capelo, igual ao da tela login) -->
           <div class="profile-label">
@@ -122,11 +122,13 @@
               <input
                 type="email"
                 id="email"
-                placeholder="seu@gmail.com"
+                aria-describedby="emailErro"
+                placeholder="Seu @puccampinas.edu.br"
                 autocomplete="email"
                 required
               >
             </div>
+            <p class="field__error" id="emailErro" role="alert" hidden></p>
           </div>
 
           <!-- Senha -->
@@ -142,6 +144,7 @@
               <input
                 type="password"
                 id="senha"
+                aria-describedby="senhaErro"
                 placeholder="Digite sua senha"
                 autocomplete="current-password"
                 required
@@ -161,6 +164,7 @@
                 </svg>
               </button>
             </div>
+            <p class="field__error" id="senhaErro" role="alert" hidden></p>
           </div>
 
           <!-- Lembrar e recuperar senha -->
@@ -179,8 +183,9 @@
           </div>
 
           <!-- Entrar -->
-          <button type="submit" class="btn btn--primary">Entrar</button>
+          <div class="form-error" id="formErro" role="alert" hidden></div>
 
+          <button type="submit" class="btn btn--primary" id="btnEntrar">Entrar</button>
 
         </form>
       </div>
