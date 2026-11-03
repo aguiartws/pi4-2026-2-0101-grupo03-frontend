@@ -59,68 +59,12 @@
 
       <!-- Grelha de Casas -->
       <section class="houses-grid">
-        
-        <!-- Exemplo de Card de Casa 1 -->
-        <div class="house-card card">
-          <div class="house-header">
-            <span class="status badge-active">Ativa</span>
-            <div class="price">R$ 1.200<span>/mês</span></div>
-          </div>
-          
-          <div class="house-body">
-            <h3>Quarto individual próximo à PUC</h3>
-            <p class="address">Rua das Acácias, 123 - Campinas</p>
-            
-            <div class="house-specs">
-              <div class="spec">
-                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
-                </svg>
-                <span>3 Moradores</span>
-              </div>
-              <div class="spec">
-                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
-                </svg>
-                <span>Despesas Inclusas</span>
-              </div>
-            </div>
-          </div>
-
-          <div class="house-footer">
-            <button class="btn-edit">Editar anúncio</button>
-          </div>
-        </div>
-
-        <!-- Exemplo de Card de Casa 2 -->
-        <div class="house-card card">
-          <div class="house-header">
-            <span class="status badge-analysis">Em Análise</span>
-            <div class="price">R$ 850<span>/mês</span></div>
-          </div>
-          
-          <div class="house-body">
-            <h3>Quarto compartilhado (2 pessoas)</h3>
-            <p class="address">Av. Brasil, 456 - Barão Geraldo</p>
-            
-            <div class="house-specs">
-              <div class="spec">
-                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
-                </svg>
-                <span>5 Moradores</span>
-              </div>
-            </div>
-          </div>
-
-          <div class="house-footer">
-            <button class="btn-edit">Editar anúncio</button>
-          </div>
-        </div>
-
+        <p id="estadoCasas">Carregando casas...</p>
       </section>
 
     </main>
   </div>
+  <script src="../js/api.js"></script>
+  <script src="../js/suas-casas.js"></script>
 </body>
 </html>
