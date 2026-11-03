@@ -371,6 +371,12 @@ a {
   text-decoration: underline;
 }
 
+#mensagemErro {
+  margin: 0 0 1rem;
+  color: #c62828;
+  font-size: .9rem;
+}
+
 /* ===== Botões ===== */
 .btn {
   display: flex;
