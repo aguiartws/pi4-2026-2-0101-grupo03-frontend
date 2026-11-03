@@ -8,3 +8,9 @@ Thumbs.db
 # Editores
 .vscode/
 .idea/
+
+# Variáveis de ambiente locais
+.env
+
+# Dependências Node (existe um js/package.json)
+node_modules/
