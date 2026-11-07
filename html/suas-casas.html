@@ -5,18 +5,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>FindUHouse – Suas Casas</title>
   
-  <!-- Reaproveita a fonte do projeto -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   
-  <!-- Link para o CSS específico desta página -->
   <link rel="stylesheet" href="../css/suas-casas.css">
 </head>
 <body>
   <div class="app">
 
-    <!-- SIDEBAR (Mesma estrutura do perfil) -->
+    <!-- SIDEBAR -->
     <aside class="sidebar">
       <a class="logo" href="#" aria-label="FindUHouse">
         <img src="../imagens/logo.png" alt="FindUHouse">
@@ -57,14 +55,15 @@
         </button>
       </section>
 
-      <!-- Grelha de Casas -->
-      <section class="houses-grid">
-        <p id="estadoCasas">Carregando casas...</p>
+      <!-- Grelha de Casas Vazia (O JS vai preencher isto) -->
+      <section class="houses-grid" id="gridCasas">
+        <!-- O carregamento dinâmico entrará aqui -->
       </section>
 
     </main>
   </div>
-  <script src="../js/api.js"></script>
+
+  <!-- Ligação com o Back-end -->
   <script src="../js/suas-casas.js"></script>
 </body>
 </html>
