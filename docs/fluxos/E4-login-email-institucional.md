@@ -6,7 +6,7 @@
 
 1. O usuário digita o e-mail institucional e a senha no formulário e clica em "Entrar".
 2. O Frontend envia os dados de acesso para o Backend através da operação `autenticarUsuario` (CT7).
-3. O Backend verifica se o e-mail possui o domínio institucional permitido (ex: `@puc-campinas.edu.br`).
+3. O Backend verifica se o e-mail possui o domínio institucional permitido (ex: `@puccampinas.edu.br`).
 4. O Backend lê o registro correspondente no Banco de Dados na tabela `usuario` (CT8).
 5. O Banco de Dados retorna o hash da senha e o perfil do usuário.
 6. O Backend compara as credenciais e valida a autenticação.

@@ -1,4 +1,8 @@
 document.addEventListener("DOMContentLoaded", () => {
+    if (!exigirLogin("estudante")) {
+        return;
+    }
+
     // 1. Inicializar o Mapa (Focado na PUC-Campinas Campus 1)
     const map = L.map('mapaFavoritos').setView([-22.8343, -47.0523], 15);
 
@@ -22,17 +26,9 @@ document.addEventListener("DOMContentLoaded", () => {
     // 2. Função para buscar os favoritos no Backend
     async function carregarFavoritosNoMapa() {
         try {
-            // ID do estudante (no futuro virá do login/token, aqui usamos 42 de exemplo conforme o contrato CT13)
-            const estudanteId = 42; 
+            const estudanteId = obterSessao().usuarioId;
             
-            // Faz a requisição para o seu Spring Boot (ajuste a porta se o seu backend não estiver na 8080)
-            const resposta = await fetch(`http://localhost:8080/api/favoritos?estudanteId=${estudanteId}`);
-            
-            if (!resposta.ok) {
-                throw new Error("Erro ao buscar as vagas favoritas");
-            }
-
-            const dados = await resposta.json();
+            const dados = await chamarApi(`/favoritos?estudanteId=${encodeURIComponent(estudanteId)}`);
 
             // 3. Verifica se tem favoritos e os adiciona no mapa
             if (dados.favoritos && dados.favoritos.length > 0) {
@@ -59,6 +55,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
         } catch (erro) {
             console.error("Falha de comunicação com o backend:", erro);
+            const mensagemErro = document.getElementById("mensagemErro");
+            if (mensagemErro) {
+                mensagemErro.textContent = mensagemDeErro(erro);
+            }
         }
     }
 
