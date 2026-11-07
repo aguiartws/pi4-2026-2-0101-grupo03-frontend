@@ -93,7 +93,7 @@ function exigirLogin(perfilEsperado) {
 function mensagemDeErro(erro) {
     const mensagens = {
         EMAIL_JA_EXISTE: "Este e-mail já está cadastrado.",
-        EMAIL_INSTITUCIONAL_INVALIDO: "Use um e-mail institucional válido (ex.: @puc-campinas.edu.br).",
+        EMAIL_INSTITUCIONAL_INVALIDO: "Use um e-mail institucional válido (ex.: @puccampinas.edu.br).",
         CREDENCIAIS_INVALIDAS: "E-mail ou senha incorretos.",
         DADOS_OBRIGATORIOS: "Preencha todos os campos corretamente.",
         SEM_CONEXAO: "Não foi possível conectar ao servidor."
