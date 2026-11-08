@@ -96,8 +96,9 @@ function mensagemDeErro(erro) {
         EMAIL_INSTITUCIONAL_INVALIDO: "Use um e-mail institucional válido (ex.: @puccampinas.edu.br).",
         CREDENCIAIS_INVALIDAS: "E-mail ou senha incorretos.",
         DADOS_OBRIGATORIOS: "Preencha todos os campos corretamente.",
+        DADOS_INVALIDOS: "O servidor retornou respostas inválidas.",
         SEM_CONEXAO: "Não foi possível conectar ao servidor."
     };
 
-    return mensagens[erro && erro.codigo] || "Algo deu errado. Tente novamente.";
+    return mensagens[erro && erro.codigo] || (erro && erro.mensagem) || "Algo deu errado. Tente novamente.";
 }
