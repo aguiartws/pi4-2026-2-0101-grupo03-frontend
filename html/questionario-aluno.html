@@ -13,7 +13,7 @@
     href="https://fonts.googleapis.com/css2?family=Kumbh+Sans:wght@300;400;500;600;700;800&display=swap"
     rel="stylesheet">
 
-  <link rel="stylesheet" href="../css/perguntas-deslizantes.css">
+  <link rel="stylesheet" href="../css/questionario-aluno.css">
 </head>
 
 <body>
@@ -65,6 +65,31 @@
       </button>
     </div>
 
+    <!-- SOBRE MIM -->
+    <section class="about-me" id="aboutMe" aria-live="polite">
+      <h2>Conte um pouco sobre você</h2>
+      <p>
+        Essa descrição ajuda a encontrar colegas mais compatíveis
+        com o seu jeito de viver. Escreva com sinceridade. 💜
+      </p>
+
+      <label for="sobreMim" class="sr-only">Sobre mim</label>
+
+      <textarea
+        id="sobreMim"
+        maxlength="500"
+        placeholder="Ex.: Sou estudante de Engenharia, gosto de música, sou organizado, tranquilo e costumo cozinhar nos fins de semana..."
+      ></textarea>
+
+      <div class="about-me__meta">
+        <span id="charCount">0 / 500</span>
+      </div>
+
+      <button class="btn-primary" id="btnFinalizar" type="button">
+        Finalizar cadastro
+      </button>
+    </section>
+
     <!-- RESULTADO FINAL -->
     <section class="result" id="result" aria-live="polite">
       <h2>Tudo pronto! 🎉</h2>
@@ -72,12 +97,25 @@
 
       <ul class="result__list" id="resultList"></ul>
 
-      <button class="btn-primary" id="btnRestart" type="button">Refazer respostas</button>
+      <div class="result__about" id="resultAbout">
+        <span class="result__about-label">Sobre mim</span>
+        <p class="result__about-text" id="resultAboutText"></p>
+      </div>
+
+      <!-- BOTÕES DE AÇÃO DO RESULTADO -->
+      <div class="result__actions">
+        <button class="btn-secondary" id="btnRestart" type="button">
+          Refazer respostas
+        </button>
+        <button class="btn-primary" id="btnConfirmar" type="button">
+          Confirmar cadastro
+        </button>
+      </div>
     </section>
 
   </main>
 
-  <script src="../js/perguntas-deslizantes.js"></script>
+  <script src="../js/questionario-aluno.js"></script>
 
 </body>
 

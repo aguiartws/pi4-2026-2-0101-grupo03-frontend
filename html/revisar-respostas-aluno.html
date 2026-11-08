@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>FindUHouse | Revisar Respostas</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Kumbh+Sans:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet">
+
+  <link rel="stylesheet" href="../css/revisar-respostas-aluno.css">
+</head>
+
+<body>
+
+  <main class="app">
+
+    <!-- CABEÇALHO -->
+    <header class="app__header">
+      <a class="logo" href="perfil-aluno.html" aria-label="FindUHouse">
+        <img src="../imagens/logo.png" alt="Logo FindUHouse">
+      </a>
+      <span class="header-title">Revisar Respostas</span>
+    </header>
+
+    <!-- CONTEÚDO PRINCIPAL -->
+    <section class="review-card" id="reviewCard">
+      
+      <div class="intro">
+        <h1>Ajuste suas preferências</h1>
+        <p>
+          Você pode alterar qualquer resposta individualmente antes de confirmar.
+        </p>
+      </div>
+
+      <!-- LISTA DE PERGUNTAS (Gerada via JS) -->
+      <div class="questions-list" id="questionsList">
+        <!-- Os itens serão inseridos aqui pelo JavaScript -->
+      </div>
+
+      <!-- SOBRE MIM -->
+      <div class="about-section">
+        <label for="sobreMim">Sobre mim</label>
+        <textarea
+          id="sobreMim"
+          maxlength="500"
+          placeholder="Escreva um pouco sobre você..."
+        ></textarea>
+        <div class="char-count">
+          <span id="charCount">0 / 500</span>
+        </div>
+      </div>
+
+      <!-- BOTÕES DE AÇÃO -->
+      <div class="actions">
+        <button class="btn-secondary" id="btnVoltar" type="button">
+          Voltar
+        </button>
+        <button class="btn-primary" id="btnSalvar" type="button">
+          Salvar alterações
+        </button>
+      </div>
+
+    </section>
+
+  </main>
+
+  <script src="../js/revisar-respostas-aluno.js"></script>
+
+</body>
+
+</html>
