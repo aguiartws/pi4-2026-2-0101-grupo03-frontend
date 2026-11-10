@@ -5,7 +5,7 @@ async function chamarApi(caminho, { metodo = "GET", corpo } = {}) {
     const cabecalhos = {
         "Content-Type": "application/json"
     };
-    const token = localStorage.getItem("token");
+    const token = armazenamento().getItem("token");
 
     if (token) {
         cabecalhos.Authorization = `Bearer ${token}`;
@@ -55,28 +55,33 @@ async function chamarApi(caminho, { metodo = "GET", corpo } = {}) {
     return dados;
 }
 
-function salvarSessao({ token, usuarioId, perfil }) {
-    localStorage.setItem("token", token);
-    localStorage.setItem("usuarioId", usuarioId);
-    localStorage.setItem("perfil", perfil);
+function armazenamento() {
+    return sessionStorage.getItem("token") ? sessionStorage : localStorage;
+}
+
+function salvarSessao({ token, usuarioId, perfil }, lembrar = false) {
+    limparSessao();
+    const destino = lembrar ? localStorage : sessionStorage;
+    destino.setItem("token", token);
+    destino.setItem("usuarioId", usuarioId);
+    destino.setItem("perfil", perfil);
 }
 
 function obterSessao() {
-    const token = localStorage.getItem("token");
-    const usuarioId = localStorage.getItem("usuarioId");
-    const perfil = localStorage.getItem("perfil");
-
-    if (!token || !usuarioId || !perfil) {
-        return null;
-    }
-
+    const origem = armazenamento();
+    const token = origem.getItem("token");
+    const usuarioId = origem.getItem("usuarioId");
+    const perfil = origem.getItem("perfil");
+    if (!token || !usuarioId || !perfil) return null;
     return { token, usuarioId, perfil };
 }
 
 function limparSessao() {
-    localStorage.removeItem("token");
-    localStorage.removeItem("usuarioId");
-    localStorage.removeItem("perfil");
+    for (const origem of [localStorage, sessionStorage]) {
+        origem.removeItem("token");
+        origem.removeItem("usuarioId");
+        origem.removeItem("perfil");
+    }
 }
 
 function exigirLogin(perfilEsperado) {

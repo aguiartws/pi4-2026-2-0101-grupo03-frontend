@@ -22,7 +22,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 metodo: "POST",
                 corpo: {
                     email: document.getElementById("email").value.trim(),
-                    senha: senha.value
+                    senha: senha.value,
+                    lembrar: document.getElementById("lembrar").checked
                 }
             });
 
@@ -31,7 +32,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 return;
             }
 
-            salvarSessao(resposta);
+            salvarSessao(resposta, document.getElementById("lembrar").checked);
             window.location.href = "perfil-proprietario.html";
         } catch (erro) {
             mensagemErro.textContent = mensagemDeErro(erro);
