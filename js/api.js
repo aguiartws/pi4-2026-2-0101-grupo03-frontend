@@ -1,4 +1,3 @@
-// URL da API para o nginx ou para o Live Server.
 const API_BASE = location.port === "8080" ? "/api" : "http://localhost:8081/api";
 
 async function chamarApi(caminho, { metodo = "GET", corpo } = {}) {
@@ -56,19 +55,27 @@ async function chamarApi(caminho, { metodo = "GET", corpo } = {}) {
 }
 
 function armazenamento() {
-    return sessionStorage.getItem("token") ? sessionStorage : localStorage;
+    return localStorage.getItem("token") ? localStorage : sessionStorage;
 }
 
-function salvarSessao({ token, usuarioId, perfil }, lembrar = false) {
+function salvarSessao(resposta, lembrar = false) {
     limparSessao();
     const destino = lembrar ? localStorage : sessionStorage;
-    destino.setItem("token", token);
-    destino.setItem("usuarioId", usuarioId);
-    destino.setItem("perfil", perfil);
+    destino.setItem("token", resposta.token);
+    destino.setItem("usuarioId", resposta.usuarioId);
+    destino.setItem("perfil", resposta.perfil);
+
+    const emailUsuario = resposta.email || document.getElementById("email")?.value;
+    if (lembrar && emailUsuario) {
+        localStorage.setItem("emailLembrado", emailUsuario.trim());
+    } else {
+        localStorage.removeItem("emailLembrado");
+    }
 }
 
 function obterSessao() {
-    const origem = armazenamento();
+    const origem = localStorage.getItem("token") ? localStorage : (sessionStorage.getItem("token") ? sessionStorage : null);
+    if (!origem) return null;
     const token = origem.getItem("token");
     const usuarioId = origem.getItem("usuarioId");
     const perfil = origem.getItem("perfil");

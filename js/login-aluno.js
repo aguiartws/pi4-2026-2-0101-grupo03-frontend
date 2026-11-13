@@ -1,4 +1,12 @@
 document.addEventListener("DOMContentLoaded", () => {
+    const emailSalvo = localStorage.getItem("emailLembrado");
+    if (emailSalvo) {
+        const inputEmail = document.getElementById("email");
+        const checkLembrar = document.getElementById("lembrar");
+        if (inputEmail) inputEmail.value = emailSalvo;
+        if (checkLembrar) checkLembrar.checked = true;
+    }
+
     const senha = document.getElementById("senha");
     const toggleSenha = document.getElementById("toggleSenha");
     const loginForm = document.getElementById("loginForm");
