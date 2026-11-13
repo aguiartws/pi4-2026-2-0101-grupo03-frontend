@@ -1,5 +1,27 @@
 
-/* CONFIGURAÇÕES GERAIS */
+:root {
+  --primary: #8684ff;
+  --primary-dark: #3330b8;
+  --accent: #514ee2;
+  --primary-soft: #eceafd;
+  --lilac: #c9c3fa;
+  --title: #0f1535;
+  --text: #4a5068;
+  --muted: #7b8098;
+  --border: #e6e7f0;
+  --logo-blue: #2f6fe0;
+  --radius: 14px;
+  --font: "Kumbh Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-hand: "Caveat Brush", cursive;
+  --white: #ffffff;
+  --background: #f8f8fd;
+  --danger: #d92d4a;
+
+  /* logo aqui: */
+  --logo-h: clamp(72px, 20vh, 200px);
+  --logo-w: calc(var(--logo-h) * 1.69);
+}
+
 * {
     box-sizing: border-box;
     margin: 0;
@@ -18,7 +40,7 @@ body {
 }
 
 
-/* LADO ESQUERDO: APRESENTAÇÃO */
+
 .hero {
     width: 50%;
     min-height: 100vh;
