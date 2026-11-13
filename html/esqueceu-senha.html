@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#514ee2">
+  <title>FindUHouse | Criar nova senha</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat+Brush&family=Kumbh+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/esqueceu-senha.css">
+</head>
+<body>
+  <main class="page">
+    <aside class="hero">
+      <div class="hero__content">
+        <a class="logo" href="login.html" aria-label="FindUHouse">
+          <img src="../imagens/logo.png" alt="Logo FindUHouse">
+        </a>
+        <p class="hero__tagline">Mais que um lugar para morar, é<br>o lugar certo para a sua fase.</p>
+        <ul class="features">
+          <li class="feature"><span class="feature__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3"/><circle cx="5" cy="10" r="2"/><circle cx="19" cy="10" r="2"/><path d="M6.5 20a5.5 5.5 0 0 1 11 0Z"/><path d="M1.5 17a3.5 3.5 0 0 1 4-3M22.5 17a3.5 3.5 0 0 0-4-3"/></svg></span><div><h3>Encontre sua república ideal</h3><p>Conecte-se com casas e repúblicas que combinam com o seu estilo de vida.</p></div></li>
+          <li class="feature"><span class="feature__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11 12 3l9 8v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1Z"/></svg></span><div><h3>Para proprietários</h3><p>Divulgue sua residência e encontre estudantes compatíveis.</p></div></li>
+          <li class="feature"><span class="feature__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 4 6v6c0 4.5 3.2 8 8 9 4.8-1 8-4.5 8-9V6Z"/><path d="m8.5 12 2.5 2.5 4.5-5"/></svg></span><div><h3>Ambiente seguro</h3><p>Perfis verificados e mais tranquilidade para todos.</p></div></li>
+        </ul>
+        <div class="hero__slogan"><span>Estudantes<br>conectando<br>lares!</span><svg viewBox="0 0 170 20" preserveAspectRatio="none" aria-hidden="true"><path d="M3 17C50 6 110 3 167 4" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round"/></svg></div>
+      </div>
+    </aside>
+
+    <section class="login">
+      <p class="login__top"><a href="login.html">Voltar ao login</a></p>
+      <div class="login__box">
+        <div class="step-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="5" y="10.5" width="14" height="10.5" rx="2.5"/><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3"/><path d="m9 15 2 2 4-4"/>
+          </svg>
+        </div>
+        <h1>Crie uma nova senha</h1>
+        <p class="login__subtitle">Escolha uma senha nova e segura para voltar a acessar sua conta.</p>
+
+        <form id="novaSenhaForm" novalidate>
+          <div class="field">
+            <label for="novaSenha">Nova senha</label>
+            <div class="input">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="10.5" width="14" height="10.5" rx="2.5"/><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3"/></svg>
+              <input type="password" id="novaSenha" name="novaSenha" placeholder="Digite sua nova senha" autocomplete="new-password" minlength="8" required>
+              <button type="button" class="eye" data-toggle="novaSenha" aria-label="Mostrar senha" aria-pressed="false">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1.5 12S5.5 5 12 5s10.5 7 10.5 7-4 7-10.5 7S1.5 12 1.5 12Z"/><circle cx="12" cy="12" r="3"/></svg>
+              </button>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="confirmarSenha">Confirmar nova senha</label>
+            <div class="input">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="10.5" width="14" height="10.5" rx="2.5"/><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3"/></svg>
+              <input type="password" id="confirmarSenha" name="confirmarSenha" placeholder="Digite novamente sua senha" autocomplete="new-password" minlength="8" required>
+              <button type="button" class="eye" data-toggle="confirmarSenha" aria-label="Mostrar confirmação da senha" aria-pressed="false">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1.5 12S5.5 5 12 5s10.5 7 10.5 7-4 7-10.5 7S1.5 12 1.5 12Z"/><circle cx="12" cy="12" r="3"/></svg>
+              </button>
+            </div>
+          </div>
+
+          <p class="form-message" id="mensagem" role="alert" aria-live="polite"></p>
+          <button type="submit" class="btn btn--primary" id="salvarSenha">Salvar nova senha</button>
+        </form>
+      </div>
+    </section>
+  </main>
+  <script src="../js/esqueceu-senha.js"></script>
+</body>
+</html>
