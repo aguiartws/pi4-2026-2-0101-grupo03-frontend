@@ -1,43 +1,40 @@
 document.addEventListener("DOMContentLoaded", () => {
     const senha = document.getElementById("senha");
     const toggleSenha = document.getElementById("toggleSenha");
+
+    if (toggleSenha && senha) {
+        toggleSenha.addEventListener("click", () => {
+            const mostrandoSenha = senha.type === "password";
+            senha.type = mostrandoSenha ? "text" : "password";
+            toggleSenha.setAttribute("aria-label", mostrandoSenha ? "Ocultar senha" : "Mostrar senha");
+            toggleSenha.setAttribute("aria-pressed", mostrandoSenha ? "true" : "false");
+        });
+    }
+
     const loginForm = document.getElementById("loginForm");
-    const mensagemErro = document.getElementById("mensagemErro");
-    const botaoEnvio = loginForm.querySelector("button[type='submit']");
 
-    toggleSenha.addEventListener("click", () => {
-        const mostrandoSenha = senha.type === "password";
-        senha.type = mostrandoSenha ? "text" : "password";
-        toggleSenha.setAttribute("aria-label", mostrandoSenha ? "Ocultar senha" : "Mostrar senha");
-        toggleSenha.setAttribute("aria-pressed", mostrandoSenha ? "true" : "false");
-    });
+    if (loginForm) {
+        loginForm.addEventListener("submit", (event) => {
+            event.preventDefault();
 
-    loginForm.addEventListener("submit", async (event) => {
-        event.preventDefault();
-        mensagemErro.textContent = "";
-        botaoEnvio.disabled = true;
+            const email = document.getElementById("email").value.trim();
+            const senhaDigitada = senha.value.trim();
 
-        try {
-            const resposta = await chamarApi("/auth/login", {
-                metodo: "POST",
-                corpo: {
-                    email: document.getElementById("email").value.trim(),
-                    senha: senha.value,
-                    lembrar: document.getElementById("lembrar").checked
-                }
-            });
-
-            if (resposta.perfil !== "estudante") {
-                mensagemErro.textContent = "Esta conta não é de estudante. Use o login correto.";
+            if (email === "" || senhaDigitada === "") {
+                alert("Por favor, preencha o e-mail e a senha.");
                 return;
             }
 
-            salvarSessao(resposta, document.getElementById("lembrar").checked);
-            window.location.href = "questionario-aluno.html";
-        } catch (erro) {
-            mensagemErro.textContent = mensagemDeErro(erro);
-        } finally {
-            botaoEnvio.disabled = false;
-        }
-    });
+            // LÓGICA DE REDIRECIONAMENTO
+            const respostasSalvas = localStorage.getItem('finduhouse_perfil_aluno');
+
+            if (respostasSalvas) {
+                // Já respondeu -> Vai pro perfil
+                window.location.href = "perfil-aluno.html";
+            } else {
+                // Primeira vez -> Vai pro questionário
+                window.location.href = "questionario-aluno.html";
+            }
+        });
+    }
 });
