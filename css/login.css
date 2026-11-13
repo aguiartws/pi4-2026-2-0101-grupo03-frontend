@@ -1,5 +1,4 @@
-
-@import url('https://fonts.googleapis.com/css2?family=Kumbh+Sans:wght@300;400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Caveat+Brush&family=Kumbh+Sans:wght@300;400;500;600;700;800&display=swap');
 
 :root {
   --primary: #8684ff;
@@ -13,8 +12,17 @@
   --logo-blue: #2f6fe0;
   --radius: 14px;
   --font: "Kumbh Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-hand: "Caveat Brush", cursive;
   --white: #ffffff;
   --background: #f8f8fd;
+
+  /*
+   
+     Para aumentar ou
+    diminuir, mexer só no 16vh e nos limites 72px / 200px.
+  */
+  --logo-h: clamp(72px, 20vh, 200px);
+  --logo-w: calc(var(--logo-h) * 1.69);
 }
 
 * {
@@ -30,26 +38,37 @@ body {
   font-family: var(--font);
 }
 
+img,
+svg {
+  max-width: 100%;
+}
+
 button {
   font: inherit;
 }
 
 .page {
   min-height: 100vh;
+  min-height: 100dvh;
   display: grid;
-  grid-template-columns: 0.9fr 1.1fr;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
 }
 
-/* LADO ESQUERDO */
+/* ==========================================================
+   LADO ESQUERDO
+   Os espaçamentos verticais usam clamp() com vh: encolhem
+   sozinhos quando a janela é baixa, para tudo caber sem rolagem.
+   ========================================================== */
 
 .hero {
   position: relative;
+  min-width: 0;
   isolation: isolate;
   overflow: hidden;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 45px 55px;
+  padding: clamp(20px, 4vh, 45px) clamp(32px, 4vw, 55px);
   color: var(--white);
   background: linear-gradient(
     145deg,
@@ -94,9 +113,10 @@ button {
   align-items: center;
   justify-content: flex-start;
   align-self: flex-start;
-  width: 220px;
-  height: 130px;
-  margin-bottom: 40px;
+  width: var(--logo-w);
+  height: var(--logo-h);
+  max-width: 100%;
+  margin-bottom: clamp(10px, 2.6vh, 36px);
   position: relative;
   z-index: 10;
   text-decoration: none;
@@ -104,8 +124,9 @@ button {
 
 .logo img {
   display: block;
-  width: 220px;
-  height: 130px;
+  width: var(--logo-w);
+  height: var(--logo-h);
+  max-width: 100%;
   object-fit: contain;
   object-position: left center;
   flex-shrink: 0;
@@ -120,7 +141,7 @@ button {
 
 .hero__label {
   display: inline-block;
-  margin-bottom: 18px;
+  margin-bottom: clamp(8px, 1.8vh, 18px);
   color: var(--lilac);
   font-size: 11px;
   font-weight: 800;
@@ -129,9 +150,9 @@ button {
 
 .hero h1 {
   max-width: 490px;
-  margin-bottom: 20px;
+  margin-bottom: clamp(8px, 2vh, 20px);
   color: var(--white);
-  font-size: clamp(34px, 3.5vw, 48px);
+  font-size: clamp(26px, min(3.4vw, 4.9vh), 48px);
   line-height: 1.2;
   letter-spacing: -1px;
 }
@@ -143,16 +164,16 @@ button {
 .hero__description {
   max-width: 420px;
   color: rgba(255, 255, 255, 0.932);
-  font-size: 14px;
-  line-height: 1.9;
+  font-size: clamp(12px, 1.75vh, 14px);
+  line-height: 1.7;
 }
 
 /* BENEFÍCIOS */
 
 .features {
   display: grid;
-  gap: 25px;
-  margin-top: 38px;
+  gap: clamp(10px, 2.4vh, 24px);
+  margin-top: clamp(12px, 3vh, 36px);
   list-style: none;
 }
 
@@ -187,27 +208,50 @@ button {
 }
 
 .feature p {
-  max-width: 300px;
+  max-width: 360px;
   color: rgba(255, 255, 255, 0.78);
   font-size: 12px;
-  line-height: 1.7;
+  line-height: 1.6;
 }
 
-.hero__footer {
+/*  "Estudantes conectando lares!"
+   Mesmo design das telas de login do aluno e do proprietário */
+
+.hero__slogan {
   position: relative;
   z-index: 1;
-  margin-top: 35px;
-  color: rgba(255, 255, 255, 0.78);
-  font-size: 12px;
+  width: max-content;
+  margin-top: clamp(75px, 5vh, 56px);
 }
 
-/* LADO DIREITO */
+.hero__slogan span {
+  display: block;
+  font-family: var(--font-hand);
+  font-size: clamp(22px, 3.9vh, 34px);
+  line-height: 1.05;
+  color: var(--white);
+  transform: rotate(-12deg);
+  transform-origin: left bottom;
+}
+
+.hero__slogan svg {
+  display: block;
+  width: 130px;
+  height: 16px;
+  margin: 8px 0 0 24px;
+  transform: rotate(-6deg);
+}
+
+/* ==========================================================
+   LADO DIREITO
+   ========================================================== */
 
 .content {
+  min-width: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 45px 35px;
+  padding: clamp(24px, 4vh, 45px) 35px;
 }
 
 .content__inner {
@@ -233,7 +277,7 @@ button {
 }
 
 .subtitle {
-  margin-bottom: 32px;
+  margin-bottom: clamp(18px, 3vh, 32px);
   color: var(--muted);
   font-size: 14px;
   line-height: 1.8;
@@ -243,7 +287,7 @@ button {
 
 .profiles {
   display: grid;
-  gap: 18px;
+  gap: clamp(12px, 2.2vh, 18px);
 }
 
 .profile {
@@ -251,7 +295,7 @@ button {
   display: flex;
   align-items: center;
   gap: 17px;
-  padding: 23px;
+  padding: clamp(14px, 2.6vh, 23px);
   border: 1.5px solid var(--border);
   border-radius: var(--radius);
   background: var(--white);
@@ -332,27 +376,109 @@ button {
 /* RODAPÉ */
 
 .footer {
-  margin-top: 30px;
+  margin-top: clamp(18px, 3vh, 30px);
   color: var(--muted);
   font-size: 13px;
   text-align: center;
 }
 
-/* RESPONSIVIDADE */
+/* ==========================================================
+   RESPONSIVIDADE
+   ========================================================== */
 
-@media (max-width: 1000px) {
+/* Telas grandes */
+@media (min-width: 1600px) {
   .hero {
-    padding: 35px;
+    padding-inline: 80px;
   }
 
-  .content {
-    padding: 35px 25px;
+  .hero h1 {
+    max-width: 560px;
+    font-size: clamp(26px, min(3.4vw, 4.9vh), 54px);
+  }
+
+  .hero__description {
+    max-width: 480px;
+    font-size: clamp(12px, 1.75vh, 15px);
+  }
+
+  .content__inner {
+    max-width: 590px;
   }
 }
 
+/* Notebooks */
+@media (max-width: 1200px) {
+  .hero {
+    padding-inline: 40px;
+  }
+}
+
+/* Tablet na horizontal */
+@media (max-width: 1000px) {
+  .hero {
+    padding-inline: 35px;
+  }
+
+  .content {
+    padding-inline: 25px;
+  }
+}
+
+/* Janelas baixas em duas colunas: vai tirando o que é secundário,
+   do menos importante para o mais importante */
+@media (min-width: 801px) and (max-height: 800px) {
+  .hero__description {
+    display: none;
+  }
+}
+
+@media (min-width: 801px) and (max-height: 700px) {
+  .feature p {
+    display: none;
+  }
+
+  .content {
+    padding-block: 24px;
+  }
+
+  .subtitle {
+    margin-bottom: 20px;
+  }
+
+  .profiles {
+    gap: 12px;
+  }
+
+  .profile {
+    padding: 16px;
+  }
+
+  .footer {
+    margin-top: 18px;
+  }
+}
+
+@media (min-width: 801px) and (max-height: 620px) {
+  .hero__slogan {
+    display: none;
+  }
+}
+
+@media (min-width: 801px) and (max-height: 540px) {
+  .features {
+    display: none;
+  }
+}
+
+/* Tablet na vertical e celular: uma coluna */
 @media (max-width: 800px) {
+  :root {
+    --logo-h: 130px;
+  }
+
   .page {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
 
   .hero {
@@ -360,14 +486,7 @@ button {
   }
 
   .logo {
-    width: 180px;
-    height: 110px;
     margin-bottom: 25px;
-  }
-
-  .logo img {
-    width: 180px;
-    height: 110px;
   }
 
   .hero h1 {
@@ -376,6 +495,8 @@ button {
   }
 
   .hero__description {
+    display: block;
+    max-width: 520px;
     font-size: 13px;
   }
 
@@ -391,52 +512,68 @@ button {
   }
 
   .feature p {
+    display: block;
     font-size: 11px;
   }
 
-  .hero__footer {
-    margin-top: 25px;
+  /* a frase manuscrita inclinada só funciona bem no layout de duas colunas */
+  .hero__slogan {
+    display: none;
   }
 
   .content {
     padding: 40px 25px;
   }
+
+  .content__inner {
+    margin: 0 auto;
+  }
+}
+
+/* Celulares: cabeçalho enxuto para os cards aparecerem logo */
+@media (max-width: 600px) {
+  :root {
+    --logo-h: 106px;
+  }
+
+  .features {
+    display: none;
+  }
+
+  .hero {
+    padding: 24px 22px 28px;
+  }
+
+  .logo {
+    margin-bottom: 18px;
+  }
 }
 
 @media (max-width: 480px) {
   .hero {
-    padding: 25px 22px;
+    padding: 22px 20px 26px;
   }
 
   .hero h1 {
-    font-size: 29px;
-  }
-
-  .features {
-    grid-template-columns: 1fr;
-    gap: 17px;
-  }
-
-  .feature {
-    flex-direction: row;
-    align-items: center;
-  }
-
-  .feature p {
-    font-size: 12px;
+    margin-bottom: 14px;
+    font-size: 28px;
   }
 
   .content {
-    padding: 35px 20px;
+    padding: 30px 20px;
   }
 
   .content h2 {
     font-size: 28px;
   }
 
+  .subtitle {
+    margin-bottom: 24px;
+  }
+
   .profile {
     gap: 12px;
-    padding: 17px;
+    padding: 16px;
   }
 
   .profile__icon {
@@ -450,15 +587,86 @@ button {
   }
 
   .profile__text strong {
+    font-size: 15px;
+  }
+
+  .profile__text > span {
+    font-size: 12px;
+  }
+
+  .profile__arrow {
+    font-size: 21px;
+  }
+
+  .footer {
+    margin-top: 22px;
+  }
+}
+
+/* Celulares muito estreitos */
+@media (max-width: 360px) {
+  .hero__description {
+    display: none;
+  }
+
+  .profile {
+    gap: 10px;
+    padding: 14px;
+  }
+
+  .profile__icon {
+    width: 42px;
+    height: 42px;
+  }
+
+  .profile__text strong {
     font-size: 14px;
   }
 
   .profile__text > span {
     font-size: 11px;
   }
+}
 
-  .profile__arrow {
-    font-size: 21px;
+/* Celular deitado: cabeçalho compacto */
+@media (max-width: 900px) and (max-height: 500px) and (orientation: landscape) {
+  :root {
+    --logo-h: 89px;
+  }
+
+  .hero {
+    padding: 16px 25px;
+  }
+
+  .logo {
+    margin-bottom: 10px;
+  }
+
+  .hero__label {
+    margin-bottom: 8px;
+  }
+
+  .hero h1 {
+    margin-bottom: 0;
+    font-size: 26px;
+  }
+
+  .hero__description,
+  .features,
+  .hero__slogan {
+    display: none;
+  }
+
+  .content {
+    padding: 24px 25px;
+  }
+}
+
+/* Telas de toque: sem efeito de "subir" que fica preso depois do toque */
+@media (hover: none) {
+  .profile:hover {
+    transform: none;
+    box-shadow: none;
   }
 }
 

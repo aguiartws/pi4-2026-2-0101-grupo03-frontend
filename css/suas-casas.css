@@ -207,16 +207,6 @@ body {
   color: #6b7280;
 }
 
-/* Anúncio inativo: capa mais apagada */
-.house-card:has(.badge-inactive) .house-header {
-  background: linear-gradient(135deg, #9ca3af 0%, #cbd0d8 100%);
-}
-
-.house-card:has(.badge-inactive) .house-body h3 {
-  color: var(--muted);
-}
-
-/* Preço grande, em branco, sobre a capa */
 .price {
   font-size: 1.9rem;
   font-weight: 800;
@@ -249,7 +239,21 @@ body {
 .address {
   font-size: 0.92rem;
   color: var(--muted);
-  margin-bottom: 0;
+  margin-bottom: 20px;
+}
+
+.house-specs {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+#estadoCasas {
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+.spec {
   display: flex;
   align-items: center;
   gap: 6px;
