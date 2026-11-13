@@ -1,0 +1,361 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>FindUHouse – Editar anúncio</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="../css/editar-anuncio.css" />
+  </head>
+  <body>
+    <div class="app">
+      <!-- SIDEBAR -->
+      <aside class="sidebar">
+        <a class="logo" href="#" aria-label="FindUHouse">
+          <img src="../imagens/logo.png" alt="FindUHouse" />
+        </a>
+
+        <nav class="nav" aria-label="Menu principal">
+          <a class="nav-item" href="perfil-proprietario.html">
+            <svg
+              viewBox="0 0 24 24"
+              width="18"
+              height="18"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <circle cx="12" cy="8" r="4" />
+              <path d="M4 21a8 8 0 0 1 16 0" />
+            </svg>
+            <span>Meu perfil</span>
+          </a>
+          <a class="nav-item active" href="suas-casas.html">
+            <svg
+              viewBox="0 0 24 24"
+              width="18"
+              height="18"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <path d="M3 11 12 4l9 7" />
+              <path d="M5 10v10h14V10" />
+              <path d="M10 20v-5h4v5" />
+            </svg>
+            <span>Minhas casas</span>
+          </a>
+        </nav>
+
+        <div class="sidebar-footer" aria-hidden="true"></div>
+      </aside>
+
+      <!-- CONTEÚDO -->
+      <main class="content">
+        <a class="voltar" href="suas-casas.html">
+          <svg
+            viewBox="0 0 24 24"
+            width="18"
+            height="18"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <path d="M15 18l-6-6 6-6" />
+          </svg>
+          Minhas casas
+        </a>
+
+        <section class="page-header">
+          <div class="header-text">
+            <h1>Editar anúncio</h1>
+            <p>
+              Atualize as informações e veja como o anúncio aparece para os
+              inquilinos.
+            </p>
+          </div>
+        </section>
+
+        <div class="edit-layout">
+          <!-- FORMULÁRIO -->
+          <form id="formAnuncio" class="edit-form" novalidate>
+            <!-- Informações principais -->
+            <fieldset class="form-card">
+              <legend>Informações principais</legend>
+
+              <div class="field">
+                <label for="titulo">Título do anúncio</label>
+                <input
+                  id="titulo"
+                  name="titulo"
+                  type="text"
+                  maxlength="60"
+                  placeholder="Ex.: Kitnet perto da PUC"
+                  required
+                />
+                <small class="hint"
+                  ><span id="contTitulo">0</span>/60 caracteres</small
+                >
+              </div>
+
+              <div class="field">
+                <label for="descricao">Descrição</label>
+                <textarea
+                  id="descricao"
+                  name="descricao"
+                  rows="4"
+                  maxlength="500"
+                  placeholder="Conte o que torna esse lugar legal..."
+                ></textarea>
+                <small class="hint"
+                  ><span id="contDescricao">0</span>/500 caracteres</small
+                >
+              </div>
+
+              <div class="field">
+                <label for="regrasCasa">Regras da casa</label>
+                <textarea
+                  id="regrasCasa"
+                  name="regrasCasa"
+                  rows="3"
+                  maxlength="500"
+                  placeholder="Ex.: não fumar, silêncio após 22h..."
+                ></textarea>
+              </div>
+
+              <div class="field field-price">
+                <label for="preco">Aluguel por mês</label>
+                <div class="input-prefix">
+                  <span aria-hidden="true">R$</span>
+                  <input
+                    id="preco"
+                    name="preco"
+                    type="number"
+                    min="0"
+                    step="10"
+                    inputmode="numeric"
+                    placeholder="0"
+                    required
+                  />
+                </div>
+              </div>
+
+              <div class="field">
+                <label for="numeroMoradores">Número de moradores</label>
+                <input
+                  id="numeroMoradores"
+                  name="numeroMoradores"
+                  type="number"
+                  min="1"
+                  step="1"
+                  inputmode="numeric"
+                  required
+                />
+              </div>
+            </fieldset>
+
+            <!-- Localização -->
+            <fieldset class="form-card">
+              <legend>Localização</legend>
+
+              <div class="field">
+                <label for="endereco">Endereço</label>
+                <input
+                  id="endereco"
+                  name="endereco"
+                  type="text"
+                  placeholder="Rua das Flores, 123 - Centro, Campinas"
+                  required
+                />
+              </div>
+
+              <div class="grid-2">
+                <div class="field">
+                  <label for="latitude">Latitude</label>
+                  <input
+                    id="latitude"
+                    name="latitude"
+                    type="number"
+                    step="any"
+                    placeholder="-22.9056"
+                    required
+                  />
+                </div>
+                <div class="field">
+                  <label for="longitude">Longitude</label>
+                  <input
+                    id="longitude"
+                    name="longitude"
+                    type="number"
+                    step="any"
+                    placeholder="-47.0608"
+                    required
+                  />
+                </div>
+              </div>
+            </fieldset>
+
+            <!-- Perfil da casa (booleanos reais da entidade) -->
+            <fieldset class="form-card">
+              <legend>Perfil da casa</legend>
+
+              <div class="chips" id="perfil">
+                <label class="chip"
+                  ><input type="checkbox" name="aceitaAnimais" /><span
+                    >🐶 Aceita animais</span
+                  ></label
+                >
+                <label class="chip"
+                  ><input type="checkbox" name="fuma" /><span
+                    >🚬 Permite fumar</span
+                  ></label
+                >
+                <label class="chip"
+                  ><input
+                    type="checkbox"
+                    name="aceitaBarulhoDepoisDas22"
+                  /><span>🔊 Barulho após 22h</span></label
+                >
+                <label class="chip"
+                  ><input type="checkbox" name="gostaReceberVisitas" /><span
+                    >👋 Recebe visitas</span
+                  ></label
+                >
+                <label class="chip"
+                  ><input type="checkbox" name="gostaCozinhar" /><span
+                    >🍳 Gosta de cozinhar</span
+                  ></label
+                >
+                <label class="chip"
+                  ><input type="checkbox" name="estudaEmCasa" /><span
+                    >📚 Estuda em casa</span
+                  ></label
+                >
+                <label class="chip"
+                  ><input type="checkbox" name="aceitaDividirTarefas" /><span
+                    >🧹 Divide tarefas</span
+                  ></label
+                >
+                <label class="chip"
+                  ><input type="checkbox" name="aceitaDividirQuarto" /><span
+                    >🛏️ Divide quarto</span
+                  ></label
+                >
+                <label class="chip"
+                  ><input type="checkbox" name="aceitaFestas" /><span
+                    >🎉 Aceita festas</span
+                  ></label
+                >
+                <label class="chip"
+                  ><input type="checkbox" name="comunicativo" /><span
+                    >💬 Comunicativo</span
+                  ></label
+                >
+              </div>
+            </fieldset>
+
+            <!-- Status -->
+            <fieldset class="form-card">
+              <legend>Status do anúncio</legend>
+              <div
+                class="segmented"
+                role="radiogroup"
+                aria-label="Status do anúncio"
+              >
+                <label>
+                  <input type="radio" name="status" value="ativa" checked />
+                  <span><i class="dot dot-ativa"></i>Ativa</span>
+                </label>
+                <label>
+                  <input type="radio" name="status" value="inativa" />
+                  <span><i class="dot dot-inativa"></i>Inativa</span>
+                </label>
+              </div>
+              <p class="hint">Anúncios inativos não aparecem nas buscas.</p>
+            </fieldset>
+
+            <!-- Zona de perigo -->
+            <section class="danger-zone">
+              <div>
+                <h2>Excluir anúncio</h2>
+                <p>Essa ação não pode ser desfeita.</p>
+              </div>
+              <button type="button" class="btn-danger" id="btnExcluir">
+                Excluir
+              </button>
+            </section>
+
+            <div class="action-bar">
+              <a class="btn-ghost" href="suas-casas.html">Cancelar</a>
+              <button type="submit" class="btn-save" id="btnSalvar">
+                Salvar alterações
+              </button>
+            </div>
+          </form>
+
+          <!-- PRÉVIA AO VIVO -->
+          <aside class="preview" aria-label="Prévia do anúncio">
+            <p class="preview-title">Prévia</p>
+
+            <article class="house-card">
+              <div class="house-header">
+                <span class="status badge-active" id="pvStatus">Ativa</span>
+                <div class="price" id="pvPreco">R$ 0<span>/mês</span></div>
+              </div>
+              <div class="house-body">
+                <h3 id="pvTitulo">Título do anúncio</h3>
+                <p class="address" id="pvEndereco">Endereço</p>
+                <p class="pv-meta" id="pvMeta"></p>
+              </div>
+            </article>
+          </aside>
+        </div>
+      </main>
+    </div>
+
+    <!-- Confirmação de exclusão -->
+    <dialog id="dlgExcluir" class="dialog">
+      <form method="dialog">
+        <h2>Excluir este anúncio?</h2>
+        <p>
+          Ele deixará de aparecer para os inquilinos e não poderá ser
+          recuperado.
+        </p>
+        <div class="dialog-actions">
+          <button value="cancel" class="btn-ghost">Manter anúncio</button>
+          <button
+            value="confirm"
+            class="btn-danger-solid"
+            id="btnConfirmarExcluir"
+          >
+            Sim, excluir
+          </button>
+        </div>
+      </form>
+    </dialog>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+    <!-- Scripts compartilhados (devem vir ANTES) -->
+    <script src="../js/api.js"></script>
+
+    <!-- Script da página -->
+    <script src="../js/editar-anuncio.js"></script>
+  </body>
+</html>

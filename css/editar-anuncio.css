@@ -1,0 +1,831 @@
+/* Variáveis e estrutura base (sidebar, layout) */
+@import url('perfil-proprietario.css');
+
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: #f8f9fc;
+  background-image:
+    radial-gradient(600px 300px at 100% 0%, rgba(65, 59, 255, 0.07), transparent 70%),
+    radial-gradient(500px 300px at 0% 100%, rgba(65, 59, 255, 0.05), transparent 70%);
+  background-attachment: fixed;
+}
+
+/* ---------- Voltar + Cabeçalho ---------- */
+.voltar {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-bottom: 14px;
+  padding: 6px 12px 6px 6px;
+  border-radius: 999px;
+  color: var(--muted);
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.voltar:hover {
+  background: rgba(65, 59, 255, 0.08);
+  color: var(--primary);
+}
+
+.page-header {
+  position: relative;
+  padding: 0 0 28px 0;
+  margin-bottom: 32px;
+}
+
+.page-header::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: linear-gradient(90deg, var(--primary) 0%, rgba(65, 59, 255, 0.08) 100%);
+  border-radius: 3px;
+}
+
+.header-text h1 {
+  font-size: 2.2rem;
+  color: var(--text);
+  font-weight: 800;
+  letter-spacing: -1px;
+  line-height: 1.1;
+}
+
+.header-text p {
+  color: var(--muted);
+  font-size: 1.05rem;
+  margin-top: 8px;
+}
+
+/* ---------- Layout: formulário + prévia ---------- */
+.edit-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 360px;
+  gap: 32px;
+  align-items: start;
+}
+
+.edit-form {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  min-width: 0;
+}
+
+/* ---------- Cards do formulário ---------- */
+.form-card {
+  background: #fff;
+  border: 1px solid #eef0f5;
+  border-radius: 24px;
+  padding: 26px;
+  box-shadow: 0 4px 10px rgba(31, 35, 64, 0.04);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  min-width: 0;
+  margin: 0;
+}
+
+.form-card legend {
+  float: left;
+  width: 100%;
+  padding: 0;
+  margin-bottom: -4px;
+  font-size: 1.15rem;
+  font-weight: 800;
+  letter-spacing: -0.3px;
+  color: var(--text);
+}
+
+.form-card legend + * {
+  clear: both;
+}
+
+/* ---------- Campos ---------- */
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.field label,
+.field-label {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.field input[type="text"],
+.field input[type="number"],
+.field textarea {
+  width: 100%;
+  font-family: inherit;
+  font-size: 1rem;
+  color: var(--text);
+  background: #fafbfc;
+  border: 1.5px solid #e5e8f0;
+  border-radius: 14px;
+  padding: 13px 16px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+.field textarea {
+  resize: vertical;
+  min-height: 110px;
+  line-height: 1.5;
+}
+
+.field input::placeholder,
+.field textarea::placeholder {
+  color: #a3a9bd;
+}
+
+.field input:hover,
+.field textarea:hover {
+  border-color: #d3d8e6;
+}
+
+.field input:focus,
+.field textarea:focus {
+  outline: none;
+  background: #fff;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 4px rgba(65, 59, 255, 0.12);
+}
+
+.field input.invalid {
+  border-color: #ef4444;
+  box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.1);
+}
+
+.hint {
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+.grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+}
+
+.span-2 {
+  grid-column: 1 / -1;
+}
+
+/* Campo com prefixo "R$" */
+.input-prefix {
+  display: flex;
+  align-items: center;
+  background: #fafbfc;
+  border: 1.5px solid #e5e8f0;
+  border-radius: 14px;
+  max-width: 260px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.input-prefix span {
+  padding-left: 16px;
+  font-weight: 800;
+  color: var(--primary);
+}
+
+.input-prefix input {
+  border: none !important;
+  box-shadow: none !important;
+  background: transparent !important;
+  font-weight: 700;
+  font-size: 1.1rem !important;
+}
+
+.input-prefix:focus-within {
+  background: #fff;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 4px rgba(65, 59, 255, 0.12);
+}
+
+/* ---------- Steppers (quartos, banheiros, vagas) ---------- */
+.steppers {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+}
+
+.stepper {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 16px;
+  background: #fafbfc;
+  border: 1.5px solid #eef0f5;
+  border-radius: 18px;
+}
+
+.stepper-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.stepper-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.stepper-controls output {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--text);
+  min-width: 28px;
+  text-align: center;
+}
+
+.stepper-controls button {
+  width: 36px;
+  height: 36px;
+  border: none;
+  border-radius: 50%;
+  background: rgba(65, 59, 255, 0.1);
+  color: var(--primary);
+  font-family: inherit;
+  font-size: 1.2rem;
+  font-weight: 700;
+  line-height: 1;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease, transform 0.15s ease;
+}
+
+.stepper-controls button:hover:not(:disabled) {
+  background: var(--primary);
+  color: #fff;
+}
+
+.stepper-controls button:active:not(:disabled) {
+  transform: scale(0.92);
+}
+
+.stepper-controls button:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+/* ---------- Chips (comodidades) ---------- */
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.chip input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.chip span {
+  display: inline-block;
+  padding: 10px 16px;
+  border-radius: 999px;
+  border: 1.5px solid #e5e8f0;
+  background: #fff;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--muted);
+  cursor: pointer;
+  user-select: none;
+  transition: all 0.2s ease;
+}
+
+.chip:hover span {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+.chip input:checked + span {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(65, 59, 255, 0.25);
+}
+
+.chip input:focus-visible + span {
+  outline: 3px solid rgba(65, 59, 255, 0.35);
+  outline-offset: 2px;
+}
+
+/* ---------- Fotos ---------- */
+.dropzone {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 28px 20px;
+  border: 2px dashed rgba(65, 59, 255, 0.3);
+  border-radius: 20px;
+  background: rgba(65, 59, 255, 0.03);
+  color: var(--primary);
+  text-align: center;
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.dropzone strong {
+  font-size: 1rem;
+}
+
+.dropzone span {
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.dropzone:hover,
+.dropzone.drag {
+  background: rgba(65, 59, 255, 0.08);
+  border-color: var(--primary);
+}
+
+.photo-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+  gap: 12px;
+}
+
+.photo-grid:empty {
+  display: none;
+}
+
+.photo {
+  position: relative;
+  aspect-ratio: 1;
+  border-radius: 16px;
+  overflow: hidden;
+  background: #eef0f5;
+}
+
+.photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.photo.capa::after {
+  content: 'Capa';
+  position: absolute;
+  left: 8px;
+  bottom: 8px;
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: var(--primary);
+  color: #fff;
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+.photo button {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  width: 26px;
+  height: 26px;
+  border: none;
+  border-radius: 50%;
+  background: rgba(31, 35, 64, 0.7);
+  color: #fff;
+  font-size: 1rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.photo button:hover {
+  background: #ef4444;
+}
+
+/* ---------- Status (segmentado) ---------- */
+.segmented {
+  display: inline-flex;
+  padding: 5px;
+  background: #f1f3f9;
+  border-radius: 999px;
+  align-self: flex-start;
+}
+
+.segmented input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.segmented span {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 22px;
+  border-radius: 999px;
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: var(--muted);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.segmented input:checked + span {
+  background: #fff;
+  color: var(--text);
+  box-shadow: 0 2px 8px rgba(31, 35, 64, 0.12);
+}
+
+.segmented input:focus-visible + span {
+  outline: 3px solid rgba(65, 59, 255, 0.35);
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.dot-ativa { background: #10b981; }
+.dot-inativa { background: #9ca3af; }
+
+/* ---------- Zona de perigo ---------- */
+.danger-zone {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 20px 26px;
+  border: 1.5px dashed #fca5a5;
+  border-radius: 24px;
+  background: #fff;
+}
+
+.danger-zone h2 {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.danger-zone p {
+  font-size: 0.88rem;
+  color: var(--muted);
+  margin-top: 2px;
+}
+
+.btn-danger {
+  padding: 11px 22px;
+  border: 1.5px solid #ef4444;
+  background: transparent;
+  color: #ef4444;
+  border-radius: 999px;
+  font-family: inherit;
+  font-weight: 700;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-danger:hover {
+  background: #ef4444;
+  color: #fff;
+}
+
+/* ---------- Barra de ações (fixa embaixo) ---------- */
+.action-bar {
+  position: sticky;
+  bottom: 16px;
+  z-index: 5;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid #eef0f5;
+  border-radius: 999px;
+  box-shadow: 0 10px 30px rgba(31, 35, 64, 0.1);
+}
+
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  padding: 13px 24px;
+  border: none;
+  background: transparent;
+  color: var(--muted);
+  border-radius: 999px;
+  font-family: inherit;
+  font-weight: 700;
+  font-size: 0.95rem;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.btn-ghost:hover {
+  background: #f1f3f9;
+  color: var(--text);
+}
+
+.btn-save {
+  padding: 14px 30px;
+  background: var(--primary);
+  color: #fff;
+  border: none;
+  border-radius: 999px;
+  font-family: inherit;
+  font-weight: 700;
+  font-size: 0.95rem;
+  cursor: pointer;
+  box-shadow: 0 6px 18px rgba(65, 59, 255, 0.28);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+.btn-save:hover:not(:disabled) {
+  background: #3a33d1;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(65, 59, 255, 0.36);
+}
+
+.btn-save:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.btn-save:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+.btn-save:focus-visible,
+.btn-ghost:focus-visible,
+.btn-danger:focus-visible,
+.stepper-controls button:focus-visible {
+  outline: 3px solid rgba(65, 59, 255, 0.35);
+  outline-offset: 3px;
+}
+
+/* ---------- Prévia ao vivo ---------- */
+.preview {
+  position: sticky;
+  top: 24px;
+}
+
+.preview-title {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--muted);
+  margin-bottom: 12px;
+  padding-left: 4px;
+}
+
+/* Mesmo visual do card da página "Minhas propriedades" */
+.house-card {
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  border-radius: 24px;
+  border: 1px solid #eef0f5;
+  overflow: hidden;
+  box-shadow: 0 12px 30px rgba(65, 59, 255, 0.12);
+}
+
+.house-header {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 22px;
+  min-height: 140px;
+  padding: 20px 22px;
+  background: linear-gradient(135deg, var(--primary) 0%, color-mix(in srgb, var(--primary) 65%, #fff) 100%);
+  transition: background 0.3s ease;
+}
+
+.house-header::after {
+  content: '';
+  position: absolute;
+  right: -14px;
+  bottom: -26px;
+  width: 150px;
+  height: 150px;
+  opacity: 0.2;
+  pointer-events: none;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='1.1' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 11 12 4l9 7'/%3E%3Cpath d='M5 10v10h14V10'/%3E%3Cpath d='M10 20v-5h4v5'/%3E%3C/svg%3E") no-repeat center / contain;
+  transform: rotate(8deg);
+}
+
+.house-header > * {
+  position: relative;
+  z-index: 1;
+}
+
+.status {
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 6px 12px;
+  border-radius: 999px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  box-shadow: 0 2px 8px rgba(31, 35, 64, 0.12);
+}
+
+.status::before {
+  content: '';
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.badge-active { background: #e0f8ed; color: #10b981; }
+.badge-active::before { animation: pulse 2s infinite; }
+.badge-inactive { background: #e5e7eb; color: #6b7280; }
+
+@keyframes pulse {
+  0%   { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.45); }
+  70%  { box-shadow: 0 0 0 6px rgba(16, 185, 129, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+}
+
+.preview.is-inactive .house-header {
+  background: linear-gradient(135deg, #9ca3af 0%, #cbd0d8 100%);
+}
+
+.price {
+  font-size: 1.9rem;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  line-height: 1;
+  color: #fff;
+}
+
+.price span {
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.8);
+  font-weight: 500;
+  letter-spacing: 0;
+}
+
+.house-body {
+  padding: 22px;
+}
+
+.house-body h3 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 10px;
+  line-height: 1.3;
+  letter-spacing: -0.3px;
+  overflow-wrap: anywhere;
+}
+
+.address {
+  font-size: 0.92rem;
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.address::before {
+  content: '📍';
+  font-size: 0.95rem;
+}
+
+.pv-meta {
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px dashed #eef0f5;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.pv-meta:empty {
+  display: none;
+}
+
+/* ---------- Diálogo de exclusão ---------- */
+.dialog {
+  border: none;
+  border-radius: 24px;
+  padding: 28px;
+  max-width: 420px;
+  width: calc(100% - 32px);
+  font-family: inherit;
+  box-shadow: 0 30px 60px rgba(31, 35, 64, 0.25);
+}
+
+.dialog::backdrop {
+  background: rgba(31, 35, 64, 0.45);
+  backdrop-filter: blur(3px);
+}
+
+.dialog h2 {
+  font-size: 1.3rem;
+  font-weight: 800;
+  letter-spacing: -0.3px;
+  color: var(--text);
+}
+
+.dialog p {
+  margin-top: 8px;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 24px;
+}
+
+.btn-danger-solid {
+  padding: 13px 24px;
+  border: none;
+  border-radius: 999px;
+  background: #ef4444;
+  color: #fff;
+  font-family: inherit;
+  font-weight: 700;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.btn-danger-solid:hover {
+  background: #dc2626;
+}
+
+/* ---------- Toast ---------- */
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: 28px;
+  transform: translate(-50%, 20px);
+  padding: 14px 24px;
+  border-radius: 999px;
+  background: var(--text);
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.95rem;
+  box-shadow: 0 12px 30px rgba(31, 35, 64, 0.3);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+  z-index: 50;
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+.toast.error {
+  background: #ef4444;
+}
+
+/* ---------- Responsividade ---------- */
+@media (max-width: 1100px) {
+  .edit-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .preview {
+    position: static;
+    order: -1;
+    max-width: 420px;
+  }
+}
+
+@media (max-width: 600px) {
+  .header-text h1 { font-size: 1.8rem; }
+  .form-card { padding: 20px; }
+  .grid-2 { grid-template-columns: 1fr; }
+  .steppers { grid-template-columns: 1fr; }
+  .danger-zone { flex-direction: column; align-items: flex-start; }
+  .action-bar { border-radius: 24px; }
+  .action-bar .btn-ghost { flex: 0 0 auto; }
+  .action-bar .btn-save { flex: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .badge-active::before { animation: none; }
+  .toast, .btn-save, .stepper-controls button { transition: none; }
+}
