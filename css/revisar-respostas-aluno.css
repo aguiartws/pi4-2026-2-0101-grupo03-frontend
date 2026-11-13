@@ -1,0 +1,295 @@
+/* =========================================================
+   RESET E BASE
+   ========================================================= */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --roxo-1: #7c3aed;
+  --roxo-2: #a855f7;
+  --roxo-escuro: #4c1d95;
+  --texto: #1e1b2e;
+  --texto-suave: #6b7280;
+  --sucesso: #16a34a;
+  --sucesso-bg: #dcfce7;
+  --sucesso-texto: #15803d;
+  --perigo: #dc2626;
+  --perigo-bg: #fee2e2;
+  --perigo-texto: #b91c1c;
+  --sombra-card: 0 20px 40px -12px rgba(76, 29, 149, 0.22),
+                 0 8px 20px -8px rgba(0, 0, 0, 0.06);
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  font-family: 'Kumbh Sans', system-ui, -apple-system, sans-serif;
+  /* ALTERAÇÃO AQUI: fundo sólido em vez de gradiente */
+  background-color: #f5f3ff; 
+  color: var(--texto);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center; /* Centraliza na horizontal */
+  padding: 24px 16px;
+}
+
+/* =========================================================
+   ESTRUTURA PRINCIPAL
+   ========================================================= */
+.app {
+  width: 100%;
+  max-width: 600px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin: auto 0; /* Resolve o corte no topo e permite scroll */
+}
+
+/* ---------- Cabeçalho ---------- */
+.app__header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 0 8px;
+}
+
+.logo img {
+  height: 38px;
+  display: block;
+}
+
+.header-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--roxo-escuro);
+}
+
+/* =========================================================
+   CARTÃO PRINCIPAL
+   ========================================================= */
+.review-card {
+  background: #fff;
+  border-radius: 24px;
+  padding: 32px 28px;
+  box-shadow: var(--sombra-card);
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.intro h1 {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--roxo-escuro);
+  margin-bottom: 8px;
+}
+
+.intro p {
+  font-size: 14px;
+  color: var(--texto-suave);
+  line-height: 1.5;
+}
+
+/* =========================================================
+   LISTA DE PERGUNTAS E TOGGLES
+   ========================================================= */
+.questions-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.question-item {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 14px 16px;
+  background: #fafafa;
+  border: 1px solid #f3f4f6;
+  border-radius: 14px;
+  transition: background 0.2s ease;
+}
+
+.question-item:hover {
+  background: #f5f3ff;
+  border-color: #e9d5ff;
+}
+
+.question-text {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--texto);
+  line-height: 1.4;
+}
+
+/* Toggle Sim / Não */
+.toggle-group {
+  display: flex;
+  background: #e5e7eb;
+  border-radius: 99px;
+  padding: 4px;
+  align-self: flex-start;
+}
+
+.toggle-group label {
+  cursor: pointer;
+  position: relative;
+}
+
+.toggle-group input {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.toggle-btn {
+  display: inline-block;
+  padding: 6px 20px;
+  font-size: 13px;
+  font-weight: 700;
+  border-radius: 99px;
+  color: var(--texto-suave);
+  transition: all 0.2s ease;
+}
+
+/* Estado Selecionado */
+.toggle-group input[value="sim"]:checked + .toggle-btn {
+  background: #fff;
+  color: var(--sucesso);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.toggle-group input[value="nao"]:checked + .toggle-btn {
+  background: #fff;
+  color: var(--perigo);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* =========================================================
+   SOBRE MIM
+   ========================================================= */
+.about-section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.about-section label {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--roxo-escuro);
+}
+
+.about-section textarea {
+  width: 100%;
+  min-height: 120px;
+  resize: vertical;
+  padding: 14px 16px;
+  border: 2px solid #e5e7eb;
+  border-radius: 14px;
+  font-family: inherit;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--texto);
+  background: #fafafa;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.about-section textarea:focus {
+  border-color: var(--roxo-2);
+  box-shadow: 0 0 0 4px rgba(168, 85, 247, 0.12);
+  background: #fff;
+}
+
+.char-count {
+  text-align: right;
+  font-size: 12px;
+  color: var(--texto-suave);
+  font-weight: 500;
+}
+
+/* =========================================================
+   AÇÕES
+   ========================================================= */
+.actions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+@media (min-width: 400px) {
+  .actions {
+    flex-direction: row;
+    justify-content: flex-end; /* Botões alinhados à direita */
+  }
+}
+
+.btn-primary,
+.btn-secondary {
+  padding: 14px 28px;
+  border-radius: 999px;
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  text-align: center;
+  transition: transform 0.15s ease, box-shadow 0.2s ease,
+              background-color 0.2s ease;
+}
+
+.btn-primary {
+  border: none;
+  background: linear-gradient(90deg, var(--roxo-1), var(--roxo-2));
+  color: #fff;
+  box-shadow: 0 12px 24px -10px rgba(124, 58, 237, 0.6);
+  flex: 1;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 18px 28px -10px rgba(124, 58, 237, 0.7);
+}
+
+.btn-secondary {
+  border: 2px solid var(--roxo-2);
+  background: transparent;
+  color: var(--roxo-1);
+  flex: 1;
+}
+
+.btn-secondary:hover {
+  background: rgba(168, 85, 247, 0.08);
+  transform: translateY(-2px);
+}
+
+.btn-primary:active,
+.btn-secondary:active {
+  transform: translateY(0);
+}
+
+/* =========================================================
+   RESPONSIVO
+   ========================================================= */
+@media (max-width: 420px) {
+  .review-card {
+    padding: 24px 20px;
+  }
+  
+  .question-item {
+    padding: 12px;
+  }
+
+  .intro h1 {
+    font-size: 19px;
+  }
+}

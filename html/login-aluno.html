@@ -19,7 +19,7 @@
       <div class="hero__content">
 
         <!-- Logo -->
-        <a class="logo" href="login-aluno.html" aria-label="FindUHouse">
+        <a class="logo" href="login.html" aria-label="FindUHouse">
           <img src="../imagens/logo.png" alt="Logo FindUHouse">
         </a>
 
@@ -98,7 +98,7 @@
         </p>
 
         <!-- FORMULÁRIO DE LOGIN -->
-        <form id="loginForm" novalidate>
+        <form id="loginForm">
 
           <!-- Identificação do aluno (ícone de capelo, igual ao da tela login) -->
           <div class="profile-label">
@@ -122,13 +122,11 @@
               <input
                 type="email"
                 id="email"
-                aria-describedby="emailErro"
-                placeholder="Seu @puccampinas.edu.br"
+                placeholder="seu@puccampinas.edu.br"
                 autocomplete="email"
                 required
               >
             </div>
-            <p class="field__error" id="emailErro" role="alert" hidden></p>
           </div>
 
           <!-- Senha -->
@@ -144,7 +142,6 @@
               <input
                 type="password"
                 id="senha"
-                aria-describedby="senhaErro"
                 placeholder="Digite sua senha"
                 autocomplete="current-password"
                 required
@@ -164,7 +161,6 @@
                 </svg>
               </button>
             </div>
-            <p class="field__error" id="senhaErro" role="alert" hidden></p>
           </div>
 
           <!-- Lembrar e recuperar senha -->
@@ -182,16 +178,18 @@
             <a href="#" class="link">Esqueceu sua senha?</a>
           </div>
 
-          <!-- Entrar -->
-          <div class="form-error" id="formErro" role="alert" hidden></div>
+          <p id="mensagemErro" role="alert"></p>
 
-          <button type="submit" class="btn btn--primary" id="btnEntrar">Entrar</button>
+          <!-- Entrar -->
+          <button type="submit" class="btn btn--primary">Entrar</button>
+
 
         </form>
       </div>
     </section>
   </main>
 
+  <script src="../js/api.js"></script>
   <script src="../js/login-aluno.js"></script>
 </body>
 </html>

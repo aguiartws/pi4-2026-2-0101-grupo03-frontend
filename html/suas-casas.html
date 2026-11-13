@@ -5,18 +5,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>FindUHouse – Suas Casas</title>
   
-  <!-- Reaproveita a fonte do projeto -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   
-  <!-- Link para o CSS específico desta página -->
   <link rel="stylesheet" href="../css/suas-casas.css">
 </head>
 <body>
   <div class="app">
 
-    <!-- SIDEBAR (Mesma estrutura do perfil) -->
+    <!-- SIDEBAR -->
     <aside class="sidebar">
       <a class="logo" href="#" aria-label="FindUHouse">
         <img src="../imagens/logo.png" alt="FindUHouse">
@@ -57,70 +55,15 @@
         </button>
       </section>
 
-      <!-- Grelha de Casas -->
-      <section class="houses-grid">
-        
-        <!-- Exemplo de Card de Casa 1 -->
-        <div class="house-card card">
-          <div class="house-header">
-            <span class="status badge-active">Ativa</span>
-            <div class="price">R$ 1.200<span>/mês</span></div>
-          </div>
-          
-          <div class="house-body">
-            <h3>Quarto individual próximo à PUC</h3>
-            <p class="address">Rua das Acácias, 123 - Campinas</p>
-            
-            <div class="house-specs">
-              <div class="spec">
-                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
-                </svg>
-                <span>3 Moradores</span>
-              </div>
-              <div class="spec">
-                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
-                </svg>
-                <span>Despesas Inclusas</span>
-              </div>
-            </div>
-          </div>
-
-          <div class="house-footer">
-            <button class="btn-edit">Editar anúncio</button>
-          </div>
-        </div>
-
-        <!-- Exemplo de Card de Casa 2 -->
-        <div class="house-card card">
-          <div class="house-header">
-            <span class="status badge-analysis">Em Análise</span>
-            <div class="price">R$ 850<span>/mês</span></div>
-          </div>
-          
-          <div class="house-body">
-            <h3>Quarto compartilhado (2 pessoas)</h3>
-            <p class="address">Av. Brasil, 456 - Barão Geraldo</p>
-            
-            <div class="house-specs">
-              <div class="spec">
-                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
-                </svg>
-                <span>5 Moradores</span>
-              </div>
-            </div>
-          </div>
-
-          <div class="house-footer">
-            <button class="btn-edit">Editar anúncio</button>
-          </div>
-        </div>
-
+      <!-- Grelha de Casas Vazia (O JS vai preencher isto) -->
+      <section class="houses-grid" id="gridCasas">
+        <!-- O carregamento dinâmico entrará aqui -->
       </section>
 
     </main>
   </div>
+
+  <!-- Ligação com o Back-end -->
+  <script src="../js/suas-casas.js"></script>
 </body>
 </html>
