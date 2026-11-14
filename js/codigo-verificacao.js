@@ -1,15 +1,4 @@
-/*
- * Recuperação de senha - FindUHouse
- *
- * Ajuste os caminhos abaixo para corresponder às rotas reais do seu backend.
- * Fluxo recomendado:
- * 1) POST /api/auth/solicitar-recuperacao { email }
- * 2) POST /api/auth/verificar-codigo { email, codigo } -> { tokenRecuperacao }
- * 3) O token é enviado à página de nova senha pela URL.
- *
- * O código de verificação deve ser gerado, enviado por e-mail e validado no BACKEND.
- * Nunca valide um código real apenas no JavaScript do navegador.
- */
+
 const API_RECUPERACAO = {
   solicitar: "/api/auth/solicitar-recuperacao",
   verificar: "/api/auth/verificar-codigo"

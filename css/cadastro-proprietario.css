@@ -1,6 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Caveat+Brush&family=Kumbh+Sans:wght@300;400;500;600;700;800&display=swap');
 
-/* Mesmas variáveis e mesma lógica de tamanho das telas de login */
 :root {
   --primary: #8684ff;
   --primary-dark: #3330b8;
@@ -19,7 +18,6 @@
   --background: #f8f8fd;
   --danger: #d92d4a;
 
-  /* TAMANHO DO LOGO (igual ao login.css) */
   --logo-h: clamp(72px, 20vh, 200px);
   --logo-w: calc(var(--logo-h) * 1.69);
 }
@@ -53,7 +51,6 @@ a {
   text-decoration: none;
 }
 
-/* minmax(0, ...) impede que o conteúdo empurre as colunas */
 .layout {
   min-height: 100vh;
   min-height: 100dvh;
