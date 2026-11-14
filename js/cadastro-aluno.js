@@ -82,7 +82,6 @@ document.addEventListener("DOMContentLoaded", () => {
                     telefone: document.getElementById("telefone").value.trim(),
                     senha: senha.value,
                     curso: document.getElementById("curso").value.trim()
-                    // TODO: cidade ainda não é aceita pelo backend.
                 }
             });
 

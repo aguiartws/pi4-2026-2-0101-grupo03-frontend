@@ -1,6 +1,13 @@
 document.addEventListener("DOMContentLoaded", () => {
     const senha = document.getElementById("senha");
     const toggleSenha = document.getElementById("toggleSenha");
+    const loginForm = document.getElementById("loginForm");
+    const mensagemErro = document.getElementById("mensagemErro");
+    
+    // Se não houver formulário na tela, encerra o script para não dar erro
+    if (!loginForm) return; 
+
+    const botaoEnvio = loginForm.querySelector("button[type='submit']");
 
     if (toggleSenha && senha) {
         toggleSenha.addEventListener("click", () => {
@@ -11,30 +18,44 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    const loginForm = document.getElementById("loginForm");
+    loginForm.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        
+        if (mensagemErro) mensagemErro.textContent = "";
+        botaoEnvio.disabled = true;
 
-    if (loginForm) {
-        loginForm.addEventListener("submit", (event) => {
-            event.preventDefault();
+        try {
+            // 1. Chama a API de verdade para pegar o Token
+            const resposta = await chamarApi("/auth/login", {
+                metodo: "POST",
+                corpo: {
+                    email: document.getElementById("email").value.trim(),
+                    senha: senha.value,
+                    lembrar: document.getElementById("lembrar") ? document.getElementById("lembrar").checked : false
+                }
+            });
 
-            const email = document.getElementById("email").value.trim();
-            const senhaDigitada = senha.value.trim();
-
-            if (email === "" || senhaDigitada === "") {
-                alert("Por favor, preencha o e-mail e a senha.");
+            if (resposta.perfil !== "estudante") {
+                if (mensagemErro) mensagemErro.textContent = "Esta conta não é de aluno. Use o login correto.";
                 return;
             }
 
-            // LÓGICA DE REDIRECIONAMENTO
+            // 2. Salva a sessão (Token e ID) no navegador
+            salvarSessao(resposta, document.getElementById("lembrar") ? document.getElementById("lembrar").checked : false);
+
+            // 3. Lógica para saber se vai pro questionário ou pro perfil
             const respostasSalvas = localStorage.getItem('finduhouse_perfil_aluno');
 
             if (respostasSalvas) {
-                // Já respondeu -> Vai pro perfil
                 window.location.href = "perfil-aluno.html";
             } else {
-                // Primeira vez -> Vai pro questionário
                 window.location.href = "questionario-aluno.html";
             }
-        });
-    }
+            
+        } catch (erro) {
+            if (mensagemErro) mensagemErro.textContent = mensagemDeErro(erro);
+        } finally {
+            botaoEnvio.disabled = false;
+        }
+    });
 });
