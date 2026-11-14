@@ -188,12 +188,54 @@ async function salvar(e) {
 
 /* ---------- Excluir ---------- */
 function configurarExcluir() {
-  const btn = $("#btnExcluir");
-  if (btn) {
-    btn.addEventListener("click", () => {
-      toast("Exclusão ainda não disponível.", true);
-    });
-  }
+  const btnExcluir = $("#btnExcluir");
+  const dlg = $("#dlgExcluir");
+  const btnConfirmar = $("#btnConfirmarExcluir");
+
+  if (!btnExcluir || !dlg) return;
+
+  // Abre o modal quando clica em "Excluir"
+  btnExcluir.addEventListener("click", (e) => {
+    e.preventDefault();
+    dlg.showModal();
+  });
+
+  // Quando o usuário clica em "Sim, excluir"
+  btnConfirmar.addEventListener("click", async (e) => {
+    e.preventDefault(); // Impede o form do dialog de fechar sozinho antes da hora
+    
+    if (!casaId) return;
+
+    // Muda o texto do botão para dar feedback visual
+    const textoOriginal = btnConfirmar.textContent;
+    btnConfirmar.textContent = "Excluindo...";
+    btnConfirmar.disabled = true;
+
+    try {
+      const url = `/vagas/${encodeURIComponent(casaId)}`;
+      console.log(`[editar-anuncio] ▶ DELETE ${url}`);
+      
+      // Faz a chamada para o backend
+      await chamarApi(url, { metodo: "DELETE" });
+
+      // Se o backend excluiu com sucesso, fecha o modal, avisa e volta pra lista
+      dlg.close();
+      toast("Anúncio excluído com sucesso!");
+      
+      setTimeout(() => {
+        window.location.href = PAGINA_LISTA;
+      }, 1500);
+
+    } catch (err) {
+      console.error(`[editar-anuncio] ✖ DELETE falhou:`, err);
+      toast(mensagemDeErro(err), true);
+      
+      // Restaura o botão caso dê erro
+      btnConfirmar.textContent = textoOriginal;
+      btnConfirmar.disabled = false;
+      dlg.close(); // Opcional: fecha o modal para o usuário ver o erro
+    }
+  });
 }
 
 /* ---------- Init ---------- */

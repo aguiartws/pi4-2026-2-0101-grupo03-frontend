@@ -19,7 +19,6 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     if (vagas.length === 0) {
       estadoCasas.textContent = "Você ainda não cadastrou nenhuma casa.";
-      gradeCasas.appendChild(estadoCasas);
       return;
     }
 
@@ -29,7 +28,6 @@ document.addEventListener("DOMContentLoaded", async () => {
   } catch (erro) {
     gradeCasas.textContent = "";
     estadoCasas.textContent = mensagemDeErro(erro);
-    gradeCasas.appendChild(estadoCasas);
   }
 });
 
