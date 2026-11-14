@@ -80,7 +80,7 @@ a {
   overflow: visible; 
 }
 
-/* botão (a setinhsa) */
+/* botao (a setinha) */
 .sidebar-toggle {
   position: absolute;
   right: -14px;
@@ -108,7 +108,7 @@ a {
   transform: rotate(180deg);
 }
 
-/* Logo */
+/* logo */
 .logo {
   display: block;
   margin-bottom: 60px;
@@ -123,7 +123,7 @@ a {
   transition: max-width 0.3s ease;
 }
 
-/* Navegação */
+/* navegacao */
 .nav {
   display: flex;
   flex-direction: column;
@@ -174,13 +174,12 @@ a {
   transition: opacity 0.3s ease;
 }
 
-/* --- ESTADO RETRAÍDO (Ajustes) --- */
 .app.collapsed .sidebar {
-  padding: 28px 16px; /* Diminui o padding */
+  padding: 28px 16px; 
 }
 
 .app.collapsed .logo {
-  opacity: 0; /* Esconde a logo por completo ou substitui por um ícone */
+  opacity: 0; 
   pointer-events: none;
 }
 
@@ -197,9 +196,8 @@ a {
   display: none;
 }
 
-/* =========================================================
-   ÁREA DE CONTEÚDO (ao lado da barra lateral)
-   ========================================================= */
+
+
 .settings-main {
     min-width: 0;
     padding: 30px 40px;
@@ -210,7 +208,6 @@ a {
     max-width: 1100px;
     margin: 0 auto;
     padding-bottom: 34px;
-    /* a responsividade usa a largura desta área, não a da janela */
     container-type: inline-size;
     container-name: settings;
 }
@@ -690,7 +687,6 @@ a {
 }
 
 
-/* Barra lateral no celular/tablet: vira um cabeçalho (igual ao perfil) */
 @media (max-width: 800px) {
     .app {
         grid-template-columns: 1fr;
@@ -743,17 +739,12 @@ a {
         padding: 20px 16px;
     }
 
-    /* 16px evita o zoom automático do iPhone ao tocar no campo */
     .form-group input {
         font-size: 16px;
     }
 }
 
-/* =========================================================
-   RESPONSIVIDADE
-   Usa a largura da ÁREA DE CONTEÚDO (e não a da janela), porque a
-   barra lateral ocupa espaço e pode estar aberta ou recolhida.
-   ========================================================= */
+
 
 @container settings (max-width: 860px) {
     .settings-layout {
