@@ -1,24 +1,18 @@
 document.addEventListener("DOMContentLoaded", async () => {
-  if (!exigirLogin("proprietario")) {
-    return;
-  }
+  if (!exigirLogin("proprietario")) return;
 
   const gradeCasas = document.querySelector(".houses-grid");
-  const estadoCasas = document.getElementById("estadoCasas");
   const sessao = obterSessao();
 
   try {
-    const resposta = await chamarApi(
-      `/vagas/responsavel/${encodeURIComponent(sessao.usuarioId)}`,
-    );
-    const vagas = Array.isArray(resposta && resposta.vagas)
-      ? resposta.vagas
-      : [];
+    const resposta = await chamarApi(`/vagas/responsavel/${encodeURIComponent(sessao.usuarioId)}`);
+    const vagas = Array.isArray(resposta && resposta.vagas) ? resposta.vagas : [];
 
     gradeCasas.textContent = "";
 
     if (vagas.length === 0) {
-      estadoCasas.textContent = "Você ainda não cadastrou nenhuma casa.";
+      // Se não tiver casas, mostra a mensagem direto na grade
+      gradeCasas.innerHTML = "<p style='color: #666; font-style: italic;'>Você ainda não cadastrou nenhuma casa.</p>";
       return;
     }
 
@@ -27,9 +21,11 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
   } catch (erro) {
     gradeCasas.textContent = "";
-    estadoCasas.textContent = mensagemDeErro(erro);
+    // Se der erro, mostra a mensagem direto na grade
+    gradeCasas.innerHTML = `<p style='color: #e53935; font-style: italic;'>${mensagemDeErro(erro)}</p>`;
   }
 });
+
 
 function criarCardCasa(vaga) {
   const card = document.createElement("div");
