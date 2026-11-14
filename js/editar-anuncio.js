@@ -1,6 +1,3 @@
-/* =====================================================
-   FindUHouse – Editar anúncio (com logs de request/response)
-   ===================================================== */
 const PAGINA_LISTA = "suas-casas.html";
 const LOG = "[editar-anuncio]";
 
@@ -77,7 +74,6 @@ function atualizarContadores() {
 
 /* ---------- Preencher ---------- */
 function preencherFormulario(vaga) {
-  console.log(`${LOG} preencherFormulario — JSON recebido do GET:`, vaga);
   campos.titulo.value = vaga.titulo ?? "";
   campos.descricao.value = vaga.descricao ?? "";
   campos.regrasCasa.value = vaga.regrasCasa ?? "";
@@ -116,7 +112,7 @@ async function carregar() {
     preencherFormulario(vaga);
   } catch (err) {
     toast(mensagemDeErro(err), true);
-    console.error("GET /vagas:", err);
+    console.error(`${LOG} Erro ao carregar GET /vagas:`, err);
   }
 }
 
@@ -134,7 +130,6 @@ async function salvar(e) {
 
   const sessao = obterSessao();
 
-  // Monta as regras de convivência
   const regras = {};
   BOOLEANOS.forEach((nome) => {
     const cb = form.querySelector(`input[name="${nome}"]`);
@@ -156,31 +151,19 @@ async function salvar(e) {
   };
 
   const url = `/vagas/${encodeURIComponent(casaId)}`;
-
-  console.log(`[editar-anuncio] ▶ PATCH ${url}`);
-  console.log(`[editar-anuncio] Payload:`, dados);
-
   const btn = $("#btnSalvar");
   btn.disabled = true;
   btn.textContent = "Salvando...";
 
   try {
-    // Declarando a variável 'resposta' corretamente
-    const resposta = await chamarApi(url, {
-      metodo: "PATCH",
-      corpo: dados,
-    });
-
-    console.log(`[editar-anuncio] ✔ PATCH respondeu:`, resposta);
+    await chamarApi(url, { metodo: "PATCH", corpo: dados });
     toast("Anúncio atualizado!");
-
-    // Reativa o botão e aguarda 1 segundo para voltar para a lista
     btn.disabled = false;
     btn.textContent = "Salvar alterações";
     setTimeout(() => (location.href = PAGINA_LISTA), 1000);
   } catch (err) {
-    console.error(`[editar-anuncio] ✖ PATCH falhou:`, err);
     toast(mensagemDeErro(err), true);
+    console.error(`${LOG} Erro ao salvar PATCH /vagas:`, err);
     btn.disabled = false;
     btn.textContent = "Salvar alterações";
   }
@@ -202,23 +185,20 @@ function configurarExcluir() {
 
   // Quando o usuário clica em "Sim, excluir"
   btnConfirmar.addEventListener("click", async (e) => {
-    e.preventDefault(); // Impede o form do dialog de fechar sozinho antes da hora
+    e.preventDefault(); 
     
     if (!casaId) return;
 
-    // Muda o texto do botão para dar feedback visual
     const textoOriginal = btnConfirmar.textContent;
     btnConfirmar.textContent = "Excluindo...";
     btnConfirmar.disabled = true;
 
+    const url = `/vagas/${encodeURIComponent(casaId)}`;
+
     try {
-      const url = `/vagas/${encodeURIComponent(casaId)}`;
-      console.log(`[editar-anuncio] ▶ DELETE ${url}`);
-      
       // Faz a chamada para o backend
       await chamarApi(url, { metodo: "DELETE" });
 
-      // Se o backend excluiu com sucesso, fecha o modal, avisa e volta pra lista
       dlg.close();
       toast("Anúncio excluído com sucesso!");
       
@@ -228,12 +208,18 @@ function configurarExcluir() {
 
     } catch (err) {
       console.error(`[editar-anuncio] ✖ DELETE falhou:`, err);
-      toast(mensagemDeErro(err), true);
       
-      // Restaura o botão caso dê erro
+      if (err.status === 401 || err.status === 403) {
+        toast("Você não tem permissão para excluir este anúncio.", true);
+      } else if (err.codigo === "SEM_CONEXAO") {
+        toast("Falha de conexão com o servidor (CORS ou Backend Offline).", true);
+      } else {
+        toast(mensagemDeErro(err), true);
+      }
+      
       btnConfirmar.textContent = textoOriginal;
       btnConfirmar.disabled = false;
-      dlg.close(); // Opcional: fecha o modal para o usuário ver o erro
+      dlg.close();
     }
   });
 }
