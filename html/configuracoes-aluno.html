@@ -1,57 +1,215 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FindUHouse | Configurações </title>
-  <link rel="stylesheet" href="../css/configuracoes-aluno.css">
-  <link href="https://fonts.googleapis.com/css2?family=Kumbh+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#514ee2">
+    <title>Configurações | FindUHouse</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kumbh+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/configuracoes-aluno.css">
 </head>
+
 <body>
-  <main class="settings-container">
-    <header class="page-header">
-      <div class="header-icon"><i class="fa-solid fa-gear"></i></div>
-      <div><h1>Configurações</h1><p>Gerencie suas informações pessoais</p></div>
-    </header>
+    <div class="app" id="appLayout">
+    <aside class="sidebar">
+      
+      <!-- botão para abrir/fechar a barra -->
+      <button class="sidebar-toggle" id="sidebarToggle" aria-label="Recolher menu">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M15 18l-6-6 6-6"/>
+        </svg>
+      </button>
 
-    <form id="formConfiguracoes" enctype="multipart/form-data">
-      <section class="settings-card">
-        <div class="section-heading"><span class="section-icon"><i class="fa-solid fa-camera"></i></span><div><h2>Foto de perfil</h2><p>Adicione uma foto para personalizar seu perfil.</p></div></div>
-        <div class="photo-content">
-          <div class="avatar-wrapper"><img id="fotoPreview" src="../imagens/avatar-padrao.png" alt="Pré-visualização da foto de perfil"><span class="avatar-camera"><i class="fa-solid fa-camera"></i></span></div>
-          <div class="photo-actions">
-            <label for="fotoPerfil" class="btn-secondary"><i class="fa-solid fa-upload"></i> Escolher foto</label>
-            <input type="file" id="fotoPerfil" name="fotoPerfil" accept="image/png,image/jpeg,image/webp" hidden>
-            <button type="button" id="removerFoto" class="btn-text">Remover foto</button>
-            <small>JPG, PNG ou WEBP. Tamanho máximo: 5 MB.</small>
-            <span id="erroFoto" class="field-error" role="alert"></span>
-          </div>
-        </div>
-      </section>
+      <a class="logo" href="index.html" aria-label="FindUHouse">
+        <img src="../imagens/logo-roxa.png" alt="FindUHouse">
+      </a>
 
-      <section class="settings-card">
-        <div class="section-heading"><span class="section-icon"><i class="fa-solid fa-user"></i></span><div><h2>Dados pessoais</h2><p>Atualize as informações da sua conta.</p></div></div>
-        <div class="form-grid">
-          <div class="form-group full-width"><label for="nome">Nome</label><input type="text" id="nome" name="nome" placeholder="Digite seu nome" autocomplete="name" required></div>
-          <div class="form-group" id="grupoCurso"><label for="curso">Curso</label><input type="text" id="curso" name="curso" placeholder="Digite seu curso"></div>
-          <div class="form-group"><label for="email">E-mail</label><input type="email" id="email" name="email" placeholder="Digite seu e-mail" autocomplete="email" required></div>
-          <div class="form-group"><label for="telefone">Número de telefone</label><input type="tel" id="telefone" name="telefone" placeholder="(00) 00000-0000" autocomplete="tel"></div>
-          <div class="form-group"><label for="cidade" id="labelCidade">Cidade de interesse da moradia</label><input type="text" id="cidade" name="cidade" placeholder="Digite a cidade"></div>
-        </div>
-      </section>
+      <nav class="nav" aria-label="Menu principal">
+        <a class="nav-item" href="perfil-aluno.html" title="Meu perfil">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/>
+          </svg>
+          <span>Meu<br>perfil</span>
+        </a>
 
-      <section class="settings-card">
-        <div class="section-heading"><span class="section-icon"><i class="fa-solid fa-lock"></i></span><div><h2>Alterar senha</h2><p>Preencha somente se desejar criar uma nova senha.</p></div></div>
-        <div class="form-grid">
-          <div class="form-group"><label for="novaSenha">Nova senha</label><div class="password-wrapper"><input type="password" id="novaSenha" name="novaSenha" placeholder="Digite sua nova senha" autocomplete="new-password"><button type="button" class="toggle-password" data-target="novaSenha" aria-label="Mostrar senha"><i class="fa-regular fa-eye"></i></button></div><small class="field-hint">A senha deve ter pelo menos 8 caracteres.</small></div>
-          <div class="form-group"><label for="confirmarSenha">Confirmar nova senha</label><div class="password-wrapper"><input type="password" id="confirmarSenha" name="confirmarSenha" placeholder="Digite novamente a nova senha" autocomplete="new-password"><button type="button" class="toggle-password" data-target="confirmarSenha" aria-label="Mostrar senha"><i class="fa-regular fa-eye"></i></button></div><span id="erroSenha" class="field-error" role="alert"></span></div>
-        </div>
-      </section>
-      <div class="form-feedback" id="mensagem" role="status" aria-live="polite"></div>
-      <div class="form-actions"><button type="reset" class="btn-cancel">Cancelar</button><button type="submit" class="btn-save"><i class="fa-solid fa-floppy-disk"></i> Salvar alterações</button></div>
-    </form>
-  </main>
-  <script src="../js/configuracoes.js"></script>
+        <a class="nav-item" href="opcoes-matches-feitos.html" title="Matches feitos">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+          </svg>
+          <span>Matches<br>feitos</span>
+        </a>
+
+        <a class="nav-item" href="mapa-favoritos.html" title="Mapa">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+            <circle cx="12" cy="10" r="3"></circle>
+          </svg>
+          <span>Mapa</span>
+        </a>
+
+        <a class="nav-item active" href="configuracoes-aluno.html" title="Configurações" aria-current="page">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="3"></circle>
+            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+          </svg>
+          <span>Configurações</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-footer" aria-hidden="true"></div>
+    </aside>
+
+        <main class="settings-main">
+            <div class="settings-page">
+                <section class="welcome-banner">
+                    <div class="banner-decoration banner-decoration-one"></div>
+                    <div class="banner-decoration banner-decoration-two"></div>
+
+                    <div class="welcome-copy">
+                        <span class="eyebrow">MINHA CONTA</span>
+                        <h1>Configurações</h1>
+                        <p>Deixe suas informações sempre atualizadas para aproveitar melhor o FindUHouse.</p>
+                    </div>
+
+                    <div class="banner-symbol" aria-hidden="true">
+                        <i class="fa-solid fa-sliders"></i>
+                    </div>
+                </section>
+
+                <form id="formConfiguracoes" enctype="multipart/form-data" novalidate>
+                    <div class="settings-layout">
+                        <aside class="profile-aside">
+                            <section class="profile-card">
+                                <div class="profile-card-glow"></div>
+                                <div class="avatar-area">
+                                    <div class="avatar-frame">
+                                        <img id="fotoPreview" src="../imagens/avatar-padrao.png" alt="Foto de perfil">
+                                    </div>
+                                    <label for="fotoPerfil" class="avatar-edit" title="Alterar foto">
+                                        <i class="fa-solid fa-camera"></i>
+                                    </label>
+                                </div>
+
+                                <h2 id="nomeExibicao">Seu perfil</h2>
+                                <p id="tipoExibicao">Conta de estudante</p>
+                                <div class="profile-divider"></div>
+                                <label for="fotoPerfil" class="photo-upload-button">
+                                    <i class="fa-solid fa-arrow-up-from-bracket"></i>
+                                    Escolher foto
+                                </label>
+                                <input type="file" id="fotoPerfil" name="fotoPerfil" accept="image/png,image/jpeg,image/webp" hidden>
+                                <button type="button" id="removerFoto" class="remove-photo">Remover foto</button>
+                                <small class="photo-note">JPG, PNG ou WEBP · até 5 MB</small>
+                                <span id="erroFoto" class="field-error" role="alert"></span>
+                            </section>
+
+                            <div class="aside-tip">
+                                <span class="tip-icon"><i class="fa-regular fa-lightbulb"></i></span>
+                                <div>
+                                    <strong>Dica</strong>
+                                    <p>Uma foto ajuda outros usuários a reconhecerem seu perfil.</p>
+                                </div>
+                            </div>
+                        </aside>
+
+                        <div class="settings-content">
+                            <section class="settings-card">
+                                <div class="card-heading">
+                                    <div class="heading-icon"><i class="fa-regular fa-user"></i></div>
+                                    <div>
+                                        <h2>Dados pessoais</h2>
+                                        <p>Altere as informações vinculadas à sua conta.</p>
+                                    </div>
+                                </div>
+
+                                <div class="form-grid">
+                                    <div class="form-group full-width">
+                                        <label for="nome">Nome completo</label>
+                                        <input type="text" id="nome" name="nome" placeholder="Digite seu nome" autocomplete="name" required>
+                                    </div>
+
+                                    <div class="form-group" id="grupoCurso">
+                                        <label for="curso">Curso</label>
+                                        <input type="text" id="curso" name="curso" placeholder="Digite seu curso">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="email">E-mail</label>
+                                        <input type="email" id="email" name="email" placeholder="Digite seu e-mail" autocomplete="email" required>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="telefone">Número de telefone</label>
+                                        <input type="tel" id="telefone" name="telefone" placeholder="(00) 00000-0000" autocomplete="tel">
+                                    </div>
+
+                                    <div class="form-group" id="grupoCidade">
+                                        <label for="cidade" id="labelCidade">Cidade de interesse da moradia</label>
+                                        <input type="text" id="cidade" name="cidade" placeholder="Digite a cidade">
+                                    </div>
+                                </div>
+                            </section>
+
+                            <section class="settings-card password-card">
+                                <div class="card-heading">
+                                    <div class="heading-icon"><i class="fa-solid fa-shield-halved"></i></div>
+                                    <div>
+                                        <h2>Segurança</h2>
+                                        <p>Quer trocar sua senha? Faça isso por aqui.</p>
+                                    </div>
+                                    <span class="optional-tag">OPCIONAL</span>
+                                </div>
+
+                                <div class="form-grid">
+                                    <div class="form-group">
+                                        <label for="novaSenha">Nova senha</label>
+                                        <div class="password-field">
+                                            <input type="password" id="novaSenha" name="novaSenha" placeholder="Mínimo de 8 caracteres" autocomplete="new-password">
+                                            <button type="button" class="toggle-password" data-target="novaSenha" aria-label="Mostrar senha">
+                                                <i class="fa-regular fa-eye"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="confirmarSenha">Confirmar nova senha</label>
+                                        <div class="password-field">
+                                            <input type="password" id="confirmarSenha" name="confirmarSenha" placeholder="Digite novamente" autocomplete="new-password">
+                                            <button type="button" class="toggle-password" data-target="confirmarSenha" aria-label="Mostrar senha">
+                                                <i class="fa-regular fa-eye"></i>
+                                            </button>
+                                        </div>
+                                        <span id="erroSenha" class="field-error" role="alert"></span>
+                                    </div>
+                                </div>
+                            </section>
+
+                            <div id="mensagem" class="form-feedback" role="status" aria-live="polite"></div>
+
+                            <div class="form-actions">
+                                <button type="reset" class="cancel-button">Descartar</button>
+                                <button type="submit" class="save-button">
+                                    Salvar alterações
+                                    <i class="fa-solid fa-arrow-right"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+                <footer class="page-footer">
+                    <span>FindUHouse</span> · Seu próximo lar começa aqui.
+                </footer>
+            </div>
+        </main>
+    </div>
+
+    <script src="../js/configuracoes-aluno.js"></script>
 </body>
+
 </html>
