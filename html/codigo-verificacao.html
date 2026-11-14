@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#514ee2">
+  <title>FindUHouse | Recuperar senha</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat+Brush&family=Kumbh+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/codigo-verificacao.css">
+</head>
+<body>
+  <main class="page">
+    <aside class="hero">
+      <div class="hero__content">
+        <a class="logo" href="login.html" aria-label="FindUHouse">
+          <img src="../imagens/logo.png" alt="Logo FindUHouse">
+        </a>
+        <p class="hero__tagline">Mais que um lugar para morar, é<br>o lugar certo para a sua fase.</p>
+
+        <ul class="features">
+          <li class="feature">
+            <span class="feature__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="8" r="3"/><circle cx="5" cy="10" r="2"/><circle cx="19" cy="10" r="2"/>
+                <path d="M6.5 20a5.5 5.5 0 0 1 11 0Z"/><path d="M1.5 17a3.5 3.5 0 0 1 4-3M22.5 17a3.5 3.5 0 0 0-4-3"/>
+              </svg>
+            </span>
+            <div><h3>Encontre sua república ideal</h3><p>Conecte-se com casas e repúblicas que combinam com o seu estilo de vida.</p></div>
+          </li>
+          <li class="feature">
+            <span class="feature__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 11 12 3l9 8v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1Z"/>
+              </svg>
+            </span>
+            <div><h3>Para proprietários</h3><p>Divulgue sua residência e encontre estudantes compatíveis.</p></div>
+          </li>
+          <li class="feature">
+            <span class="feature__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 3 4 6v6c0 4.5 3.2 8 8 9 4.8-1 8-4.5 8-9V6Z"/><path d="m8.5 12 2.5 2.5 4.5-5"/>
+              </svg>
+            </span>
+            <div><h3>Ambiente seguro</h3><p>Perfis verificados e mais tranquilidade para todos.</p></div>
+          </li>
+        </ul>
+
+        <div class="hero__slogan">
+          <span>Estudantes<br>conectando<br>lares!</span>
+          <svg viewBox="0 0 170 20" preserveAspectRatio="none" aria-hidden="true"><path d="M3 17C50 6 110 3 167 4" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round"/></svg>
+        </div>
+      </div>
+    </aside>
+
+    <section class="login">
+      <p class="login__top"><a href="login.html">Voltar ao login</a></p>
+
+      <div class="login__box">
+        <div class="step-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/><path d="M8 3h8"/>
+          </svg>
+        </div>
+        <h1>Esqueceu sua senha?</h1>
+        <p class="login__subtitle">Não se preocupe! Vamos ajudar você a recuperar o acesso à sua conta.</p>
+
+        <form id="solicitarCodigoForm" novalidate>
+          <div class="field">
+            <label for="email">E-mail cadastrado</label>
+            <div class="input">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <rect x="2.5" y="5" width="19" height="14" rx="2"/><path d="m3 7 9 6.5L21 7"/>
+              </svg>
+              <input type="email" id="email" name="email" placeholder="seu@puccampinas.edu.br" autocomplete="email" required>
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn--primary" id="enviarCodigo">Enviar código</button>
+        </form>
+
+        <form id="verificarCodigoForm" class="verification-form" hidden novalidate>
+          <div class="code-heading">
+            <h2>Confira seu e-mail</h2>
+            <p>Enviamos um código de 4 dígitos para <strong id="emailDestino"></strong>. Digite-o abaixo para continuar.</p>
+          </div>
+
+          <label class="code-label" for="codigo-1">Código de verificação</label>
+          <div class="code-inputs" role="group" aria-label="Código de verificação com quatro dígitos">
+            <input class="code-input" id="codigo-1" name="codigo-1" type="text" inputmode="numeric" autocomplete="one-time-code" maxlength="1" pattern="[0-9]" aria-label="Primeiro dígito" required>
+            <input class="code-input" id="codigo-2" name="codigo-2" type="text" inputmode="numeric" maxlength="1" pattern="[0-9]" aria-label="Segundo dígito" required>
+            <input class="code-input" id="codigo-3" name="codigo-3" type="text" inputmode="numeric" maxlength="1" pattern="[0-9]" aria-label="Terceiro dígito" required>
+            <input class="code-input" id="codigo-4" name="codigo-4" type="text" inputmode="numeric" maxlength="1" pattern="[0-9]" aria-label="Quarto dígito" required>
+          </div>
+
+          <p class="resend">Não recebeu? <button type="button" class="text-button" id="reenviarCodigo" disabled>Reenviar código <span id="contador">(60s)</span></button></p>
+          <button type="submit" class="btn btn--primary">Verificar código</button>
+          <button type="button" class="back-button" id="trocarEmail">Usar outro e-mail</button>
+        </form>
+
+        <p class="form-message" id="mensagem" role="alert" aria-live="polite"></p>
+      </div>
+    </section>
+  </main>
+
+  <script src="../js/codigo-verificacao.js"></script>
+</body>
+</html>
