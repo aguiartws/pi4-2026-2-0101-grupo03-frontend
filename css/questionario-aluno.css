@@ -31,11 +31,11 @@ html, body {
 
 body {
   font-family: 'Kumbh Sans', system-ui, -apple-system, sans-serif;
-  background: linear-gradient(135deg, #f5f3ff 0%, #ede9fe 60%, #e0e7ff 100%);
+  background-color: #f5f3ff; /* Fundo sólido, sem faixas */
   color: var(--texto);
   min-height: 100vh;
   display: flex;
-  justify-content: center; /* Mantém centralizado na horizontal */
+  justify-content: center;
   padding: 24px 16px;
 }
 
@@ -61,7 +61,7 @@ body {
   display: flex;
   flex-direction: column;
   gap: 20px;
-  margin: auto 0; /* Centraliza verticalmente se couber, permite scroll se não */
+  margin: auto 0; /* Permite scroll e não corta o topo */
 }
 
 /* ---------- Cabeçalho ---------- */

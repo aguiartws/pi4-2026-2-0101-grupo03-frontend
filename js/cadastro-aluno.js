@@ -82,11 +82,14 @@ document.addEventListener("DOMContentLoaded", () => {
                     telefone: document.getElementById("telefone").value.trim(),
                     senha: senha.value,
                     curso: document.getElementById("curso").value.trim()
-                    // TODO: cidade ainda não é aceita pelo backend.
                 }
             });
 
-            window.location.href = "login-aluno.html";
+            // Limpa a memória para garantir que ele faça o questionário agora
+            localStorage.removeItem('finduhouse_perfil_aluno');
+
+            // Vai direto para o questionário
+            window.location.href = "questionario-aluno.html";
         } catch (erro) {
             mensagemErro.textContent = mensagemDeErro(erro);
         } finally {

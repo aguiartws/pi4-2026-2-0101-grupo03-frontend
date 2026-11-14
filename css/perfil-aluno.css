@@ -1,0 +1,434 @@
+/* =========================================================
+   RESET E BASE
+   ========================================================= */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --roxo-1: #7c3aed;
+  --roxo-2: #a855f7;
+  --roxo-escuro: #4c1d95;
+  --texto: #1e1b2e;
+  --texto-suave: #6b7280;
+  --bg: #f3f4fb;
+  --card: #ffffff;
+  --radius: 16px;
+  --shadow: 0 1px 2px rgba(31, 35, 64, 0.04), 0 4px 16px rgba(31, 35, 64, 0.05);
+  
+  /* Largura da barra lateral para controlar a transição */
+  --sidebar-width: 260px;
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  font-family: 'Kumbh Sans', system-ui, -apple-system, sans-serif;
+  background: var(--bg);
+  color: var(--texto);
+  min-height: 100vh;
+}
+
+/* =========================================================
+   ESTRUTURA PRINCIPAL (GRID)
+   ========================================================= */
+.app {
+  display: grid;
+  grid-template-columns: var(--sidebar-width) 1fr;
+  min-height: 100vh;
+  transition: grid-template-columns 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Estado retraído */
+.app.collapsed {
+  --sidebar-width: 88px; /* Largura apenas para os ícones */
+}
+
+/* =========================================================
+   BARRA LATERAL (SIDEBAR)
+   ========================================================= */
+.sidebar {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 28px 20px;
+  background: #fafaff;
+  border-right: 1px solid #e6e8f5;
+  transition: padding 0.3s ease;
+  overflow: visible; /* Permite que o botão para fora */
+}
+
+/* Botão Retrátil (A setinha) */
+.sidebar-toggle {
+  position: absolute;
+  right: -14px;
+  top: 36px;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #fff;
+  border: 1px solid #e6e8f5;
+  color: var(--roxo-1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 10;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s ease, background 0.2s ease;
+}
+
+.sidebar-toggle:hover {
+  background: #f5f3ff;
+}
+
+.app.collapsed .sidebar-toggle svg {
+  transform: rotate(180deg);
+}
+
+/* Logo */
+.logo {
+  display: block;
+  margin-bottom: 60px;
+  transition: opacity 0.3s ease;
+}
+
+.logo img {
+  display: block;
+  width: 100%;
+  max-width: 170px;
+  height: auto;
+  transition: max-width 0.3s ease;
+}
+
+/* Navegação */
+.nav {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 16px;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.2;
+  color: var(--texto-suave);
+  text-decoration: none;
+  transition: background 0.2s ease, color 0.2s ease, padding 0.3s ease;
+  white-space: nowrap;
+}
+
+.nav-item svg {
+  width: 22px;
+  height: 22px;
+  flex-shrink: 0;
+}
+
+.nav-item:hover {
+  background: rgba(124, 58, 237, 0.06);
+  color: var(--roxo-1);
+}
+
+.nav-item.active {
+  background: linear-gradient(135deg, var(--roxo-1), var(--roxo-2));
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(124, 58, 237, 0.25);
+}
+
+.nav-item.active svg {
+  color: #fff;
+}
+
+.sidebar-footer {
+  margin-top: auto;
+  height: 120px;
+  border-radius: var(--radius);
+  background: #ebebfa;
+  transition: opacity 0.3s ease;
+}
+
+/* --- ESTADO RETRAÍDO (Ajustes) --- */
+.app.collapsed .sidebar {
+  padding: 28px 16px; /* Diminui o padding */
+}
+
+.app.collapsed .logo {
+  opacity: 0; /* Esconde a logo por completo ou substitui por um ícone */
+  pointer-events: none;
+}
+
+.app.collapsed .nav-item span {
+  display: none; /* Esconde os textos */
+}
+
+.app.collapsed .nav-item {
+  justify-content: center;
+  padding: 14px 0;
+}
+
+.app.collapsed .sidebar-footer {
+  display: none;
+}
+
+/* =========================================================
+   CONTEÚDO PRINCIPAL
+   ========================================================= */
+.content {
+  padding: 30px 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  overflow-y: auto;
+  min-width: 0; /* Impede que o conteúdo quebre o grid */
+}
+
+.card {
+  background: var(--card);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+/* --- Banner de Boas-Vindas --- */
+.welcome-card {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.banner-bg {
+  height: 90px;
+  width: 100%;
+  background-image: 
+    radial-gradient(circle at 80% 30%, rgba(255, 190, 120, 0.3), transparent 35%),
+    linear-gradient(120deg, #141a2b 0%, #232b45 45%, #3a4a63 75%, #6b7f94 100%);
+}
+
+.welcome-body {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  padding: 0 28px 24px 140px;
+  min-height: 80px;
+}
+
+.welcome-body .avatar {
+  position: absolute;
+  left: 28px;
+  top: -44px;
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  border: 5px solid var(--card);
+  background: linear-gradient(135deg, var(--roxo-1), var(--roxo-2));
+  color: #fff;
+  font-size: 36px;
+  font-weight: 800;
+  display: grid;
+  place-items: center;
+  box-shadow: var(--shadow);
+}
+
+.welcome-info {
+  margin-top: 18px;
+}
+
+.welcome-info h1 {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--roxo-escuro);
+  margin-bottom: 6px;
+}
+
+.welcome-info p {
+  font-size: 14px;
+  color: var(--texto-suave);
+  line-height: 1.5;
+}
+
+/* --- Cartão Sobre Mim --- */
+.about-card {
+  padding: 24px;
+}
+
+.about-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.about-header h2 {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--roxo-escuro);
+}
+
+.edit-link {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--roxo-1);
+  text-decoration: none;
+  background: #f5f3ff;
+  padding: 6px 14px;
+  border-radius: 99px;
+  transition: background 0.2s ease;
+}
+
+.edit-link:hover {
+  background: #ede9fe;
+}
+
+.about-text {
+  font-size: 14px;
+  color: var(--texto);
+  line-height: 1.6;
+  white-space: pre-wrap;
+}
+
+/* --- Cartão de Estatísticas --- */
+.stats-card {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* Cria duas colunas iguais */
+  gap: 20px;
+  padding: 24px;
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  background: #fafafa;
+  padding: 20px;
+  border-radius: 12px;
+  border: 1px solid #f3f4f6;
+}
+
+.stat-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.stat-icon {
+  font-size: 28px;
+}
+
+.stat-header div {
+  display: flex;
+  flex-direction: column;
+}
+
+.stat strong {
+  font-size: 24px;
+  font-weight: 800;
+  color: var(--roxo-escuro);
+  line-height: 1.1;
+}
+
+.stat span {
+  font-size: 13px;
+  color: var(--texto-suave);
+  font-weight: 500;
+  margin-top: 2px;
+}
+
+/* Botão Pequeno dentro das estatísticas */
+.btn-small {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--roxo-1);
+  background: rgba(124, 58, 237, 0.08);
+  padding: 10px 14px;
+  border-radius: 8px;
+  text-decoration: none;
+  text-align: center;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.btn-small:hover {
+  background: rgba(124, 58, 237, 0.15);
+  color: var(--roxo-escuro);
+}
+
+/* =========================================================
+   RESPONSIVO
+   ========================================================= */
+@media (max-width: 800px) {
+  .app {
+    grid-template-columns: 1fr; /* No celular a barra vira cabeçalho */
+  }
+
+  .sidebar {
+    flex-direction: row;
+    align-items: center;
+    padding: 16px;
+    border-right: none;
+    border-bottom: 1px solid #e6e8f5;
+  }
+
+  .sidebar-toggle {
+    display: none; /* Esconde a setinha no mobile */
+  }
+
+  .logo {
+    margin-bottom: 0;
+    margin-right: 20px;
+  }
+
+  .logo img {
+    max-width: 130px;
+  }
+
+  .nav {
+    flex-direction: row;
+    overflow-x: auto;
+  }
+  
+  .nav-item span {
+    display: none; /* Só ícones no mobile */
+  }
+
+  .sidebar-footer {
+    display: none;
+  }
+
+  .content {
+    padding: 20px 16px;
+  }
+
+  .welcome-body {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 0 20px 24px;
+  }
+
+  .welcome-body .avatar {
+    position: relative;
+    left: 0;
+    top: -44px;
+    margin-bottom: -30px;
+  }
+
+  .welcome-info {
+    margin-top: 10px;
+  }
+
+  .stats-card {
+    grid-template-columns: 1fr; /* Uma coluna no mobile */
+  }
+}

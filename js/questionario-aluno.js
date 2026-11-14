@@ -1,19 +1,16 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-  /* =========================================================
-     LISTA DE PERGUNTAS
-     ========================================================= */
   const PERGUNTAS = [
-    { icon: '🔊', texto: 'Você aceita barulho depois das 22h durante a semana?', chave: 'aceitaBarulhoDepoisDas22' },
-    { icon: '🚬', texto: 'Você fuma?', chave: 'fuma' },
-    { icon: '🐶', texto: 'Você aceita animais de estimação?', chave: 'aceitaAnimais' },
-    { icon: '🎉', texto: 'Você gosta de receber visitas em casa?', chave: 'gostaReceberVisitas' },
-    { icon: '🍳', texto: 'Você gosta de cozinhar em casa?', chave: 'gostaCozinhar' },
-    { icon: '📚', texto: 'Você costuma estudar em casa?', chave: 'estudaEmCasa' },
-    { icon: '🧹', texto: 'Você aceita dividir as tarefas domésticas?', chave: 'aceitaDividirTarefas' },
-    { icon: '🛏️', texto: 'Você aceitaria dividir o quarto com outra pessoa?', chave: 'aceitaDividirQuarto' },
-    { icon: '🎶', texto: 'Você topa que a casa receba festas de vez em quando?', chave: 'aceitaFestas' },
-    { icon: '🤝', texto: 'Você é uma pessoa comunicativa com colegas?', chave: 'comunicativo' },
+    { icon: '🔊', texto: 'Você aceita barulho depois das 22h durante a semana?' },
+    { icon: '🚬', texto: 'Você fuma?' },
+    { icon: '🐶', texto: 'Você aceita animais de estimação?' },
+    { icon: '🎉', texto: 'Você gosta de receber visitas em casa?' },
+    { icon: '🍳', texto: 'Você gosta de cozinhar em casa?' },
+    { icon: '📚', texto: 'Você costuma estudar em casa?' },
+    { icon: '🧹', texto: 'Você aceita dividir as tarefas domésticas?' },
+    { icon: '🛏️', texto: 'Você aceitaria dividir o quarto com outra pessoa?' },
+    { icon: '🎶', texto: 'Você topa que a casa receba festas de vez em quando?' },
+    { icon: '🤝', texto: 'Você é uma pessoa comunicativa com colegas?' },
   ];
 
   const LIMITE_ARRASTO = 100;
@@ -45,20 +42,6 @@ document.addEventListener('DOMContentLoaded', () => {
   let animando      = false;
   let sobreMimTexto = '';
   const respostas   = [];
-
-  function obterSessaoEstudante() {
-    const sessao = obterSessao();
-    const estudanteId = sessao && Number(sessao.usuarioId);
-
-    if (!sessao || sessao.perfil !== 'estudante' ||
-        !Number.isInteger(estudanteId) || estudanteId <= 0) {
-      alert('Sua sessão de estudante não é válida. Faça login novamente.');
-      window.location.href = 'login.html';
-      return null;
-    }
-
-    return estudanteId;
-  }
 
   /* =========================================================
      CRIAÇÃO DOS CARTÕES
@@ -364,47 +347,15 @@ document.addEventListener('DOMContentLoaded', () => {
   /* =========================================================
      CONFIRMAR CADASTRO E SALVAR
      ========================================================= */
-  btnConfirmar.addEventListener('click', async () => {
-    if (btnConfirmar.disabled) return;
-
-    const estudanteId = obterSessaoEstudante();
-    if (!estudanteId) return;
-
-    if (respostas.length !== PERGUNTAS.length ||
-        respostas.some((resposta) => !['sim', 'nao'].includes(resposta.resposta))) {
-      alert('Responda todas as perguntas antes de continuar.');
-      return;
-    }
-
-    // Junta os dados do questionário
+  btnConfirmar.addEventListener('click', () => {
     const dadosFinais = {
       respostas: respostas,
       sobreMim: sobreMimTexto
     };
 
-    const respostasApi = Object.fromEntries(
-      PERGUNTAS.map((pergunta, index) => [
-        pergunta.chave,
-        respostas[index].resposta === 'sim'
-      ])
-    );
+    localStorage.setItem('finduhouse_perfil_aluno', JSON.stringify(dadosFinais));
 
-    btnConfirmar.disabled = true;
-
-    try {
-      await chamarApi('/questionario/questionario', {
-        metodo: 'POST',
-        corpo: { estudanteId, respostas: respostasApi }
-      });
-
-      localStorage.setItem('finduhouse_perfil_aluno', JSON.stringify(dadosFinais));
-      alert('Questionário salvo com sucesso!');
-      window.location.href = 'perfil-aluno.html';
-    } catch (erro) {
-      alert(mensagemDeErro(erro));
-    } finally {
-      btnConfirmar.disabled = false;
-    }
+    window.location.href = 'perfil-aluno.html';
   });
 
   /* ---------------- Inicialização ---------------- */
