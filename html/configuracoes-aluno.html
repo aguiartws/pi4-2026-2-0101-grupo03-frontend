@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FindUHouse | Configurações </title>
+  <link rel="stylesheet" href="../css/configuracoes-aluno.css">
+  <link href="https://fonts.googleapis.com/css2?family=Kumbh+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+  <main class="settings-container">
+    <header class="page-header">
+      <div class="header-icon"><i class="fa-solid fa-gear"></i></div>
+      <div><h1>Configurações</h1><p>Gerencie suas informações pessoais</p></div>
+    </header>
+
+    <form id="formConfiguracoes" enctype="multipart/form-data">
+      <section class="settings-card">
+        <div class="section-heading"><span class="section-icon"><i class="fa-solid fa-camera"></i></span><div><h2>Foto de perfil</h2><p>Adicione uma foto para personalizar seu perfil.</p></div></div>
+        <div class="photo-content">
+          <div class="avatar-wrapper"><img id="fotoPreview" src="../imagens/avatar-padrao.png" alt="Pré-visualização da foto de perfil"><span class="avatar-camera"><i class="fa-solid fa-camera"></i></span></div>
+          <div class="photo-actions">
+            <label for="fotoPerfil" class="btn-secondary"><i class="fa-solid fa-upload"></i> Escolher foto</label>
+            <input type="file" id="fotoPerfil" name="fotoPerfil" accept="image/png,image/jpeg,image/webp" hidden>
+            <button type="button" id="removerFoto" class="btn-text">Remover foto</button>
+            <small>JPG, PNG ou WEBP. Tamanho máximo: 5 MB.</small>
+            <span id="erroFoto" class="field-error" role="alert"></span>
+          </div>
+        </div>
+      </section>
+
+      <section class="settings-card">
+        <div class="section-heading"><span class="section-icon"><i class="fa-solid fa-user"></i></span><div><h2>Dados pessoais</h2><p>Atualize as informações da sua conta.</p></div></div>
+        <div class="form-grid">
+          <div class="form-group full-width"><label for="nome">Nome</label><input type="text" id="nome" name="nome" placeholder="Digite seu nome" autocomplete="name" required></div>
+          <div class="form-group" id="grupoCurso"><label for="curso">Curso</label><input type="text" id="curso" name="curso" placeholder="Digite seu curso"></div>
+          <div class="form-group"><label for="email">E-mail</label><input type="email" id="email" name="email" placeholder="Digite seu e-mail" autocomplete="email" required></div>
+          <div class="form-group"><label for="telefone">Número de telefone</label><input type="tel" id="telefone" name="telefone" placeholder="(00) 00000-0000" autocomplete="tel"></div>
+          <div class="form-group"><label for="cidade" id="labelCidade">Cidade de interesse da moradia</label><input type="text" id="cidade" name="cidade" placeholder="Digite a cidade"></div>
+        </div>
+      </section>
+
+      <section class="settings-card">
+        <div class="section-heading"><span class="section-icon"><i class="fa-solid fa-lock"></i></span><div><h2>Alterar senha</h2><p>Preencha somente se desejar criar uma nova senha.</p></div></div>
+        <div class="form-grid">
+          <div class="form-group"><label for="novaSenha">Nova senha</label><div class="password-wrapper"><input type="password" id="novaSenha" name="novaSenha" placeholder="Digite sua nova senha" autocomplete="new-password"><button type="button" class="toggle-password" data-target="novaSenha" aria-label="Mostrar senha"><i class="fa-regular fa-eye"></i></button></div><small class="field-hint">A senha deve ter pelo menos 8 caracteres.</small></div>
+          <div class="form-group"><label for="confirmarSenha">Confirmar nova senha</label><div class="password-wrapper"><input type="password" id="confirmarSenha" name="confirmarSenha" placeholder="Digite novamente a nova senha" autocomplete="new-password"><button type="button" class="toggle-password" data-target="confirmarSenha" aria-label="Mostrar senha"><i class="fa-regular fa-eye"></i></button></div><span id="erroSenha" class="field-error" role="alert"></span></div>
+        </div>
+      </section>
+      <div class="form-feedback" id="mensagem" role="status" aria-live="polite"></div>
+      <div class="form-actions"><button type="reset" class="btn-cancel">Cancelar</button><button type="submit" class="btn-save"><i class="fa-solid fa-floppy-disk"></i> Salvar alterações</button></div>
+    </form>
+  </main>
+  <script src="../js/configuracoes.js"></script>
+</body>
+</html>

@@ -1,6 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Caveat+Brush&family=Kumbh+Sans:wght@300;400;500;600;700;800&display=swap');
 
-/* Mesmas variáveis e mesma lógica de tamanho das telas de login */
 :root {
   --primary: #8684ff;
   --primary-dark: #3330b8;
@@ -19,7 +18,6 @@
   --background: #f8f8fd;
   --danger: #d92d4a;
 
-  /* TAMANHO DO LOGO (igual ao login.css) */
   --logo-h: clamp(72px, 20vh, 200px);
   --logo-w: calc(var(--logo-h) * 1.69);
 }
@@ -53,7 +51,6 @@ a {
   text-decoration: none;
 }
 
-/* minmax(0, ...) impede que o conteúdo empurre as colunas */
 .layout {
   min-height: 100vh;
   min-height: 100dvh;
@@ -61,9 +58,7 @@ a {
   grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
 }
 
-/* ==========================================================
-   LADO ESQUERDO
-   ========================================================== */
+/* começa lado esquerdo */
 
 .hero {
   position: relative;
@@ -137,7 +132,7 @@ a {
   flex-shrink: 0;
 }
 
-/* TEXTO DO BANNER */
+/* texto banner */
 
 .hero-content {
   position: relative;
@@ -165,7 +160,7 @@ a {
   line-height: 1.7;
 }
 
-/* BENEFÍCIOS */
+/* benefícios */
 
 .features {
   display: grid;
@@ -203,8 +198,7 @@ a {
   height: 18px;
 }
 
-/* FRASE FINAL (mesmo design das telas de login)
-   Fica logo abaixo dos benefícios. As quebras de linha vêm do <br> no HTML. */
+/* frase final */
 
 .hero-footer {
   position: relative;
@@ -229,9 +223,7 @@ a {
   transform: rotate(6deg);
 }
 
-/* ==========================================================
-   LADO DIREITO: FORMULÁRIO
-   ========================================================== */
+/* começa lado direito */
 
 .form-section {
   min-width: 0;
@@ -251,7 +243,6 @@ a {
   margin-bottom: clamp(14px, 2.8vh, 28px);
 }
 
-/* Mesmo selo "Acesso do Aluno" / "Acesso do Proprietário" das telas de login */
 .profile-label {
   display: flex;
   align-items: center;
@@ -287,11 +278,7 @@ a {
   line-height: 1.8;
 }
 
-/* ==========================================================
-   CAMPOS
-   Mesmo visual dos campos do login: borda suave, cantos
-   arredondados e brilho lilás quando o campo está em foco.
-   ========================================================== */
+
 
 .form-group {
   margin-bottom: clamp(8px, 1.8vh, 16px);
@@ -364,7 +351,7 @@ a {
   box-shadow: 0 0 0 4px rgba(229, 72, 77, 0.15);
 }
 
-/* CAMPOS DE SENHA E OLHO */
+/* campo da senha */
 
 .password-container {
   position: relative;
@@ -408,7 +395,7 @@ a {
   pointer-events: none;
 }
 
-/* MENSAGEM DE ERRO */
+/* erro mensagem */
 
 .mensagem-erro {
   min-height: 18px;
@@ -419,7 +406,7 @@ a {
   line-height: 1.5;
 }
 
-/* BOTÃO CRIAR CONTA (mesmo botão do login) */
+/* botao criar conta */
 
 .btn-cadastro {
   width: 100%;
@@ -460,7 +447,6 @@ a {
   box-shadow: none;
 }
 
-/* LINKS DENTRO DO FORMULÁRIO (ex.: "Já tem conta? Entrar") */
 
 .form-container a {
   color: var(--accent);
@@ -478,11 +464,9 @@ a {
   text-align: center;
 }
 
-/* ==========================================================
-   RESPONSIVIDADE (mesmos pontos de quebra das telas de login)
-   ========================================================== */
+/* responsividade */
 
-/* Telas grandes */
+/* telas grandes */
 @media (min-width: 1600px) {
   .hero {
     padding-inline: 80px;
@@ -506,14 +490,14 @@ a {
   }
 }
 
-/* Notebooks */
+/* notebooks */
 @media (max-width: 1200px) {
   .hero {
     padding-inline: 40px;
   }
 }
 
-/* Tablet na horizontal */
+/* tablet na horizontal */
 @media (max-width: 1000px) {
   .hero {
     padding-inline: 35px;
@@ -524,7 +508,7 @@ a {
   }
 }
 
-/* Tablet na vertical e celular: uma coluna */
+/* tablet na vertical e celular: uma coluna */
 @media (max-width: 800px) {
   :root {
     --logo-h: 130px;
@@ -572,7 +556,6 @@ a {
     margin: 0 auto;
   }
 
-  /* 16px evita o zoom automático do iPhone ao tocar no campo */
   .form-group input,
   .form-group select,
   .form-group textarea {
@@ -580,7 +563,6 @@ a {
   }
 }
 
-/* Celulares: cabeçalho enxuto para o formulário aparecer logo */
 @media (max-width: 600px) {
   :root {
     --logo-h: 106px;
@@ -618,14 +600,14 @@ a {
   }
 }
 
-/* Celulares muito estreitos */
+/* celulares muito estreitos */
 @media (max-width: 360px) {
   .hero-content p {
     display: none;
   }
 }
 
-/* Celular deitado: cabeçalho compacto */
+/* celular deitado */
 @media (max-width: 900px) and (max-height: 500px) and (orientation: landscape) {
   :root {
     --logo-h: 89px;
@@ -651,7 +633,7 @@ a {
   }
 }
 
-/* Telas de toque: sem efeito de "subir" que fica preso depois do toque */
+/* telas de toque */
 @media (hover: none) {
   .btn-cadastro:hover {
     transform: none;
