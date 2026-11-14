@@ -1,5 +1,4 @@
-// URL da API para o nginx ou para o Live Server.
-const API_BASE = location.port === "8080" ? "/api" : "http://localhost:8081/api";
+const API_BASE = "http://localhost:8081/api";
 
 async function chamarApi(caminho, { metodo = "GET", corpo } = {}) {
     const cabecalhos = {
@@ -107,3 +106,12 @@ function mensagemDeErro(erro) {
 
     return mensagens[erro && erro.codigo] || (erro && erro.mensagem) || "Algo deu errado. Tente novamente.";
 }
+
+window.api = {
+  chamarApi,
+  salvarSessao,
+  obterSessao,
+  limparSessao,
+  exigirLogin,
+  mensagemDeErro
+};
