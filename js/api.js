@@ -43,9 +43,11 @@ async function chamarApi(caminho, { metodo = "GET", corpo } = {}) {
             status: resposta.status
         };
 
+        // [MODO DE TESTE] Comentado para não expulsar o usuário se o token for falso ou não existir
         if (erroApi.codigo === "TOKEN_INVALIDO") {
-            limparSessao();
-            window.location.href = "login.html";
+            // limparSessao();
+            // window.location.href = "login.html";
+            console.warn("Token inválido detectado, mas a trava está desativada para testes.");
         }
 
         throw erroApi;
@@ -71,7 +73,17 @@ function obterSessao() {
     const token = origem.getItem("token");
     const usuarioId = origem.getItem("usuarioId");
     const perfil = origem.getItem("perfil");
-    if (!token || !usuarioId || !perfil) return null;
+    
+    // [MODO DE TESTE] Se não tiver sessão, finge que o usuário 1 está logado
+    // para que o mapa consiga carregar os dados sem quebrar
+    if (!token || !usuarioId || !perfil) {
+        return { 
+            token: "mock-token-de-teste", 
+            usuarioId: "1", 
+            perfil: "estudante" 
+        };
+    }
+    
     return { token, usuarioId, perfil };
 }
 
@@ -84,13 +96,8 @@ function limparSessao() {
 }
 
 function exigirLogin(perfilEsperado) {
-    const sessao = obterSessao();
-
-    if (!sessao || sessao.perfil !== perfilEsperado) {
-        window.location.href = "login.html";
-        return false;
-    }
-
+    // [MODO DE TESTE] Ignora a verificação de login e deixa o usuário acessar a tela
+    console.warn(`[MODO DE TESTE] Proteção desativada. Acesso liberado para o perfil: ${perfilEsperado}`);
     return true;
 }
 

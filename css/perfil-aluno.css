@@ -10,17 +10,20 @@
 }
 
 :root {
-  --roxo-1: #7c3aed;
-  --roxo-2: #a855f7;
-  --roxo-escuro: #4c1d95;
-  --texto: #1e1b2e;
-  --texto-suave: #6b7280;
-  --bg: #f3f4fb;
+  --primary: #8684ff;
+  --primary-dark: #3330b8;
+  --accent: #514ee2;
+  --primary-soft: #eceafd;
+  --lilac: #c9c3fa;
+  --title: #0f1535;
+  --text: #4a5068;
+  --muted: #7b8098;
+  --border: #e6e7f0;
+  --radius: 14px;
+  --font: "Kumbh Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --background: #f8f8fd;
   --card: #ffffff;
-  --radius: 16px;
   --shadow: 0 1px 2px rgba(31, 35, 64, 0.04), 0 4px 16px rgba(31, 35, 64, 0.05);
-  
-  /* Largura da barra lateral para controlar a transição */
   --sidebar-width: 260px;
 }
 
@@ -29,9 +32,9 @@ html, body {
 }
 
 body {
-  font-family: 'Kumbh Sans', system-ui, -apple-system, sans-serif;
-  background: var(--bg);
-  color: var(--texto);
+  font-family: var(--font);
+  background: var(--background);
+  color: var(--text);
   min-height: 100vh;
 }
 
@@ -45,9 +48,8 @@ body {
   transition: grid-template-columns 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Estado retraído */
 .app.collapsed {
-  --sidebar-width: 88px; /* Largura apenas para os ícones */
+  --sidebar-width: 88px;
 }
 
 /* =========================================================
@@ -59,12 +61,10 @@ body {
   flex-direction: column;
   padding: 28px 20px;
   background: #fafaff;
-  border-right: 1px solid #e6e8f5;
+  border-right: 1px solid var(--border);
   transition: padding 0.3s ease;
-  overflow: visible; /* Permite que o botão para fora */
 }
 
-/* Botão Retrátil (A setinha) */
 .sidebar-toggle {
   position: absolute;
   right: -14px;
@@ -73,26 +73,25 @@ body {
   height: 28px;
   border-radius: 50%;
   background: #fff;
-  border: 1px solid #e6e8f5;
-  color: var(--roxo-1);
+  border: 1px solid var(--border);
+  color: var(--primary);
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  z-index: 10;
+  z-index: 100;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
   transition: transform 0.3s ease, background 0.2s ease;
 }
 
 .sidebar-toggle:hover {
-  background: #f5f3ff;
+  background: var(--primary-soft);
 }
 
 .app.collapsed .sidebar-toggle svg {
   transform: rotate(180deg);
 }
 
-/* Logo */
 .logo {
   display: block;
   margin-bottom: 60px;
@@ -107,7 +106,6 @@ body {
   transition: max-width 0.3s ease;
 }
 
-/* Navegação */
 .nav {
   display: flex;
   flex-direction: column;
@@ -123,7 +121,7 @@ body {
   font-size: 14px;
   font-weight: 600;
   line-height: 1.2;
-  color: var(--texto-suave);
+  color: var(--muted);
   text-decoration: none;
   transition: background 0.2s ease, color 0.2s ease, padding 0.3s ease;
   white-space: nowrap;
@@ -136,49 +134,37 @@ body {
 }
 
 .nav-item:hover {
-  background: rgba(124, 58, 237, 0.06);
-  color: var(--roxo-1);
+  background: var(--primary-soft);
+  color: var(--primary-dark);
 }
 
 .nav-item.active {
-  background: linear-gradient(135deg, var(--roxo-1), var(--roxo-2));
+  background: linear-gradient(135deg, var(--primary), var(--accent));
   color: #fff;
-  box-shadow: 0 4px 12px rgba(124, 58, 237, 0.25);
+  box-shadow: 0 4px 12px rgba(134, 132, 255, 0.25);
 }
 
 .nav-item.active svg {
   color: #fff;
 }
 
-.sidebar-footer {
-  margin-top: auto;
-  height: 120px;
-  border-radius: var(--radius);
-  background: #ebebfa;
-  transition: opacity 0.3s ease;
-}
-
-/* --- ESTADO RETRAÍDO (Ajustes) --- */
+/* --- ESTADO RETRAÍDO --- */
 .app.collapsed .sidebar {
-  padding: 28px 16px; /* Diminui o padding */
+  padding: 28px 16px; 
 }
 
 .app.collapsed .logo {
-  opacity: 0; /* Esconde a logo por completo ou substitui por um ícone */
+  opacity: 0; 
   pointer-events: none;
 }
 
 .app.collapsed .nav-item span {
-  display: none; /* Esconde os textos */
+  display: none; 
 }
 
 .app.collapsed .nav-item {
   justify-content: center;
   padding: 14px 0;
-}
-
-.app.collapsed .sidebar-footer {
-  display: none;
 }
 
 /* =========================================================
@@ -190,7 +176,7 @@ body {
   flex-direction: column;
   gap: 20px;
   overflow-y: auto;
-  min-width: 0; /* Impede que o conteúdo quebre o grid */
+  min-width: 0;
 }
 
 .card {
@@ -199,7 +185,7 @@ body {
   box-shadow: var(--shadow);
 }
 
-/* --- Banner de Boas-Vindas --- */
+/* --- Banner Mesclado --- */
 .welcome-card {
   position: relative;
   overflow: hidden;
@@ -210,9 +196,7 @@ body {
 .banner-bg {
   height: 90px;
   width: 100%;
-  background-image: 
-    radial-gradient(circle at 80% 30%, rgba(255, 190, 120, 0.3), transparent 35%),
-    linear-gradient(120deg, #141a2b 0%, #232b45 45%, #3a4a63 75%, #6b7f94 100%);
+  background: linear-gradient(120deg, var(--title) 0%, var(--primary-dark) 50%, var(--primary) 100%);
 }
 
 .welcome-body {
@@ -232,7 +216,7 @@ body {
   height: 96px;
   border-radius: 50%;
   border: 5px solid var(--card);
-  background: linear-gradient(135deg, var(--roxo-1), var(--roxo-2));
+  background: linear-gradient(135deg, var(--primary), var(--accent));
   color: #fff;
   font-size: 36px;
   font-weight: 800;
@@ -246,15 +230,18 @@ body {
 }
 
 .welcome-info h1 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
   font-size: 22px;
   font-weight: 700;
-  color: var(--roxo-escuro);
+  color: var(--title);
   margin-bottom: 6px;
 }
 
 .welcome-info p {
   font-size: 14px;
-  color: var(--texto-suave);
+  color: var(--muted);
   line-height: 1.5;
 }
 
@@ -273,27 +260,27 @@ body {
 .about-header h2 {
   font-size: 16px;
   font-weight: 700;
-  color: var(--roxo-escuro);
+  color: var(--title);
 }
 
 .edit-link {
   font-size: 13px;
   font-weight: 700;
-  color: var(--roxo-1);
+  color: var(--accent);
   text-decoration: none;
-  background: #f5f3ff;
+  background: var(--primary-soft);
   padding: 6px 14px;
   border-radius: 99px;
   transition: background 0.2s ease;
 }
 
 .edit-link:hover {
-  background: #ede9fe;
+  background: var(--lilac);
 }
 
 .about-text {
   font-size: 14px;
-  color: var(--texto);
+  color: var(--text);
   line-height: 1.6;
   white-space: pre-wrap;
 }
@@ -301,7 +288,7 @@ body {
 /* --- Cartão de Estatísticas --- */
 .stats-card {
   display: grid;
-  grid-template-columns: 1fr 1fr; /* Cria duas colunas iguais */
+  grid-template-columns: 1fr 1fr;
   gap: 20px;
   padding: 24px;
 }
@@ -310,10 +297,10 @@ body {
   display: flex;
   flex-direction: column;
   gap: 16px;
-  background: #fafafa;
+  background: var(--background);
   padding: 20px;
   border-radius: 12px;
-  border: 1px solid #f3f4f6;
+  border: 1px solid var(--border);
 }
 
 .stat-header {
@@ -334,13 +321,13 @@ body {
 .stat strong {
   font-size: 24px;
   font-weight: 800;
-  color: var(--roxo-escuro);
+  color: var(--title);
   line-height: 1.1;
 }
 
 .stat span {
   font-size: 13px;
-  color: var(--texto-suave);
+  color: var(--muted);
   font-weight: 500;
   margin-top: 2px;
 }
@@ -350,8 +337,8 @@ body {
   display: inline-block;
   font-size: 12px;
   font-weight: 700;
-  color: var(--roxo-1);
-  background: rgba(124, 58, 237, 0.08);
+  color: var(--accent);
+  background: var(--primary-soft);
   padding: 10px 14px;
   border-radius: 8px;
   text-decoration: none;
@@ -360,8 +347,37 @@ body {
 }
 
 .btn-small:hover {
-  background: rgba(124, 58, 237, 0.15);
-  color: var(--roxo-escuro);
+  background: var(--primary);
+  color: #fff;
+}
+
+/* =========================================================
+   NOVO BOTÃO DE PROCURAR MORADIA
+   ========================================================= */
+.action-container {
+  grid-column: 1 / -1; /* Faz o botão ocupar as duas colunas */
+  margin-top: 8px;
+}
+
+.btn-primary-action {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 16px;
+  background: linear-gradient(135deg, var(--primary), var(--accent));
+  color: #fff;
+  font-size: 16px;
+  font-weight: 700;
+  text-decoration: none;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(134, 132, 255, 0.3);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.btn-primary-action:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(134, 132, 255, 0.4);
 }
 
 /* =========================================================
@@ -369,7 +385,7 @@ body {
    ========================================================= */
 @media (max-width: 800px) {
   .app {
-    grid-template-columns: 1fr; /* No celular a barra vira cabeçalho */
+    grid-template-columns: 1fr;
   }
 
   .sidebar {
@@ -377,11 +393,11 @@ body {
     align-items: center;
     padding: 16px;
     border-right: none;
-    border-bottom: 1px solid #e6e8f5;
+    border-bottom: 1px solid var(--border);
   }
 
   .sidebar-toggle {
-    display: none; /* Esconde a setinha no mobile */
+    display: none;
   }
 
   .logo {
@@ -399,10 +415,6 @@ body {
   }
   
   .nav-item span {
-    display: none; /* Só ícones no mobile */
-  }
-
-  .sidebar-footer {
     display: none;
   }
 
@@ -429,6 +441,6 @@ body {
   }
 
   .stats-card {
-    grid-template-columns: 1fr; /* Uma coluna no mobile */
+    grid-template-columns: 1fr;
   }
 }

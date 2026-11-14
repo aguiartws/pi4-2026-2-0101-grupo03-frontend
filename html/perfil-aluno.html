@@ -20,16 +20,15 @@
     <!-- BARRA LATERAL (SIDEBAR) -->
     <aside class="sidebar">
       
-      <!-- Botão para abrir/fechar a barra -->
       <button class="sidebar-toggle" id="sidebarToggle" aria-label="Recolher menu">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
           <path d="M15 18l-6-6 6-6"/>
         </svg>
       </button>
 
-      <a class="logo" href="login.html" aria-label="FindUHouse">
-        <img src="../imagens/logo-roxa.png" alt="FindUHouse">
-      </a>
+      <div class="logo">
+        <img src="../imagens/logo-azul.png" alt="FindUHouse">
+      </div>
 
       <nav class="nav" aria-label="Menu principal">
         <a class="nav-item active" href="perfil-aluno.html" title="Meu perfil">
@@ -56,27 +55,32 @@
 
         <a class="nav-item" href="configuracoes-aluno.html" title="Configurações">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="3"></circle>
-            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+            <circle cx="12" cy="12" r="3"/>
+            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
           </svg>
           <span>Configurações</span>
         </a>
       </nav>
 
-      <div class="sidebar-footer" aria-hidden="true"></div>
     </aside>
 
     <!-- CONTEÚDO PRINCIPAL -->
     <main class="content">
 
-      <!-- Banner de Boas-Vindas -->
+      <!-- Banner Mesclado -->
       <section class="card welcome-card">
         <div class="banner-bg"></div>
         <div class="welcome-body">
-          <div class="avatar" aria-label="Avatar do Aluno">A</div>
+          <div class="avatar" aria-label="Avatar do Aluno" id="avatarAluno">A</div>
           <div class="welcome-info">
-            <h1>Bem-vindo(a) de volta! 👋</h1>
-            <p>Seu perfil está ativo. Explore as opções na barra lateral para gerenciar seus matches, ver o mapa ou ajustar suas preferências.</p>
+            <h1>
+              <span id="nomeAluno">Estudante</span>
+              <svg class="verified" viewBox="0 0 24 24" width="20" height="20" aria-label="Verificado">
+                <circle cx="12" cy="12" r="11" fill="var(--accent)"/>
+                <path d="m7.5 12.5 3 3 6-6.5" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </h1>
+            <p>Bem-vindo(a) de volta! 👋 Seu perfil está ativo. Explore as opções na barra lateral para gerenciar seus matches, ver o mapa ou ajustar suas preferências.</p>
           </div>
         </div>
       </section>
@@ -92,7 +96,7 @@
         </p>
       </section>
 
-      <!-- Estatísticas -->
+      <!-- Estatísticas e Ações -->
       <section class="card stats-card">
         
         <div class="stat">
@@ -117,14 +121,19 @@
           <a href="mapa-favoritos.html" class="btn-small">Visualizar mapa</a>
         </div>
 
+        <!-- NOVO BOTÃO -->
+        <div class="action-container">
+          <a href="questionario-aluno.html" class="btn-primary-action">
+            Procurar moradias para match
+          </a>
+        </div>
+
       </section>
 
     </main>
-    <!--</div>
-  <script src="../js/api.js"></script>
+  </div>
+
   <script src="../js/perfil-aluno.js"></script>
-  -->
-  
 </body>
 
 </html>
