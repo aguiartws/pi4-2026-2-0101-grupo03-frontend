@@ -55,15 +55,22 @@
         </button>
       </section>
 
-      <!-- Grelha de Casas Vazia (O JS vai preencher isto) -->
+          <!-- Grelha de Casas Vazia (O JS vai preencher isto) -->
       <section class="houses-grid" id="gridCasas">
         <!-- O carregamento dinâmico entrará aqui -->
       </section>
+
+      <!-- ADICIONE ESTA LINHA AQUI: -->
+      <div id="estadoCasas"></div>
 
     </main>
   </div>
 
   <!-- Ligação com o Back-end -->
+    <!-- Scripts compartilhados (devem vir ANTES) -->
+  <script src="../js/api.js"></script>
+  
+  <!-- Script da página -->
   <script src="../js/suas-casas.js"></script>
 </body>
 </html>

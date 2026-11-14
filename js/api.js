@@ -1,3 +1,6 @@
+api.js
+
+
 // URL da API para o nginx ou para o Live Server.
 const API_BASE = location.port === "8080" ? "/api" : "http://localhost:8081/api";
 

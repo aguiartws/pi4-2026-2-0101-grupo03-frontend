@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   try {
     const resposta = await chamarApi(
-      `/responsaveis/${encodeURIComponent(sessao.usuarioId)}/vagas`,
+      `/vagas/responsavel/${encodeURIComponent(sessao.usuarioId)}`,
     );
     const vagas = Array.isArray(resposta && resposta.vagas)
       ? resposta.vagas
