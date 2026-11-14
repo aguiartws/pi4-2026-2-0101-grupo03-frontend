@@ -1,34 +1,228 @@
-const express = require('express');
-const path = require('path');
 
-const app = express();
-const PORT = process.env.PORT || 3000;
+const form = document.getElementById('formQuestionario');
 
-app.use(express.json());
+const etapa1 = document.getElementById('etapa1');
+const etapa2 = document.getElementById('etapa2');
 
-// Serve só a pasta "public" (HTML, CSS, JS, imagens).
-// Assim o server.js e o package.json NÃO ficam acessíveis pelo navegador.
-app.use(express.static(path.join(__dirname, 'public')));
+const btnProximo = document.getElementById('btnProximo');
+const btnVoltar = document.getElementById('btnVoltar');
 
-// Página inicial: por enquanto abre o questionário
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'questionario-proprietario.html'));
-});
+const inputFotos = document.getElementById('fotosMoradia');
+const previewFotos = document.getElementById('previewFotos');
 
-// Recebe as respostas da etapa 2 do questionário
-app.post('/api/questionario-proprietario', (req, res) => {
-  const { tipo, festas, pets, aceita } = req.body;
+const inputEndereco = document.getElementById('endereco');
 
-  if (!tipo || !festas || !pets || !aceita) {
-    return res.status(400).json({ ok: false, erro: 'Preencha todas as perguntas.' });
+let fotosSelecionadas = [];
+
+
+// ---------- VALIDAR ENDEREÇO ----------
+
+function validarEndereco() {
+
+  if (inputEndereco.value.trim() === '') {
+
+    alert('Por favor, informe o endereço da sua residência.');
+
+    inputEndereco.focus();
+
+    inputEndereco.scrollIntoView({
+      behavior: 'smooth',
+      block: 'center'
+    });
+
+    return false;
   }
 
-  // TODO: salvar no banco de dados
-  console.log('Respostas recebidas:', { tipo, festas, pets, aceita });
+  return true;
+}
 
-  res.json({ ok: true });
+
+// ---------- VALIDAR PERGUNTAS ----------
+
+function validarEtapa(etapa) {
+
+  const grupos = etapa.querySelectorAll('fieldset');
+
+  for (const grupo of grupos) {
+
+    const radios = grupo.querySelectorAll('input[type="radio"]');
+
+    let respondida = false;
+
+    radios.forEach(radio => {
+      if (radio.checked) {
+        respondida = true;
+      }
+    });
+
+    if (!respondida) {
+
+      alert('Por favor, responda todas as perguntas antes de continuar.');
+
+      grupo.scrollIntoView({
+        behavior: 'smooth',
+        block: 'center'
+      });
+
+      return false;
+    }
+  }
+
+  return true;
+}
+
+
+// ---------- IR PARA A ETAPA 2 ----------
+
+btnProximo.addEventListener('click', function () {
+
+  // Primeiro verifica se o endereço foi preenchido
+  if (!validarEndereco()) {
+    return;
+  }
+
+  // Depois verifica se as perguntas da etapa 1 foram respondidas
+  if (!validarEtapa(etapa1)) {
+    return;
+  }
+
+  etapa1.hidden = true;
+  etapa2.hidden = false;
+
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth'
+  });
+
 });
 
-app.listen(PORT, () => {
-  console.log(`Servidor rodando em http://localhost:${PORT}`);
+
+// ---------- VOLTAR PARA A ETAPA 1 ----------
+
+btnVoltar.addEventListener('click', function () {
+
+  etapa2.hidden = true;
+  etapa1.hidden = false;
+
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth'
+  });
+
+});
+
+
+// ---------- SELECIONAR FOTOS ----------
+
+inputFotos.addEventListener('change', function () {
+
+  const novasFotos = Array.from(inputFotos.files);
+
+  if (fotosSelecionadas.length + novasFotos.length > 5) {
+
+    alert('Você pode adicionar no máximo 5 fotos.');
+
+    inputFotos.value = '';
+    return;
+  }
+
+  for (const foto of novasFotos) {
+
+    if (!foto.type.startsWith('image/')) {
+      alert('Selecione somente arquivos de imagem.');
+      continue;
+    }
+
+    fotosSelecionadas.push(foto);
+  }
+
+  inputFotos.value = '';
+
+  mostrarFotos();
+
+});
+
+
+// ---------- MOSTRAR PRÉVIA DAS FOTOS ----------
+
+function mostrarFotos() {
+
+  // Libera as URLs das imagens que estavam na prévia anterior
+  previewFotos.querySelectorAll('img').forEach(imagem => {
+    URL.revokeObjectURL(imagem.src);
+  });
+
+  previewFotos.innerHTML = '';
+
+  fotosSelecionadas.forEach((foto, indice) => {
+
+    const container = document.createElement('div');
+    container.classList.add('photo-item');
+
+    const imagem = document.createElement('img');
+
+    imagem.src = URL.createObjectURL(foto);
+    imagem.alt = 'Foto da moradia ' + (indice + 1);
+
+    const botaoRemover = document.createElement('button');
+
+    botaoRemover.type = 'button';
+    botaoRemover.classList.add('remove-photo');
+    botaoRemover.textContent = '×';
+    botaoRemover.setAttribute('aria-label', 'Remover foto');
+
+    botaoRemover.addEventListener('click', function () {
+
+      fotosSelecionadas.splice(indice, 1);
+
+      mostrarFotos();
+
+    });
+
+    container.appendChild(imagem);
+    container.appendChild(botaoRemover);
+
+    previewFotos.appendChild(container);
+
+  });
+
+}
+
+
+// ---------- ENVIAR QUESTIONÁRIO ----------
+
+form.addEventListener('submit', function (event) {
+
+  event.preventDefault();
+
+  // Verifica novamente o endereço
+  if (!validarEndereco()) {
+    return;
+  }
+
+  // Verifica as perguntas da segunda etapa
+  if (!validarEtapa(etapa2)) {
+    return;
+  }
+
+  const respostas = {};
+
+  // Guarda o endereço preenchido
+  respostas.endereco = inputEndereco.value.trim();
+
+  // Guarda todas as respostas das perguntas
+  const campos = form.querySelectorAll('input[type="radio"]:checked');
+
+  campos.forEach(campo => {
+    respostas[campo.name] = campo.value;
+  });
+
+  // Mostra os dados no console
+  console.log('Respostas do questionário:', respostas);
+  console.log('Fotos selecionadas:', fotosSelecionadas);
+
+  alert(
+    'As respostas e fotos foram preparadas! Na próxima etapa vamos conectar o formulário ao servidor para realizar o envio definitivo.'
+  );
+
 });

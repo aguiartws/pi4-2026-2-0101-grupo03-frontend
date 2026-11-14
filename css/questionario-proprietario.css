@@ -65,8 +65,6 @@ a {
   color: #fff;
 }
 
-/* Logo */
-
 .logo {
   display: flex;
   align-items: center;
@@ -81,17 +79,10 @@ a {
   object-fit: contain;
 }
 
-/* Notificações e usuário */
-
 .topbar-right {
   margin-left: auto;
   display: flex;
   align-items: center;
-  gap: 22px;
-}
-
-.topbar-right .bell {
-  font-size: 18px;
 }
 
 .user {
@@ -127,49 +118,62 @@ a {
 .sidebar {
   display: flex;
   flex-direction: column;
-  padding: 14px 10px 0 14px;
+  padding: 22px 10px 0 14px;
   color: #fff;
 }
 
-/* Identificação do proprietário */
+.back {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin: 0 6px 30px;
+  font-size: 11px;
+  color: #ddd6ff;
+}
+
+.back svg {
+  font-size: 16px;
+}
 
 .profile {
   display: flex;
-  gap: 10px;
+  gap: 14px;
   align-items: center;
-  padding: 0 6px 18px;
+  padding: 0 6px 28px;
   font-size: 11px;
+  line-height: 1.6;
 }
 
 .profile svg {
-  font-size: 22px;
+  font-size: 25px;
 }
 
 .profile strong {
   display: block;
-  font-size: 12px;
+  font-size: 13px;
+  margin-bottom: 3px;
 }
-
-/* Opções do menu */
 
 .menu {
   list-style: none;
   display: grid;
-  gap: 6px;
+  gap: 12px;
+  margin-top: 5px;
 }
 
 .menu a {
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 9px 12px;
+  gap: 13px;
+  padding: 12px;
   border-radius: 8px;
-  font-size: 10.5px;
+  font-size: 11px;
+  line-height: 1.4;
   color: #ddd6ff;
 }
 
 .menu a svg {
-  font-size: 15px;
+  font-size: 17px;
 }
 
 .menu a.active {
@@ -177,8 +181,6 @@ a {
   color: #fff;
   font-weight: 600;
 }
-
-/* Mensagem informativa */
 
 .promo {
   margin-top: auto;
@@ -235,7 +237,7 @@ a {
 }
 
 
-/* ---------- Cartão principal do questionário ---------- */
+/* ---------- Cartão principal ---------- */
 
 .card {
   background: var(--white);
@@ -244,51 +246,6 @@ a {
   position: relative;
   display: flex;
   flex-direction: column;
-}
-
-/* Cabeçalho do questionário */
-
-.card-head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  font-size: 10px;
-  color: var(--muted);
-}
-
-.back {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-}
-
-/* Indicadores das etapas */
-
-.steps {
-  display: flex;
-  gap: 14px;
-}
-
-.steps span {
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  display: grid;
-  place-items: center;
-  background: #eee;
-  color: var(--muted);
-  font-size: 9px;
-  font-weight: 600;
-}
-
-.steps .done {
-  background: #a99af0;
-  color: #fff;
-}
-
-.steps .current {
-  background: var(--primary);
-  color: #fff;
 }
 
 
@@ -314,6 +271,85 @@ a {
   margin-bottom: 22px;
   max-width: 280px;
   line-height: 1.4;
+}
+
+
+/* ---------- Etapas do questionário ---------- */
+
+.form-step[hidden] {
+  display: none !important;
+}
+
+.step-indicator {
+  display: inline-block;
+  margin: 0 14px 20px;
+  padding: 7px 12px;
+  border-radius: 20px;
+  background: var(--primary-soft);
+  color: var(--primary);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .5px;
+}
+
+
+/* ---------- Endereço da moradia ---------- */
+
+.address-field {
+  margin: 0 14px 24px;
+}
+
+.address-field label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 6px;
+}
+
+.address-field label svg {
+  font-size: 19px;
+  color: var(--primary);
+}
+
+.address-field .required {
+  color: #e0445b;
+}
+
+.address-field p {
+  font-size: 10px;
+  color: var(--muted);
+  margin-bottom: 10px;
+}
+
+.address-field input {
+  width: 100%;
+  padding: 13px 14px;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  outline: none;
+  font-family: inherit;
+  font-size: 11px;
+  color: var(--text);
+  transition: .2s;
+}
+
+.address-field input:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(76, 47, 214, .10);
+}
+
+.address-field input::placeholder {
+  color: #aaa6bd;
+}
+
+.address-field small {
+  display: block;
+  margin-top: 6px;
+  font-size: 9px;
+  color: var(--muted);
 }
 
 
@@ -346,7 +382,7 @@ a {
   font-size: 10px;
   color: var(--muted);
   margin: 3px 0 12px;
-  max-width: 220px;
+  max-width: 280px;
 }
 
 
@@ -364,15 +400,11 @@ a {
   cursor: pointer;
 }
 
-/* Esconde o botão original do radio */
-
 .option input {
   position: absolute;
   opacity: 0;
   pointer-events: none;
 }
-
-/* Aparência das alternativas */
 
 .option .box {
   display: flex;
@@ -403,8 +435,6 @@ a {
   color: var(--primary);
 }
 
-/* Círculo de seleção */
-
 .option .box::after {
   content: "";
   position: absolute;
@@ -417,13 +447,9 @@ a {
   border-radius: 50%;
 }
 
-/* Efeito ao passar o mouse */
-
 .option:hover .box {
   border-color: var(--primary-border);
 }
-
-/* Alternativa selecionada */
 
 .option input:checked + .box {
   background: var(--primary-soft);
@@ -436,25 +462,127 @@ a {
   background: radial-gradient(var(--primary) 40%, #fff 45%);
 }
 
-/* Acessibilidade */
-
 .option input:focus-visible + .box {
   outline: 2px solid var(--primary);
   outline-offset: 2px;
 }
 
 
-/* ---------- Formulário e botão próximo ---------- */
+/* ---------- Área de fotos ---------- */
+
+.photo-upload {
+  margin: 28px 14px 24px;
+  padding: 20px;
+  border: 1px dashed var(--primary-border);
+  border-radius: 12px;
+  background: #faf9ff;
+}
+
+.photo-upload-heading {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.photo-upload-heading > svg {
+  color: var(--primary);
+  font-size: 24px;
+  margin-top: 2px;
+}
+
+.photo-upload-heading h3 {
+  font-size: 12px;
+  margin-bottom: 5px;
+}
+
+.photo-upload-heading p {
+  font-size: 10px;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.upload-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 11px 16px;
+  border-radius: 8px;
+  background: var(--primary);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: .2s;
+}
+
+.upload-button:hover {
+  background: #3e24c0;
+}
+
+.upload-button svg {
+  font-size: 15px;
+}
+
+.upload-limit {
+  margin-top: 10px;
+  font-size: 10px;
+  color: var(--muted);
+}
+
+.photo-preview {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.photo-item {
+  position: relative;
+  min-width: 0;
+}
+
+.photo-item img {
+  display: block;
+  width: 100%;
+  height: 90px;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+}
+
+.remove-photo {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  width: 23px;
+  height: 23px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: #fff;
+  color: #d12d45;
+  font-size: 15px;
+  font-weight: 700;
+  box-shadow: 0 2px 6px rgba(0,0,0,.2);
+}
+
+.remove-photo:hover {
+  background: #ffe8ec;
+}
+
+
+/* ---------- Botões ---------- */
 
 .card form {
-  flex: 1;
   display: flex;
   flex-direction: column;
 }
 
 .next {
   align-self: flex-end;
-  margin-top: auto;
+  margin-top: 12px;
   padding: 12px 26px;
   border-radius: 8px;
   background: var(--primary);
@@ -469,6 +597,39 @@ a {
 
 .next:hover {
   background: #3e24c0;
+}
+
+.next svg {
+  font-size: 15px;
+}
+
+.form-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 10px 14px 0;
+}
+
+.form-actions .next {
+  margin-top: 0;
+}
+
+.back-step {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 16px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.back-step:hover {
+  background: var(--primary-soft);
+  color: var(--primary);
 }
 
 
@@ -493,13 +654,33 @@ a {
     padding: 0 12px 12px;
   }
 
-  .sidebar,
-  .topnav {
+  .sidebar {
     display: none;
   }
 
   .options {
     grid-template-columns: 1fr 1fr;
+  }
+
+  .photo-preview {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+}
+
+@media (max-width: 480px) {
+
+  .card {
+    padding: 18px 14px 24px;
+  }
+
+  .photo-preview {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .form-actions {
+    margin-left: 0;
+    margin-right: 0;
   }
 
 }
