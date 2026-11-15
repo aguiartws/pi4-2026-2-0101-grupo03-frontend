@@ -6,64 +6,93 @@ document.addEventListener('DOMContentLoaded', () => {
     sidebarToggle.addEventListener('click', () => appLayout.classList.toggle('collapsed'));
   }
 
-  const moradiaId = 'casa-1'; // ID fixo para simulação
+  // 2. Pega o ID da URL
+  const urlParams = new URLSearchParams(window.location.search);
+  const vagaId = urlParams.get('id') || '1';
+  const token = localStorage.getItem('token');
+  const estudanteId = localStorage.getItem('usuarioId');
 
   // ==========================================
-  // 2. BOTÃO FAVORITAR
+  // 3. CARREGAR DADOS DA MORADIA
   // ==========================================
-  const btnFavoritar = document.getElementById('btnFavoritar');
-  if (btnFavoritar) {
-    let favoritos = JSON.parse(localStorage.getItem('finduhouse_favoritos') || '[]');
-    
-    if (favoritos.includes(moradiaId)) {
-      btnFavoritar.classList.add('active');
-      btnFavoritar.querySelector('span').textContent = 'Favoritado';
-    }
+  async function carregarDetalhes() {
+    // Limpa o HTML fixo enquanto busca
+    document.querySelector('.title-section h1').textContent = 'Carregando...';
+    document.querySelector('.location').innerHTML = '';
+    document.querySelector('.description-section p').textContent = '';
+    document.querySelector('.price-value').textContent = '...';
+    document.querySelector('.features-grid').innerHTML = '<p>Buscando características...</p>';
 
-    btnFavoritar.addEventListener('click', () => {
-      if (favoritos.includes(moradiaId)) {
-        favoritos = favoritos.filter(id => id !== moradiaId);
-        btnFavoritar.classList.remove('active');
-        btnFavoritar.querySelector('span').textContent = 'Favoritar';
-      } else {
-        favoritos.push(moradiaId);
-        btnFavoritar.classList.add('active');
-        btnFavoritar.querySelector('span').textContent = 'Favoritado';
+    try {
+      const response = await fetch(`http://localhost:8081/api/vagas/${vagaId}`, {
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+
+      if (response.status === 401) {
+        throw new Error('Sessão expirada. Faça login novamente.');
       }
-      localStorage.setItem('finduhouse_favoritos', JSON.stringify(favoritos));
-    });
+      if (!response.ok) throw new Error('Erro ao buscar detalhes');
+
+      const vaga = await response.json();
+
+      // Atualiza o título da página e os dados no HTML
+      document.title = `${vaga.titulo} | FindUHouse`;
+      document.querySelector('.title-section h1').textContent = vaga.titulo;
+      document.querySelector('.location').innerHTML = `
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        ${vaga.endereco}
+      `;
+      document.querySelector('.description-section p').textContent = vaga.descricao;
+
+      const precoFormatado = Number(vaga.valorAluguel).toLocaleString('pt-BR', { minimumFractionDigits: 0 });
+      document.querySelector('.price-value').textContent = precoFormatado;
+
+      const featuresGrid = document.querySelector('.features-grid');
+      
+      // Verifica se as regras vieram no JSON (se o DTO de detalhe tiver o campo regrasConvivencia)
+      if (vaga.regrasConvivencia) {
+        featuresGrid.innerHTML = `
+          <div class="feature-item"><span class="feature-label">Aceita barulho após 22h?</span><span class="feature-value ${vaga.regrasConvivencia.aceitaBarulhoDepoisDas22 ? 'yes' : 'none'}">${vaga.regrasConvivencia.aceitaBarulhoDepoisDas22 ? 'Sim' : 'Não'}</span></div>
+          <div class="feature-item"><span class="feature-label">Aceita animais?</span><span class="feature-value ${vaga.regrasConvivencia.aceitaAnimais ? 'yes' : 'none'}">${vaga.regrasConvivencia.aceitaAnimais ? 'Sim' : 'Não'}</span></div>
+          <div class="feature-item"><span class="feature-label">Fuma?</span><span class="feature-value ${vaga.regrasConvivencia.fuma ? 'yes' : 'none'}">${vaga.regrasConvivencia.fuma ? 'Sim' : 'Não'}</span></div>
+          <div class="feature-item"><span class="feature-label">Gosta de receber visitas?</span><span class="feature-value ${vaga.regrasConvivencia.gostaReceberVisitas ? 'yes' : 'none'}">${vaga.regrasConvivencia.gostaReceberVisitas ? 'Sim' : 'Não'}</span></div>
+          <div class="feature-item"><span class="feature-label">Aceita dividir tarefas?</span><span class="feature-value ${vaga.regrasConvivencia.aceitaDividirTarefas ? 'yes' : 'none'}">${vaga.regrasConvivencia.aceitaDividirTarefas ? 'Sim' : 'Não'}</span></div>
+          <div class="feature-item"><span class="feature-label">Costuma ter festas?</span><span class="feature-value ${vaga.regrasConvivencia.aceitaFestas ? 'yes' : 'none'}">${vaga.regrasConvivencia.aceitaFestas ? 'Sim' : 'Não'}</span></div>
+        `;
+      } else {
+        featuresGrid.innerHTML = '<p>Regras não informadas.</p>';
+      }
+
+    } catch (error) {
+      console.error('Erro ao carregar detalhes:', error);
+      document.querySelector('.title-section h1').textContent = 'Erro ao carregar';
+      document.querySelector('.description-section p').textContent = error.message;
+      document.querySelector('.price-value').textContent = '--';
+      document.querySelector('.features-grid').innerHTML = '';
+    }
   }
 
+  carregarDetalhes();
+
   // ==========================================
-  // 3. BOTÃO FECHAR MATCH + TOAST DINÂMICO
+  // 4. BOTÃO FECHAR MATCH + TOAST DINÂMICO
   // ==========================================
   const btnFecharMatch = document.getElementById('btnFecharMatch');
   
-  // Função para criar e exibir o Toast (Notificação flutuante)
   function mostrarToast() {
-    // Cria o elemento HTML do toast
     const toast = document.createElement('div');
     toast.className = 'toast-sucesso';
-    
-    // Ícone de check e o texto
     toast.innerHTML = `
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
         <path d="M20 6L9 17l-5-5"/>
       </svg>
       <span>Parabéns! Seu match foi feito. 🎉</span>
     `;
-    
     document.body.appendChild(toast);
-    
-    // Pequeno delay para a animação de subida funcionar
-    setTimeout(() => {
-      toast.classList.add('show');
-    }, 100);
-
-    // Remove o toast da tela depois de 3.5 segundos
+    setTimeout(() => toast.classList.add('show'), 100);
     setTimeout(() => {
       toast.classList.remove('show');
-      setTimeout(() => toast.remove(), 400); // Remove do HTML após a animação de saída
+      setTimeout(() => toast.remove(), 400);
     }, 3500);
   }
 
@@ -71,7 +100,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let matches = JSON.parse(localStorage.getItem('finduhouse_matches') || '[]');
 
     const atualizarBotaoMatch = () => {
-      if (matches.includes(moradiaId)) {
+      if (matches.includes(vagaId)) {
         btnFecharMatch.textContent = 'Desfazer match';
         btnFecharMatch.style.background = 'var(--primary-soft)';
         btnFecharMatch.style.color = 'var(--accent)';
@@ -86,21 +115,86 @@ document.addEventListener('DOMContentLoaded', () => {
 
     atualizarBotaoMatch();
 
-    btnFecharMatch.addEventListener('click', () => {
-      if (matches.includes(moradiaId)) {
-        matches = matches.filter(id => id !== moradiaId);
-      } else {
-        matches.push(moradiaId);
-        mostrarToast(); // Chama a nova notificação bonita em vez do alert
+    btnFecharMatch.addEventListener('click', async () => {
+      if (!token || !estudanteId) {
+        alert('Você precisa estar logado para fechar um match.');
+        return;
       }
-      
-      localStorage.setItem('finduhouse_matches', JSON.stringify(matches));
-      atualizarBotaoMatch();
+
+      // Se já deu match, remove do localStorage (desfaz visualmente)
+      if (matches.includes(vagaId)) {
+        matches = matches.filter(id => id !== vagaId);
+        localStorage.setItem('finduhouse_matches', JSON.stringify(matches));
+        atualizarBotaoMatch();
+        return;
+      }
+
+      // Se não, envia para o backend
+      btnFecharMatch.textContent = 'Enviando...';
+      btnFecharMatch.disabled = true;
+
+      try {
+        const response = await fetch(`http://localhost:8081/api/vagas/${vagaId}/interesse?estudanteId=${estudanteId}`, {
+          method: 'POST',
+          headers: { 
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json' 
+          }
+        });
+
+        if (response.status === 401) {
+          alert('Sessão expirada. Faça login novamente.');
+          return;
+        }
+
+        if (!response.ok) {
+          const err = await response.json();
+          throw new Error(err.mensagem || 'Falha ao registrar interesse');
+        }
+
+        // Sucesso
+        matches.push(vagaId);
+        localStorage.setItem('finduhouse_matches', JSON.stringify(matches));
+        mostrarToast();
+        
+      } catch (error) {
+        console.error(error);
+        alert(error.message || 'Erro ao fechar match. Tente novamente.');
+      } finally {
+        btnFecharMatch.disabled = false;
+        atualizarBotaoMatch();
+      }
     });
   }
 
   // ==========================================
-  // 4. LIGHTBOX (GALERIA)
+  // 5. BOTÃO FAVORITAR
+  // ==========================================
+  const btnFavoritar = document.getElementById('btnFavoritar');
+  if (btnFavoritar) {
+    let favoritos = JSON.parse(localStorage.getItem('finduhouse_favoritos') || '[]');
+    
+    if (favoritos.includes(vagaId)) {
+      btnFavoritar.classList.add('active');
+      btnFavoritar.querySelector('span').textContent = 'Favoritado';
+    }
+
+    btnFavoritar.addEventListener('click', () => {
+      if (favoritos.includes(vagaId)) {
+        favoritos = favoritos.filter(id => id !== vagaId);
+        btnFavoritar.classList.remove('active');
+        btnFavoritar.querySelector('span').textContent = 'Favoritar';
+      } else {
+        favoritos.push(vagaId);
+        btnFavoritar.classList.add('active');
+        btnFavoritar.querySelector('span').textContent = 'Favoritado';
+      }
+      localStorage.setItem('finduhouse_favoritos', JSON.stringify(favoritos));
+    });
+  }
+
+  // ==========================================
+  // 6. LIGHTBOX (GALERIA)
   // ==========================================
   const lightbox = document.getElementById('lightbox');
   const lightboxImg = document.getElementById('lightboxImg');
