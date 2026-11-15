@@ -170,6 +170,25 @@
               </div>
             </fieldset>
 
+            <!-- Fotos da Moradia (Até 5 fotos) -->
+            <fieldset class="form-card">
+              <legend>Fotos da moradia (Até 5 fotos)</legend>
+              <p class="hint">Adicione imagens que mostrem bem os cômodos e a fachada. A primeira foto será destacada como capa.</p>
+
+              <div class="photos-upload-container" style="margin-top: 15px;">
+                <div id="containerPreviewFotos" style="display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 12px;">
+                  <!-- Pré-visualizações dinâmicas das fotos -->
+                </div>
+
+                <label for="inputFotosMoradia" class="btn-ghost" style="display: inline-flex; align-items: center; gap: 8px; cursor: pointer; padding: 10px 16px; border: 1px dashed var(--border); border-radius: 8px;">
+                  <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                  Adicionar fotos da moradia (Máx. 5)
+                </label>
+                <input type="file" id="inputFotosMoradia" name="fotosVaga" accept="image/png,image/jpeg,image/webp" multiple hidden>
+              </div>
+              <span id="erroFotosVaga" class="field-error" role="alert" style="color: #e53935; font-size: 0.85rem;"></span>
+            </fieldset>
+
             <!-- Localização -->
             <fieldset class="form-card">
               <legend>Localização</legend>
@@ -211,7 +230,7 @@
               </div>
             </fieldset>
 
-            <!-- Perfil da casa (booleanos reais da entidade) -->
+            <!-- Perfil da casa -->
             <fieldset class="form-card">
               <legend>Perfil da casa</legend>
 
@@ -353,7 +372,6 @@
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
     <script src="../js/api.js?v=5"></script>
-
     <script src="../js/editar-anuncio.js?v=5"></script>
   </body>
 </html>

@@ -34,6 +34,8 @@ const BOOLEANOS = [
   "comunicativo",
 ];
 
+let fotosSelecionadas = [];
+
 /* ---------- Toast ---------- */
 let toastTimer;
 function toast(msg, erro = false) {
@@ -70,6 +72,64 @@ function atualizarPrevia() {
 function atualizarContadores() {
   $("#contTitulo").textContent = campos.titulo.value.length;
   $("#contDescricao").textContent = campos.descricao.value.length;
+}
+
+/* ---------- Configurar Upload de Fotos da Moradia (Até 5) ---------- */
+function configurarFotosMoradia() {
+  const inputFotos = $("#inputFotosMoradia");
+  const containerPreview = $("#containerPreviewFotos");
+  const erroFotos = $("#erroFotosVaga");
+
+  if (!inputFotos) return;
+
+  inputFotos.addEventListener("change", (e) => {
+    erroFotos.textContent = "";
+    const novosArquivos = Array.from(e.target.files);
+
+    if (fotosSelecionadas.length + novosArquivos.length > 5) {
+      erroFotos.textContent = "Você pode enviar no máximo 5 fotos por moradia.";
+      return;
+    }
+
+    novosArquivos.forEach((arquivo) => {
+      if (fotosSelecionadas.length < 5) {
+        fotosSelecionadas.push(arquivo);
+      }
+    });
+
+    renderizarPreviewsFotos();
+  });
+}
+
+function renderizarPreviewsFotos() {
+  const containerPreview = $("#containerPreviewFotos");
+  containerPreview.innerHTML = "";
+
+  fotosSelecionadas.forEach((arquivo, index) => {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const div = document.createElement("div");
+      div.style.position = "relative";
+      div.style.width = "80px";
+      div.style.height = "80px";
+      div.style.borderRadius = "6px";
+      div.style.overflow = "hidden";
+      div.style.border = "1px solid var(--border)";
+
+      div.innerHTML = `
+        <img src="${e.target.result}" style="width: 100%; height: 100%; object-fit: cover;">
+        <button type="button" data-index="${index}" class="btn-remover-foto" style="position: absolute; top: 2px; right: 2px; background: rgba(0,0,0,0.6); color: white; border: none; border-radius: 50%; width: 20px; height: 20px; font-size: 10px; cursor: pointer;">×</button>
+      `;
+
+      div.querySelector("button").addEventListener("click", () => {
+        fotosSelecionadas.splice(index, 1);
+        renderizarPreviewsFotos();
+      });
+
+      containerPreview.appendChild(div);
+    };
+    reader.readAsDataURL(arquivo);
+  });
 }
 
 /* ---------- Preencher ---------- */
@@ -156,8 +216,22 @@ async function salvar(e) {
   btn.textContent = "Salvando...";
 
   try {
+    // 1. Atualiza os dados JSON da vaga
     await chamarApi(url, { metodo: "PATCH", corpo: dados });
-    toast("Anúncio atualizado!");
+
+    // 2. Se houver fotos selecionadas, envia via FormData para o endpoint de fotos da moradia
+    if (fotosSelecionadas.length > 0) {
+      const formData = new FormData();
+      fotosSelecionadas.forEach((foto) => formData.append("fotos", foto));
+
+      await fetch(`${API_BASE}/vagas/${casaId}/fotos`, {
+        method: "POST",
+        headers: { "Authorization": `Bearer ${sessao.token}` },
+        body: formData
+      });
+    }
+
+    toast("Anúncio atualizado com sucesso!");
     btn.disabled = false;
     btn.textContent = "Salvar alterações";
     setTimeout(() => (location.href = PAGINA_LISTA), 1000);
@@ -177,16 +251,13 @@ function configurarExcluir() {
 
   if (!btnExcluir || !dlg) return;
 
-  // Abre o modal quando clica em "Excluir"
   btnExcluir.addEventListener("click", (e) => {
     e.preventDefault();
     dlg.showModal();
   });
 
-  // Quando o usuário clica em "Sim, excluir"
   btnConfirmar.addEventListener("click", async (e) => {
     e.preventDefault(); 
-    
     if (!casaId) return;
 
     const textoOriginal = btnConfirmar.textContent;
@@ -196,27 +267,19 @@ function configurarExcluir() {
     const url = `/vagas/${encodeURIComponent(casaId)}`;
 
     try {
-      // Faz a chamada para o backend
       await chamarApi(url, { metodo: "DELETE" });
-
       dlg.close();
       toast("Anúncio excluído com sucesso!");
-      
       setTimeout(() => {
         window.location.href = PAGINA_LISTA;
       }, 1500);
-
     } catch (err) {
       console.error(`[editar-anuncio] ✖ DELETE falhou:`, err);
-      
       if (err.status === 401 || err.status === 403) {
         toast("Você não tem permissão para excluir este anúncio.", true);
-      } else if (err.codigo === "SEM_CONEXAO") {
-        toast("Falha de conexão com o servidor (CORS ou Backend Offline).", true);
       } else {
         toast(mensagemDeErro(err), true);
       }
-      
       btnConfirmar.textContent = textoOriginal;
       btnConfirmar.disabled = false;
       dlg.close();
@@ -234,5 +297,6 @@ function iniciar() {
   form.addEventListener("change", atualizarPrevia);
   form.addEventListener("submit", salvar);
   configurarExcluir();
+  configurarFotosMoradia();
   carregar();
 }
