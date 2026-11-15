@@ -4,7 +4,6 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-
   <title>Matches com Estudantes | FindUHouse</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -17,9 +16,7 @@
 <body>
   <div class="app" id="appLayout">
 
-    <!-- BARRA LATERAL (SIDEBAR) -->
     <aside class="sidebar">
-      
       <button class="sidebar-toggle" id="sidebarToggle" aria-label="Recolher menu">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
           <path d="M15 18l-6-6 6-6"/>
@@ -31,7 +28,6 @@
       </div>
 
       <nav class="nav" aria-label="Menu principal">
-        <!-- Meu Perfil -->
         <a class="nav-item" href="perfil-proprietario.html" title="Meu perfil">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/>
@@ -39,15 +35,6 @@
           <span>Meu<br>perfil</span>
         </a>
 
-        <!-- Matches (Ativo) -->
-        <a class="nav-item active" href="matches-feitos-proprietario.html" title="Matches feitos">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
-          </svg>
-          <span>Matches<br>feitos</span>
-        </a>
-
-        <!-- Minhas Casas -->
         <a class="nav-item" href="suas-casas.html" title="Minhas casas">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M3 11 12 4l9 7"/><path d="M5 10v10h14V10"/><path d="M10 20v-5h4v5"/>
@@ -55,7 +42,6 @@
           <span>Minhas<br>casas</span>
         </a>
 
-        <!-- Adicionar Casa -->
         <a class="nav-item" href="questionario-proprietario.html" title="Adicionar casa">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M12 5v14M5 12h14"/>
@@ -63,7 +49,13 @@
           <span>Adicionar<br>casa</span>
         </a>
 
-        <!-- Configurações -->
+        <a class="nav-item active" href="matches-feitos-proprietario.html" title="Matches feitos">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+          </svg>
+          <span>Matches<br>feitos</span>
+        </a>
+
         <a class="nav-item" href="configuracoes-proprietario.html" title="Configurações">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <circle cx="12" cy="12" r="3"/>
@@ -72,34 +64,30 @@
           <span>Configurações</span>
         </a>
       </nav>
-
     </aside>
 
-    <!-- CONTEÚDO PRINCIPAL -->
     <main class="content">
       
-      <!-- Banner no estilo da tela de Configurações -->
       <section class="welcome-banner">
-          <div class="banner-decoration banner-decoration-one"></div>
-          <div class="banner-decoration banner-decoration-two"></div>
+        <div class="banner-decoration banner-decoration-one"></div>
+        <div class="banner-decoration banner-decoration-two"></div>
 
-          <div class="welcome-copy">
-              <span class="eyebrow">MINHA CONTA</span>
-              <h1>Matches feitos</h1>
-              <p>Acompanhe aqui os estudantes e propriedades que já demonstraram interesse.</p>
-          </div>
+        <div class="welcome-copy">
+          <span class="eyebrow">MINHA CONTA</span>
+          <h1>Matches feitos</h1>
+          <p>Acompanhe aqui os estudantes e propriedades que já demonstraram interesse.</p>
+        </div>
 
-          <div class="banner-symbol" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 44px; height: 44px;">
-                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
-            </svg>
+        <div class="banner-symbol" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 44px; height: 44px;">
+            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+          </svg>
         </div>
       </section>
 
-            <!-- GRADE DE MATCHES (ALUNOS) -->
       <div class="matches-grid">
         
-        <!-- CARD DE EXEMPLO 1 -->
+        <!-- CARD 1 -->
         <div class="match-card">
           <div class="match-img student-bg">
             <div class="student-avatar">JS</div>
@@ -114,19 +102,22 @@
               <span class="value">República Vila Universitária</span>
             </div>
 
+            <!-- Trocado para "Ver detalhes" e adicionado o data-respostas -->
             <button class="btn-match" 
                     data-nome="João Silva" 
                     data-iniciais="JS" 
                     data-curso="Engenharia de Software - PUC" 
                     data-email="joao.silva@puccampinas.edu.br" 
                     data-telefone="(19) 99876-5432" 
-                    data-foto="">
-              Conversar com estudante
+                    data-foto=""
+                    data-sobre-mim="Sou uma pessoa bem tranquila. Costumo estudar ouvindo música e gosto de cozinhar nos fins de semana. Procuro um lugar silencioso para descansar."
+                    data-respostas='[{"q":"Aceita barulho após 22h?","a":"Não"},{"q":"Fuma?","a":"Não"},{"q":"Aceita animais de estimação?","a":"Sim"},{"q":"Gosta de receber visitas?","a":"Sim"},{"q":"Gosta de cozinhar?","a":"Sim"},{"q":"Costuma estudar em casa?","a":"Sim"},{"q":"Divide as tarefas domésticas?","a":"Sim"},{"q":"Dividiria o quarto?","a":"Não"},{"q":"Topa festas de vez em quando?","a":"Não"},{"q":"É comunicativo?","a":"Sim"}]'>
+              Ver detalhes
             </button>
           </div>
         </div>
 
-        <!-- CARD DE EXEMPLO 2 -->
+        <!-- CARD 2 -->
         <div class="match-card">
           <div class="match-img student-bg">
             <div class="student-avatar">MC</div>
@@ -147,35 +138,10 @@
                     data-curso="Medicina - PUC" 
                     data-email="maria.clara@puccampinas.edu.br" 
                     data-telefone="(19) 98765-4321" 
-                    data-foto="">
-              Conversar com estudante
-            </button>
-          </div>
-        </div>
-
-        <!-- CARD DE EXEMPLO 3 -->
-        <div class="match-card">
-          <div class="match-img student-bg">
-            <div class="student-avatar">PA</div>
-            <span class="match-badge">💜 75% Match</span>
-          </div>
-          <div class="match-info">
-            <h2>Pedro Almeida</h2>
-            <p class="match-course">Direito - PUC</p>
-            
-            <div class="match-property">
-              <span class="label">Gostou de:</span>
-              <span class="value">Quarto em Apartamento Compartilhado</span>
-            </div>
-
-            <button class="btn-match" 
-                    data-nome="Pedro Almeida" 
-                    data-iniciais="PA" 
-                    data-curso="Direito - PUC" 
-                    data-email="pedro.almeida@puccampinas.edu.br" 
-                    data-telefone="(19) 97654-3210" 
-                    data-foto="">
-              Conversar com estudante
+                    data-foto=""
+                    data-sobre-mim="Estudante de medicina, passo a maior parte do tempo estudando. Sou bem organizada e prefiro ambientes calmos. Tenho um gato."
+                    data-respostas='[{"q":"Aceita barulho após 22h?","a":"Não"},{"q":"Fuma?","a":"Não"},{"q":"Aceita animais de estimação?","a":"Sim"},{"q":"Gosta de receber visitas?","a":"Não"},{"q":"Gosta de cozinhar?","a":"Não"},{"q":"Costuma estudar em casa?","a":"Sim"},{"q":"Divide as tarefas domésticas?","a":"Sim"},{"q":"Dividiria o quarto?","a":"Não"},{"q":"Topa festas de vez em quando?","a":"Não"},{"q":"É comunicativo?","a":"Sim"}]'>
+              Ver detalhes
             </button>
           </div>
         </div>
@@ -184,45 +150,59 @@
     </main>
   </div>
 
-        <!-- MODAL DE CONTATO DO ESTUDANTE -->
-      <div class="modal-overlay" id="modalContato">
-        <div class="modal-box">
-          <button class="modal-close" id="fecharModalX" aria-label="Fechar">&times;</button>
-          
-          <div class="modal-header">
-            <div class="modal-avatar-container">
-              <div class="modal-initials" id="modalIniciais">JS</div>
-              <img id="modalFoto" src="" alt="Foto do aluno" hidden>
-            </div>
-            <h2 id="modalNome">Nome do Aluno</h2>
-            <p id="modalCurso">Curso do Aluno</p>
-          </div>
+  <!-- MODAL DE CONTATO E DETALHES -->
+  <div class="modal-overlay" id="modalContato">
+    <div class="modal-box">
+      <button class="modal-close" id="fecharModalX" aria-label="Fechar">&times;</button>
+      
+      <div class="modal-header">
+        <div class="modal-avatar-container">
+          <div class="modal-initials" id="modalIniciais">JS</div>
+          <img id="modalFoto" src="" alt="Foto do aluno" hidden>
+        </div>
+        <h2 id="modalNome">Nome do Aluno</h2>
+        <p id="modalCurso">Curso do Aluno</p>
+      </div>
 
-          <div class="modal-body">
-            <h3>Informações de Contato</h3>
-            
-            <div class="contact-item">
-              <div class="contact-icon">✉️</div>
-              <div>
-                <span class="contact-label">E-mail</span>
-                <a href="#" id="modalEmail" class="contact-value">email@exemplo.com</a>
-              </div>
-            </div>
-
-            <div class="contact-item">
-              <div class="contact-icon">📱</div>
-              <div>
-                <span class="contact-label">Telefone / WhatsApp</span>
-                <a href="#" id="modalTelefone" class="contact-value">(00) 00000-0000</a>
-              </div>
-            </div>
-          </div>
-
-          <div class="modal-footer">
-            <button class="btn-modal-close" id="btnFecharModal">Fechar</button>
+      <div class="modal-body">
+        
+        <!-- CONTATOS (Mantidos) -->
+        <h3>Informações de Contato</h3>
+        <div class="contact-item">
+          <div class="contact-icon">✉️</div>
+          <div>
+            <span class="contact-label">E-mail</span>
+            <a href="#" id="modalEmail" class="contact-value">email@exemplo.com</a>
           </div>
         </div>
+
+        <div class="contact-item">
+          <div class="contact-icon">📱</div>
+          <div>
+            <span class="contact-label">Telefone / WhatsApp</span>
+            <a href="#" id="modalTelefone" class="contact-value">(00) 00000-0000</a>
+          </div>
+        </div>
+
+        <!-- NOVA SEÇÃO: SOBRE MIM -->
+        <h3 class="mt-24">Sobre o estudante</h3>
+        <div class="about-me-box" id="modalSobreMim">
+          Carregando...
+        </div>
+
+        <!-- NOVA SEÇÃO: RESPOSTAS DO QUESTIONÁRIO -->
+        <h3 class="mt-24">Preferências e Compatibilidade</h3>
+        <div class="qa-list" id="modalRespostas">
+          <!-- Injetado via JS -->
+        </div>
+
       </div>
+
+      <div class="modal-footer">
+        <button class="btn-modal-close" id="btnFecharModal">Fechar</button>
+      </div>
+    </div>
+  </div>
 
   <script src="../js/matches-feitos-proprietario.js"></script>
 </body>
