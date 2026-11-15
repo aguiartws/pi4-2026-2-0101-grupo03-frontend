@@ -1,0 +1,703 @@
+/* =========================================================
+   RESET E BASE
+   ========================================================= */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --primary: #8684ff;
+  --primary-dark: #3330b8;
+  --accent: #514ee2;
+  --primary-soft: #eceafd;
+  --lilac: #c9c3fa;
+  --title: #0f1535;
+  --text: #4a5068;
+  --muted: #7b8098;
+  --border: #e6e7f0;
+  --radius: 14px;
+  --font: "Kumbh Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --background: #f8f8fd;
+  --card: #ffffff;
+  --shadow: 0 1px 2px rgba(31, 35, 64, 0.04), 0 4px 16px rgba(31, 35, 64, 0.05);
+  --sidebar-width: 260px;
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  font-family: var(--font);
+  background: var(--background);
+  color: var(--text);
+  min-height: 100vh;
+}
+
+/* =========================================================
+   ESTRUTURA PRINCIPAL (GRID)
+   ========================================================= */
+.app {
+  display: grid;
+  grid-template-columns: var(--sidebar-width) 1fr;
+  min-height: 100vh;
+  transition: grid-template-columns 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.app.collapsed {
+  --sidebar-width: 88px;
+}
+
+/* =========================================================
+   BARRA LATERAL (SIDEBAR) - Mantida igual
+   ========================================================= */
+.sidebar {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 28px 20px;
+  background: #fafaff;
+  border-right: 1px solid var(--border);
+  transition: padding 0.3s ease;
+}
+
+.sidebar-toggle {
+  position: absolute;
+  right: -14px;
+  top: 36px;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #fff;
+  border: 1px solid var(--border);
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 100;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s ease, background 0.2s ease;
+}
+
+.sidebar-toggle:hover {
+  background: var(--primary-soft);
+}
+
+.app.collapsed .sidebar-toggle svg {
+  transform: rotate(180deg);
+}
+
+.logo {
+  display: block;
+  margin-bottom: 60px;
+  transition: opacity 0.3s ease;
+}
+
+.logo img {
+  display: block;
+  width: 100%;
+  max-width: 170px;
+  height: auto;
+  transition: max-width 0.3s ease;
+}
+
+.nav {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 16px;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.2;
+  color: var(--muted);
+  text-decoration: none;
+  transition: background 0.2s ease, color 0.2s ease, padding 0.3s ease;
+  white-space: nowrap;
+}
+
+.nav-item svg {
+  width: 22px;
+  height: 22px;
+  flex-shrink: 0;
+}
+
+.nav-item:hover {
+  background: var(--primary-soft);
+  color: var(--primary-dark);
+}
+
+.nav-item.active {
+  background: linear-gradient(135deg, var(--primary), var(--accent));
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(134, 132, 255, 0.25);
+}
+
+.nav-item.active svg {
+  color: #fff;
+}
+
+/* --- ESTADO RETRAÍDO --- */
+.app.collapsed .sidebar {
+  padding: 28px 16px; 
+}
+
+.app.collapsed .logo {
+  opacity: 0; 
+  pointer-events: none;
+}
+
+.app.collapsed .nav-item span {
+  display: none; 
+}
+
+.app.collapsed .nav-item {
+  justify-content: center;
+  padding: 14px 0;
+}
+
+/* =========================================================
+   CONTEÚDO PRINCIPAL
+   ========================================================= */
+.content {
+  padding: 30px 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  overflow-y: auto;
+  min-width: 0;
+  align-items: center; /* Centraliza o banner e o grid */
+}
+
+/* =========================================================
+   BANNER DE BOAS-VINDAS (Novo)
+   ========================================================= */
+.welcome-banner {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  width: 100%;
+  max-width: 1100px; /* Alinha com a tela de configurações */
+  min-height: 190px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 34px 48px;
+  border-radius: 25px;
+  background: linear-gradient(115deg, #7774f5 0%, #514ee2 53%, #2f6fe0 100%);
+  color: #ffffff;
+  box-shadow: 0 18px 38px rgba(81, 78, 226, .22);
+}
+
+.welcome-copy {
+  position: relative;
+  z-index: 2;
+  max-width: 590px;
+}
+
+.eyebrow {
+  display: inline-block;
+  margin-bottom: 12px;
+  color: rgba(255, 255, 255, .78);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 2px;
+}
+
+.welcome-banner h1 {
+  font-size: clamp(27px, 3vw, 36px);
+  font-weight: 800;
+  letter-spacing: -1.2px;
+}
+
+.welcome-banner p {
+  max-width: 500px;
+  margin-top: 10px;
+  color: rgba(255, 255, 255, .84);
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.banner-symbol {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  width: 112px;
+  height: 112px;
+  margin-right: 50px;
+  border: 1px solid rgba(255, 255, 255, .27);
+  border-radius: 30px;
+  background: rgba(255, 255, 255, .14);
+  color: rgba(255, 255, 255, .94);
+  font-size: 43px;
+  transform: rotate(-8deg);
+  backdrop-filter: blur(8px);
+}
+
+.banner-decoration {
+  position: absolute;
+  z-index: -1;
+  border: 1px solid rgba(255, 255, 255, .14);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.banner-decoration-one {
+  width: 360px;
+  height: 360px;
+  top: -230px;
+  right: 80px;
+  box-shadow: 0 0 0 35px rgba(255, 255, 255, .035), 0 0 0 70px rgba(255, 255, 255, .025);
+}
+
+.banner-decoration-two {
+  width: 250px;
+  height: 250px;
+  right: -95px;
+  bottom: -185px;
+  background: rgba(255, 255, 255, .08);
+}
+
+/* =========================================================
+   GRADE DE MATCHES
+   ========================================================= */
+.matches-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 24px;
+  width: 100%;
+  max-width: 1100px; /* Alinha com o banner */
+}
+
+/* --- Cartão do Match --- */
+.match-card {
+  background: var(--card);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.match-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 30px rgba(31, 35, 64, 0.12);
+}
+
+/* Imagem do Cartão (Adaptada para Aluno) */
+.match-img {
+  height: 140px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.student-bg {
+  background: linear-gradient(135deg, var(--primary-soft), var(--lilac));
+}
+
+.student-avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--primary), var(--accent));
+  color: #fff;
+  font-size: 28px;
+  font-weight: 800;
+  display: grid;
+  place-items: center;
+  border: 4px solid var(--card);
+  box-shadow: 0 4px 12px rgba(81, 78, 226, 0.3);
+}
+
+/* Selo de Match */
+.match-badge {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: #fff;
+  color: var(--accent);
+  font-size: 12px;
+  font-weight: 800;
+  padding: 6px 12px;
+  border-radius: 99px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* Informações do Cartão */
+.match-info {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.match-info h2 {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--title);
+  margin-bottom: 4px;
+  line-height: 1.3;
+}
+
+.match-course {
+  font-size: 13px;
+  color: var(--muted);
+  margin-bottom: 16px;
+}
+
+/* Caixa indicando qual casa o aluno gostou */
+.match-property {
+  background: var(--background);
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  margin-bottom: 20px;
+  margin-top: auto;
+}
+
+.match-property .label {
+  display: block;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 4px;
+  letter-spacing: 0.5px;
+}
+
+.match-property .value {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--accent);
+  line-height: 1.3;
+}
+
+/* Botão de Ação */
+.btn-match {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 10px;
+  background: var(--primary-soft);
+  color: var(--accent);
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.btn-match:hover {
+  background: var(--primary);
+  color: #fff;
+}
+
+
+/* =========================================================
+   MODAL DE CONTATO (VERSÃO AMPLIADA)
+   ========================================================= */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(15, 21, 53, 0.6);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.modal-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.modal-box {
+  background: var(--card);
+  width: 90%;
+  max-width: 540px; /* Aumentado de 420px para 540px */
+  border-radius: 24px; /* Bordas um pouco mais arredondadas */
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
+  position: relative;
+  transform: translateY(20px);
+  transition: transform 0.3s ease;
+  overflow: hidden;
+}
+
+.modal-overlay.active .modal-box {
+  transform: translateY(0);
+}
+
+.modal-close {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  color: #fff;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  font-size: 26px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.2s;
+  z-index: 10;
+}
+
+.modal-close:hover {
+  background: rgba(255, 255, 255, 0.4);
+}
+
+.modal-header {
+  background: linear-gradient(135deg, var(--primary), var(--accent));
+  padding: 40px 30px 30px; /* Mais espaço no topo */
+  text-align: center;
+  color: #fff;
+}
+
+.modal-avatar-container {
+  width: 110px; /* Avatar maior */
+  height: 110px;
+  margin: 0 auto 16px;
+  border-radius: 50%;
+  border: 4px solid rgba(255, 255, 255, 0.5);
+  background: #fff;
+  padding: 3px;
+  overflow: hidden;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+
+.modal-initials {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: var(--primary-soft);
+  color: var(--accent);
+  display: grid;
+  place-items: center;
+  font-size: 38px; /* Iniciais maiores */
+  font-weight: 800;
+}
+
+.modal-avatar-container img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.modal-header h2 {
+  font-size: 24px; /* Título maior */
+  font-weight: 800;
+  margin-bottom: 6px;
+}
+
+.modal-header p {
+  font-size: 15px; /* Subtítulo maior */
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.modal-body {
+  padding: 32px 30px;
+}
+
+.modal-body h3 {
+  font-size: 13px;
+  color: var(--muted);
+  font-weight: 800;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  text-align: center;
+}
+
+.contact-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px;
+  background: var(--background);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  margin-bottom: 16px;
+}
+
+.contact-icon {
+  font-size: 24px;
+  background: #fff;
+  width: 48px;
+  height: 48px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+  flex-shrink: 0;
+}
+
+.contact-label {
+  display: block;
+  font-size: 12px;
+  color: var(--muted);
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.contact-value {
+  display: block;
+  font-size: 16px;
+  color: var(--accent);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.contact-value:hover {
+  text-decoration: underline;
+}
+
+.modal-footer {
+  padding: 0 30px 32px;
+}
+
+.btn-modal-close {
+  width: 100%;
+  padding: 16px;
+  border: none;
+  border-radius: 12px;
+  background: var(--primary-soft);
+  color: var(--accent);
+  font-size: 16px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.2s;
+}
+
+.btn-modal-close:hover {
+  background: var(--lilac);
+  transform: translateY(-2px);
+}
+
+/* =========================================================
+   RESPONSIVIDADE
+   ========================================================= */
+@media (max-width: 800px) {
+  .app {
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar {
+    flex-direction: row;
+    align-items: center;
+    padding: 16px;
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .sidebar-toggle {
+    display: none;
+  }
+
+  .logo {
+    margin-bottom: 0;
+    margin-right: 20px;
+  }
+
+  .logo img {
+    max-width: 130px;
+  }
+
+  .nav {
+    flex-direction: row;
+    overflow-x: auto;
+  }
+  
+  .nav-item span {
+    display: none;
+  }
+
+  .content {
+    padding: 20px 16px;
+  }
+
+  .matches-grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* Banner ajustado para telas menores */
+  .welcome-banner {
+    min-height: 165px;
+    padding: 27px 25px;
+    border-radius: 21px;
+  }
+
+  .welcome-banner p {
+    max-width: 390px;
+    font-size: 12px;
+  }
+
+  .banner-symbol {
+    width: 76px;
+    height: 76px;
+    margin-right: 0;
+    border-radius: 22px;
+    font-size: 29px;
+  }
+}
+
+@media (max-width: 480px) {
+  .welcome-banner {
+    min-height: 155px;
+    padding: 23px 19px;
+  }
+
+  .welcome-banner h1 {
+    font-size: 26px;
+  }
+
+  .welcome-banner p {
+    max-width: 250px;
+    font-size: 11px;
+  }
+
+  .banner-symbol {
+    width: 55px;
+    height: 55px;
+    font-size: 22px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+  }
+}

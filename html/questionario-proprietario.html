@@ -60,15 +60,6 @@
       <path d="M12 12c-3 0-5.5 3-5.5 5.5 0 2 2 2.5 5.5 2.5s5.5-.5 5.5-2.5C17.5 15 15 12 12 12z"/>
     </symbol>
 
-    <symbol id="i-target" viewBox="0 0 24 24">
-      <circle cx="12" cy="12" r="9"/>
-      <circle cx="12" cy="12" r="4"/>
-    </symbol>
-
-    <symbol id="i-heart" viewBox="0 0 24 24">
-      <path d="M12 20s-8-5-8-11a4.5 4.5 0 018-2.5A4.5 4.5 0 0120 9c0 6-8 11-8 11z"/>
-    </symbol>
-
     <symbol id="i-check" viewBox="0 0 24 24">
       <path d="M5 12l5 5 9-10"/>
     </symbol>
@@ -76,7 +67,7 @@
   </svg>
 
 
-  <!-- CABEÇALHO SUPERIOR -->
+  <!-- CABEÇALHO -->
   <header class="topbar">
 
     <a class="logo" href="#">
@@ -84,7 +75,6 @@
     </a>
 
     <div class="topbar-right">
-
       <div class="user">
 
         <img
@@ -99,7 +89,6 @@
         <svg><use href="#i-chev"/></svg>
 
       </div>
-
     </div>
 
   </header>
@@ -117,18 +106,14 @@
       </a>
 
       <div class="profile">
-
         <svg><use href="#i-home"/></svg>
 
         <div>
           <strong>Proprietário</strong>
           Sua casa, no lugar certo.
         </div>
-
       </div>
 
-
-      <!-- OPÇÕES DO MENU -->
       <ul class="menu">
 
         <li>
@@ -147,8 +132,6 @@
 
       </ul>
 
-
-      <!-- MENSAGEM INFORMATIVA -->
       <div class="promo">
 
         <div class="promo-icon">
@@ -157,7 +140,7 @@
 
         Quanto mais detalhes, melhor a compatibilidade com os estudantes!
 
-        <svg class="heart"><use href="#i-heart"/></svg>
+        <svg class="heart"><use href="#i-check"/></svg>
 
       </div>
 
@@ -173,7 +156,7 @@
       </h1>
 
       <p class="subtitle">
-        Responda algumas perguntas sobre sua residência para que possamos mostrar a ela os estudantes mais compatíveis.
+        Responda algumas perguntas sobre sua residência para encontrarmos os estudantes mais compatíveis.
       </p>
 
 
@@ -181,14 +164,13 @@
       <form id="formQuestionario" novalidate>
 
 
-        <!-- ================================== -->
-        <!-- ETAPA 1 - PRIMEIRAS CINCO PERGUNTAS -->
-        <!-- ================================== -->
+        <!-- ================================= -->
+        <!-- ETAPA 1 -->
+        <!-- ================================= -->
 
         <section class="form-step active" id="etapa1">
 
-
-          <!-- ENDEREÇO DA MORADIA -->
+          <!-- ENDEREÇO OBRIGATÓRIO -->
           <div class="address-field">
 
             <label for="endereco">
@@ -197,7 +179,7 @@
               <span class="required">*</span>
             </label>
 
-            <p>Informe o endereço completo de onde sua moradia está localizada.</p>
+            <p>Informe o endereço completo de sua moradia.</p>
 
             <input
               type="text"
@@ -219,86 +201,56 @@
           <!-- PERGUNTA 1 -->
           <fieldset class="question" style="border:0">
 
-            <svg><use href="#i-home"/></svg>
+            <svg><use href="#i-party"/></svg>
 
             <div class="q-body">
 
-              <h3>1. Sua moradia é uma república ou uma kitnet?</h3>
+              <h3>1. Você aceita barulho depois das 22h durante a semana?</h3>
 
-              <p>Selecione a opção que melhor descreve o seu imóvel:</p>
+              <p>Informe se os moradores podem fazer barulho nesse horário.</p>
 
               <div class="options" style="--cols:2">
 
                 <label class="option">
-                  <input type="radio" name="tipo" value="republica">
-
-                  <span class="box">
-                    <svg><use href="#i-users"/></svg>
-
-                    <span>
-                      <b>República</b>
-                      <small>Quarto compartilhado, com áreas comuns.</small>
-                    </span>
-                  </span>
+                  <input type="radio" name="barulho" value="sim">
+                  <span class="box"><b>Sim</b></span>
                 </label>
 
                 <label class="option">
-                  <input type="radio" name="tipo" value="kitnet">
-
-                  <span class="box">
-                    <svg><use href="#i-home"/></svg>
-
-                    <span>
-                      <b>Kitnet</b>
-                      <small>Espaço individual, com cozinha e banheiro próprios.</small>
-                    </span>
-                  </span>
+                  <input type="radio" name="barulho" value="nao">
+                  <span class="box"><b>Não</b></span>
                 </label>
 
               </div>
-
             </div>
-
           </fieldset>
 
 
           <!-- PERGUNTA 2 -->
           <fieldset class="question" style="border:0">
 
-            <svg><use href="#i-party"/></svg>
+            <svg><use href="#i-home"/></svg>
 
             <div class="q-body">
 
-              <h3>2. Sua moradia costuma ter festas?</h3>
+              <h3>2. É permitido fumar em sua residência?</h3>
 
-              <p>Selecione com que frequência isso acontece.</p>
+              <p>Informe se os moradores podem fumar na residência.</p>
 
-              <div class="options" style="--cols:4">
+              <div class="options" style="--cols:2">
 
                 <label class="option">
-                  <input type="radio" name="festas" value="frequente">
-                  <span class="box"><b>Sim, com frequência</b></span>
+                  <input type="radio" name="fumar" value="sim">
+                  <span class="box"><b>Sim</b></span>
                 </label>
 
                 <label class="option">
-                  <input type="radio" name="festas" value="ocasional">
-                  <span class="box"><b>Sim, de vez em quando</b></span>
-                </label>
-
-                <label class="option">
-                  <input type="radio" name="festas" value="raramente">
-                  <span class="box"><b>Raramente</b></span>
-                </label>
-
-                <label class="option">
-                  <input type="radio" name="festas" value="nao">
-                  <span class="box"><b>Não costuma ter</b></span>
+                  <input type="radio" name="fumar" value="nao">
+                  <span class="box"><b>Não</b></span>
                 </label>
 
               </div>
-
             </div>
-
           </fieldset>
 
 
@@ -309,91 +261,80 @@
 
             <div class="q-body">
 
-              <h3>3. Sua moradia possui pets?</h3>
+              <h3>3. É permitido ter animais de estimação?</h3>
 
-              <p>Você tem algum animal de estimação na residência?</p>
+              <p>Informe se os moradores podem ter animais na residência.</p>
 
-              <div class="options" style="--cols:2; max-width:210px">
+              <div class="options" style="--cols:2">
 
                 <label class="option">
-                  <input type="radio" name="pets" value="sim">
+                  <input type="radio" name="animais" value="sim">
                   <span class="box"><b>Sim</b></span>
                 </label>
 
                 <label class="option">
-                  <input type="radio" name="pets" value="nao">
+                  <input type="radio" name="animais" value="nao">
                   <span class="box"><b>Não</b></span>
                 </label>
 
               </div>
-
             </div>
-
           </fieldset>
 
 
           <!-- PERGUNTA 4 -->
           <fieldset class="question" style="border:0">
 
-            <svg><use href="#i-paw"/></svg>
+            <svg><use href="#i-users"/></svg>
 
             <div class="q-body">
 
-              <h3>4. Sua moradia aceita pets?</h3>
+              <h3>4. É permitido receber visitas na residência?</h3>
 
-              <p>Você permite que estudantes tragam seus animais de estimação?</p>
+              <p>Informe se os moradores podem receber amigos e familiares.</p>
 
-              <div class="options" style="--cols:2; max-width:210px">
+              <div class="options" style="--cols:2">
 
                 <label class="option">
-                  <input type="radio" name="aceita" value="sim">
+                  <input type="radio" name="visitas" value="sim">
                   <span class="box"><b>Sim</b></span>
                 </label>
 
                 <label class="option">
-                  <input type="radio" name="aceita" value="nao">
+                  <input type="radio" name="visitas" value="nao">
                   <span class="box"><b>Não</b></span>
                 </label>
 
               </div>
-
             </div>
-
           </fieldset>
 
 
           <!-- PERGUNTA 5 -->
           <fieldset class="question" style="border:0">
 
-            <svg><use href="#i-users"/></svg>
+            <svg><use href="#i-home"/></svg>
 
             <div class="q-body">
 
-              <h3>5. Quantos estudantes sua moradia acomoda?</h3>
+              <h3>5. Os moradores costumam cozinhar na residência?</h3>
 
-              <p>Informe a quantidade máxima de estudantes que podem morar no local.</p>
+              <p>Informe se a cozinha é utilizada pelos moradores.</p>
 
-              <div class="options" style="--cols:3">
+              <div class="options" style="--cols:2">
 
                 <label class="option">
-                  <input type="radio" name="capacidade" value="1-2">
-                  <span class="box"><b>1 a 2 estudantes</b></span>
+                  <input type="radio" name="cozinhar" value="sim">
+                  <span class="box"><b>Sim</b></span>
                 </label>
 
                 <label class="option">
-                  <input type="radio" name="capacidade" value="3-5">
-                  <span class="box"><b>3 a 5 estudantes</b></span>
-                </label>
-
-                <label class="option">
-                  <input type="radio" name="capacidade" value="6+">
-                  <span class="box"><b>6 ou mais</b></span>
+                  <input type="radio" name="cozinhar" value="nao">
+                  <span class="box"><b>Não</b></span>
                 </label>
 
               </div>
-
             </div>
-
           </fieldset>
 
 
@@ -409,13 +350,11 @@
         </section>
 
 
-
-        <!-- ================================== -->
-        <!-- ETAPA 2 - ÚLTIMAS CINCO PERGUNTAS -->
-        <!-- ================================== -->
+        <!-- ================================= -->
+        <!-- ETAPA 2 -->
+        <!-- ================================= -->
 
         <section class="form-step" id="etapa2" hidden>
-
 
           <div class="step-indicator">ETAPA 2 DE 2</div>
 
@@ -423,70 +362,56 @@
           <!-- PERGUNTA 6 -->
           <fieldset class="question" style="border:0">
 
-            <svg><use href="#i-home"/></svg>
+            <svg><use href="#i-check"/></svg>
 
             <div class="q-body">
 
-              <h3>6. Qual é o valor mensal por pessoa?</h3>
+              <h3>6. Existem horários definidos para estudo na residência?</h3>
 
-              <p>Selecione a faixa de preço do aluguel mensal por estudante.</p>
+              <p>Informe se existe uma rotina de horários para estudar.</p>
 
-              <div class="options" style="--cols:3">
+              <div class="options" style="--cols:2">
 
                 <label class="option">
-                  <input type="radio" name="valor" value="ate500">
-                  <span class="box"><b>Até R$ 500</b></span>
+                  <input type="radio" name="horarios_estudo" value="sim">
+                  <span class="box"><b>Sim</b></span>
                 </label>
 
                 <label class="option">
-                  <input type="radio" name="valor" value="500-1000">
-                  <span class="box"><b>R$ 500 a R$ 1.000</b></span>
-                </label>
-
-                <label class="option">
-                  <input type="radio" name="valor" value="acima1000">
-                  <span class="box"><b>Acima de R$ 1.000</b></span>
+                  <input type="radio" name="horarios_estudo" value="nao">
+                  <span class="box"><b>Não</b></span>
                 </label>
 
               </div>
-
             </div>
-
           </fieldset>
 
 
           <!-- PERGUNTA 7 -->
           <fieldset class="question" style="border:0">
 
-            <svg><use href="#i-check"/></svg>
+            <svg><use href="#i-users"/></svg>
 
             <div class="q-body">
 
-              <h3>7. As contas de água, luz e internet estão incluídas no aluguel?</h3>
+              <h3>7. As tarefas domésticas são divididas entre os moradores?</h3>
 
-              <p>Escolha a opção que corresponde às despesas da moradia.</p>
+              <p>Informe se os moradores compartilham as responsabilidades da casa.</p>
 
-              <div class="options" style="--cols:3">
+              <div class="options" style="--cols:2">
 
                 <label class="option">
-                  <input type="radio" name="contas" value="todas">
-                  <span class="box"><b>Sim, todas</b></span>
+                  <input type="radio" name="tarefas" value="sim">
+                  <span class="box"><b>Sim</b></span>
                 </label>
 
                 <label class="option">
-                  <input type="radio" name="contas" value="algumas">
-                  <span class="box"><b>Algumas contas</b></span>
-                </label>
-
-                <label class="option">
-                  <input type="radio" name="contas" value="nenhuma">
-                  <span class="box"><b>Nenhuma</b></span>
+                  <input type="radio" name="tarefas" value="nao">
+                  <span class="box"><b>Não</b></span>
                 </label>
 
               </div>
-
             </div>
-
           </fieldset>
 
 
@@ -497,100 +422,84 @@
 
             <div class="q-body">
 
-              <h3>8. A moradia é mobiliada?</h3>
+              <h3>8. Os quartos de sua residência são compartilhados?</h3>
 
-              <p>Os quartos e os espaços principais já possuem móveis?</p>
+              <p>Informe se mais de uma pessoa divide o mesmo quarto.</p>
 
-              <div class="options" style="--cols:3">
+              <div class="options" style="--cols:2">
 
                 <label class="option">
-                  <input type="radio" name="mobilia" value="completa">
-                  <span class="box"><b>Sim, completamente</b></span>
+                  <input type="radio" name="quartos" value="sim">
+                  <span class="box"><b>Sim</b></span>
                 </label>
 
                 <label class="option">
-                  <input type="radio" name="mobilia" value="parcial">
-                  <span class="box"><b>Parcialmente</b></span>
-                </label>
-
-                <label class="option">
-                  <input type="radio" name="mobilia" value="nao">
-                  <span class="box"><b>Não é mobiliada</b></span>
+                  <input type="radio" name="quartos" value="nao">
+                  <span class="box"><b>Não</b></span>
                 </label>
 
               </div>
-
             </div>
-
           </fieldset>
 
 
           <!-- PERGUNTA 9 -->
           <fieldset class="question" style="border:0">
 
-            <svg><use href="#i-check"/></svg>
+            <svg><use href="#i-party"/></svg>
 
             <div class="q-body">
 
-              <h3>9. A moradia possui internet Wi-Fi?</h3>
+              <h3>9. Sua residência costuma receber festas?</h3>
 
-              <p>Informe se os estudantes terão acesso à internet na residência.</p>
+              <p>Informe se acontecem festas ou confraternizações na moradia.</p>
 
-              <div class="options" style="--cols:2; max-width:300px">
+              <div class="options" style="--cols:2">
 
                 <label class="option">
-                  <input type="radio" name="internet" value="sim">
+                  <input type="radio" name="festas" value="sim">
                   <span class="box"><b>Sim</b></span>
                 </label>
 
                 <label class="option">
-                  <input type="radio" name="internet" value="nao">
+                  <input type="radio" name="festas" value="nao">
                   <span class="box"><b>Não</b></span>
                 </label>
 
               </div>
-
             </div>
-
           </fieldset>
 
 
           <!-- PERGUNTA 10 -->
           <fieldset class="question" style="border:0">
 
-            <svg><use href="#i-target"/></svg>
+            <svg><use href="#i-users"/></svg>
 
             <div class="q-body">
 
-              <h3>10. Qual é a distância aproximada até a faculdade?</h3>
+              <h3>10. Os moradores costumam ser comunicativos entre si?</h3>
 
-              <p>Considere a faculdade que os estudantes pretendem frequentar.</p>
+              <p>Informe se existe interação e comunicação entre os moradores.</p>
 
-              <div class="options" style="--cols:3">
+              <div class="options" style="--cols:2">
 
                 <label class="option">
-                  <input type="radio" name="distancia" value="ate1km">
-                  <span class="box"><b>Até 1 km</b></span>
+                  <input type="radio" name="comunicacao" value="sim">
+                  <span class="box"><b>Sim</b></span>
                 </label>
 
                 <label class="option">
-                  <input type="radio" name="distancia" value="1a5km">
-                  <span class="box"><b>De 1 a 5 km</b></span>
-                </label>
-
-                <label class="option">
-                  <input type="radio" name="distancia" value="mais5km">
-                  <span class="box"><b>Mais de 5 km</b></span>
+                  <input type="radio" name="comunicacao" value="nao">
+                  <span class="box"><b>Não</b></span>
                 </label>
 
               </div>
-
             </div>
-
           </fieldset>
 
 
-          <!-- ADICIONAR FOTOS DA MORADIA -->
+          <!-- ADICIONAR FOTOS -->
           <section class="photo-upload">
 
             <div class="photo-upload-heading">
@@ -599,11 +508,10 @@
 
               <div>
                 <h3>Fotos da sua moradia</h3>
-                <p>Adicione até 5 fotos para os estudantes conhecerem melhor o espaço.</p>
+                <p>Adicione até 5 fotos para os estudantes conhecerem melhor sua residência.</p>
               </div>
 
             </div>
-
 
             <label class="upload-button" for="fotosMoradia">
 
@@ -612,7 +520,6 @@
               Escolher fotos
 
             </label>
-
 
             <input
               type="file"
@@ -623,18 +530,16 @@
               hidden
             >
 
-
             <p class="upload-limit">
               Você pode selecionar no máximo 5 imagens.
             </p>
-
 
             <div id="previewFotos" class="photo-preview" aria-live="polite"></div>
 
           </section>
 
 
-          <!-- BOTÕES DA ETAPA FINAL -->
+          <!-- BOTÕES -->
           <div class="form-actions">
 
             <button class="back-step" id="btnVoltar" type="button">
@@ -644,7 +549,6 @@
               Voltar
 
             </button>
-
 
             <button class="next" type="submit">
 
@@ -665,6 +569,7 @@
   </div>
 
 
+  <!-- JAVASCRIPT -->
   <script src="../js/questionario-proprietario.js"></script>
 
 </body>

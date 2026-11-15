@@ -1,36 +1,99 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+<<<<<<< HEAD
   <title>FindUHouse – Meu perfil</title>
   <link rel="stylesheet" href="../css/perfil-proprietario.css">
 </head>
 <body>
   <div class="app">
+=======
+>>>>>>> 2dc4d3af3dbdc28958cfeec8f9cfab23b1a963ea
 
-    <!-- SIDEBAR -->
+  <title>Perfil do Proprietário | FindUHouse</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Kumbh+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="../css/perfil-proprietario.css">
+</head>
+
+<body>
+  <div class="app" id="appLayout">
+
+    <!-- BARRA LATERAL (SIDEBAR) -->
     <aside class="sidebar">
-      <a class="logo" href="#" aria-label="FindUHouse">
-        <img src="../imagens/logo.png" alt="FindUHouse">
-      </a>
+      
+      <button class="sidebar-toggle" id="sidebarToggle" aria-label="Recolher menu">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M15 18l-6-6 6-6"/>
+        </svg>
+      </button>
+
+      <div class="logo">
+        <img src="../imagens/logo-azul.png" alt="FindUHouse">
+      </div>
 
       <nav class="nav" aria-label="Menu principal">
+<<<<<<< HEAD
         <a class="nav-item active" href="#">
           <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <circle cx="12" cy="8" r="4"/>
             <path d="M4 21a8 8 0 0 1 16 0"/>
+=======
+        <!-- Meu Perfil -->
+        <a class="nav-item active" href="perfil-proprietario.html" title="Meu perfil">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/>
+>>>>>>> 2dc4d3af3dbdc28958cfeec8f9cfab23b1a963ea
           </svg>
           <span>Meu<br>perfil</span>
         </a>
+
+        <!-- Matches (NOVO) -->
+        <a class="nav-item" href="matches-feitos-proprietario.html" title="Matches feitos">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+          </svg>
+          <span>Matches<br>feitos</span>
+        </a>
+
+        <!-- Minhas Casas -->
+        <a class="nav-item" href="suas-casas.html" title="Minhas casas">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 11 12 4l9 7"/><path d="M5 10v10h14V10"/><path d="M10 20v-5h4v5"/>
+          </svg>
+          <span>Minhas<br>casas</span>
+        </a>
+
+        <!-- Adicionar Casa -->
+        <a class="nav-item" href="questionario-proprietario.html" title="Adicionar casa">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 5v14M5 12h14"/>
+          </svg>
+          <span>Adicionar<br>casa</span>
+        </a>
+
+        <!-- Configurações -->
+        <a class="nav-item" href="configuracoes-proprietario.html" title="Configurações">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="3"/>
+            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+          </svg>
+          <span>Configurações</span>
+        </a>
       </nav>
 
-      <div class="sidebar-footer" aria-hidden="true"></div>
     </aside>
 
-    <!-- CONTEÚDO -->
+    <!-- CONTEÚDO PRINCIPAL -->
     <main class="content">
 
+<<<<<<< HEAD
       <!-- Cabeçalho do perfil -->
       <section class="card profile">
         <div class="banner"></div>
@@ -44,13 +107,46 @@
               <svg class="verified" viewBox="0 0 24 24" width="18" height="18" aria-label="Verificado">
                 <circle cx="12" cy="12" r="11" fill="currentColor"/>
                 <path d="m7.5 12.5 3 3 6-6.5" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+=======
+      <!-- Banner Mesclado -->
+      <section class="welcome-banner">
+        <div class="banner-decoration banner-decoration-one"></div>
+        <div class="banner-decoration banner-decoration-two"></div>
+
+        <div class="welcome-copy">
+          <span class="eyebrow">MEU PERFIL</span>
+          <h1>
+            <span id="nomeProprietario">Ana Clara</span>
+            <svg class="verified" viewBox="0 0 24 24" width="20" height="20" aria-label="Verificado">
+              <circle cx="12" cy="12" r="11" fill="#fff"/>
+              <path d="m7.5 12.5 3 3 6-6.5" fill="none" stroke="var(--accent)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </h1>
+          <p>Bem-vindo(a) de volta! 👋 Seu perfil está ativo. Acesse as opções abaixo para gerenciar suas casas e anúncios.</p>
+        </div>
+
+        <div class="banner-avatar">
+          <div class="avatar-area">
+            <div class="avatar-frame">
+              <span class="avatar-initials" id="avatarProprietario" aria-label="Avatar do Proprietário">AC</span>
+              <img id="fotoPreview" alt="Foto de perfil" hidden>
+            </div>
+
+            <button type="button" class="avatar-edit" id="btnFoto" title="Alterar foto" aria-label="Alterar foto">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+                <circle cx="12" cy="13" r="4"/>
+>>>>>>> 2dc4d3af3dbdc28958cfeec8f9cfab23b1a963ea
               </svg>
-            </h1>
-            <p>Proprietário</p>
+            </button>
           </div>
+
+          <input type="file" id="fotoPerfil" name="fotoPerfil" accept="image/png,image/jpeg,image/webp" hidden>
+          <span class="photo-error" id="erroFoto" role="alert"></span>
         </div>
       </section>
 
+<<<<<<< HEAD
       <div class="row">
 
         <!-- Ações -->
@@ -82,8 +178,47 @@
 
         </section>
       </div>
+=======
+      <!-- Estatísticas e Ações -->
+      <section class="card stats-card">
+        
+        <!-- Cartão 1: Casas -->
+        <div class="stat">
+          <div class="stat-header">
+            <span class="stat-icon">🏠</span>
+            <div>
+              <strong>0</strong>
+              <span>Casas cadastradas</span>
+            </div>
+          </div>
+          <div class="stat-actions">
+            <a href="suas-casas.html" class="btn-small">Visualizar minhas casas</a>
+            <a href="questionario-proprietario.html" class="btn-small">Adicionar casa</a>
+          </div>
+        </div>
+
+        <!-- Cartão 2: Matches -->
+        <div class="stat">
+          <div class="stat-header">
+            <span class="stat-icon">💜</span>
+            <div>
+              <strong>0</strong>
+              <span>Matches feitos</span>
+            </div>
+          </div>
+          <!-- NOVO BOTÃO AQUI -->
+          <div class="stat-actions">
+            <a href="matches-feitos-proprietario.html" class="btn-small">Visualizar todos os matches</a>
+          </div>
+        </div>
+
+      </section>
+>>>>>>> 2dc4d3af3dbdc28958cfeec8f9cfab23b1a963ea
 
     </main>
   </div>
+
+  <script src="../js/perfil-proprietario.js"></script>
 </body>
+
 </html>

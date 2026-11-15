@@ -1,44 +1,312 @@
-/* Importar base do layout (pode ajustar o caminho se necessário) */
-@import url('perfil-proprietario.css');
+/* =========================================================
+   RESET E BASE
+   ========================================================= */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* Paleta de cores idêntica ao perfil-aluno */
+:root {
+  --primary: #8684ff;
+  --primary-dark: #3330b8;
+  --accent: #514ee2;
+  --primary-soft: #eceafd;
+  --lilac: #c9c3fa;
+  --title: #0f1535;
+  --text: #4a5068;
+  --muted: #7b8098;
+  --border: #e6e7f0;
+  --radius: 14px;
+  --font: "Kumbh Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --background: #f8f8fd;
+  --card: #ffffff;
+  --shadow: 0 1px 2px rgba(31, 35, 64, 0.04), 0 4px 16px rgba(31, 35, 64, 0.05);
+  --sidebar-width: 260px;
+}
+
+html, body {
+  height: 100%;
+}
 
 body {
-  font-family: 'Inter', sans-serif;
-}
-
-/* ---------- Cabeçalho ---------- */
-.page-header {
-  padding: 10px 0 15px 0;
-}
-
-.header-text h1 {
-  font-size: 1.5rem;
+  font-family: var(--font);
+  background: var(--background);
   color: var(--text);
-  font-weight: 700;
+  min-height: 100vh;
 }
 
-.header-text p {
+/* =========================================================
+   ESTRUTURA PRINCIPAL (GRID)
+   ========================================================= */
+.app {
+  display: grid;
+  grid-template-columns: var(--sidebar-width) 1fr;
+  min-height: 100vh;
+  transition: grid-template-columns 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.app.collapsed {
+  --sidebar-width: 88px;
+}
+
+/* =========================================================
+   BARRA LATERAL (SIDEBAR)
+   ========================================================= */
+.sidebar {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 28px 20px;
+  background: #fafaff;
+  border-right: 1px solid var(--border);
+  transition: padding 0.3s ease;
+}
+
+.sidebar-toggle {
+  position: absolute;
+  right: -14px;
+  top: 36px;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #fff;
+  border: 1px solid var(--border);
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 100;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s ease, background 0.2s ease;
+}
+
+.sidebar-toggle:hover {
+  background: var(--primary-soft);
+}
+
+.app.collapsed .sidebar-toggle svg {
+  transform: rotate(180deg);
+}
+
+.logo {
+  display: block;
+  margin-bottom: 60px;
+  transition: opacity 0.3s ease;
+}
+
+.logo img {
+  display: block;
+  width: 100%;
+  max-width: 170px;
+  height: auto;
+  transition: max-width 0.3s ease;
+}
+
+.nav {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 16px;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.2;
   color: var(--muted);
-  font-size: 0.9rem;
-  margin-top: 5px;
+  text-decoration: none;
+  transition: background 0.2s ease, color 0.2s ease, padding 0.3s ease;
+  white-space: nowrap;
 }
 
-/* ---------- Container do Mapa ---------- */
+.nav-item svg {
+  width: 22px;
+  height: 22px;
+  flex-shrink: 0;
+}
+
+.nav-item:hover {
+  background: var(--primary-soft);
+  color: var(--primary-dark);
+}
+
+.nav-item.active {
+  background: linear-gradient(135deg, var(--primary), var(--accent));
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(134, 132, 255, 0.25);
+}
+
+.nav-item.active svg {
+  color: #fff;
+}
+
+/* --- ESTADO RETRAÍDO --- */
+.app.collapsed .sidebar {
+  padding: 28px 16px; 
+}
+
+.app.collapsed .logo {
+  opacity: 0; 
+  pointer-events: none;
+}
+
+.app.collapsed .nav-item span {
+  display: none; 
+}
+
+.app.collapsed .nav-item {
+  justify-content: center;
+  padding: 14px 0;
+}
+
+/* =========================================================
+   CONTEÚDO PRINCIPAL
+   ========================================================= */
+.content {
+  padding: 30px 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  overflow-y: auto;
+  min-width: 0;
+}
+
+/* =========================================================
+   BANNER PADRONIZADO (Versão Reduzida)
+   ========================================================= */
+.welcome-banner {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  width: 100%;
+  min-height: 140px; /* Original era 190px */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24px 40px; /* Original era 34px 48px */
+  border-radius: 20px; /* Original era 25px */
+  background: linear-gradient(115deg, #7774f5 0%, #514ee2 53%, #2f6fe0 100%);
+  color: #ffffff;
+  box-shadow: 0 12px 28px rgba(81, 78, 226, .22); /* Sombra um pouco menor */
+  flex-shrink: 0;
+}
+
+.welcome-copy {
+  position: relative;
+  z-index: 2;
+  max-width: 590px;
+  text-align: left; /* Garante que o texto fique à esquerda */
+}
+
+.eyebrow {
+  display: inline-block;
+  margin-bottom: 8px; /* Original era 12px */
+  color: rgba(255, 255, 255, .78);
+  font-size: 10px; /* Original era 11px */
+  font-weight: 800;
+  letter-spacing: 2px;
+}
+
+.welcome-banner h1 {
+  font-size: clamp(24px, 2.5vw, 30px); /* Original era clamp(27px, 3vw, 36px) */
+  font-weight: 800;
+  letter-spacing: -1px;
+  color: #ffffff;
+  margin: 0;
+}
+
+.welcome-banner p {
+  max-width: 550px;
+  margin-top: 6px; /* Original era 10px */
+  color: rgba(255, 255, 255, .84);
+  font-size: 12px; /* Original era 13px */
+  line-height: 1.6;
+}
+
+.banner-symbol {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  width: 80px; /* Original era 112px */
+  height: 80px;
+  margin-right: 20px; /* Original era 50px */
+  border: 1px solid rgba(255, 255, 255, .27);
+  border-radius: 20px; /* Original era 30px */
+  background: rgba(255, 255, 255, .14);
+  color: rgba(255, 255, 255, .94);
+  transform: rotate(-8deg);
+  backdrop-filter: blur(8px);
+  flex-shrink: 0;
+}
+
+/* Ajuste do ícone SVG dentro do quadrado para ele não ficar gigante */
+.banner-symbol svg {
+  width: 36px;
+  height: 36px;
+}
+
+/* =========================================================
+   AS DECORAÇÕES DE FUNDO CONTINUAM IGUAIS
+   ========================================================= */
+.banner-decoration {
+  position: absolute;
+  z-index: -1;
+  border: 1px solid rgba(255, 255, 255, .14);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.banner-decoration-one {
+  width: 360px;
+  height: 360px;
+  top: -230px;
+  right: 80px;
+  box-shadow: 0 0 0 35px rgba(255, 255, 255, .035), 0 0 0 70px rgba(255, 255, 255, .025);
+}
+
+.banner-decoration-two {
+  width: 250px;
+  height: 250px;
+  right: -95px;
+  bottom: -185px;
+  background: rgba(255, 255, 255, .08);
+}
+
+.card {
+  background: var(--card);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+/* --- Container do Mapa --- */
 .map-container {
-  flex: 1; /* Ocupa o resto da altura da tela */
-  min-height: 500px; /* Altura mínima para não encolher muito */
-  padding: 0; /* Remove padding para o mapa encostar nas bordas do card */
+  flex: 1;
+  padding: 8px;
   overflow: hidden;
   position: relative;
-  z-index: 1; /* Garante que não sobrepõe a sidebar */
+  z-index: 1;
 }
 
 #mapaFavoritos {
   width: 100%;
   height: 100%;
-  min-height: 65vh; /* Altura do mapa */
+  min-height: 65vh;
+  border-radius: 10px;
 }
 
-/* ---------- Customização do Popup do Leaflet (Estilo FindUHouse) ---------- */
+/* =========================================================
+   CUSTOMIZAÇÃO DO POPUP DO LEAFLET
+   ========================================================= */
 .leaflet-popup-content-wrapper {
   border-radius: 12px;
   box-shadow: 0 10px 25px rgba(31, 35, 64, 0.15);
@@ -46,8 +314,8 @@ body {
 
 .leaflet-popup-content {
   margin: 18px 15px;
-  font-family: 'Inter', sans-serif;
-  color: #1f2340;
+  font-family: var(--font);
+  color: var(--title);
 }
 
 .popup-vaga {
@@ -57,39 +325,100 @@ body {
 }
 
 .popup-vaga h3 {
-  font-size: 1rem;
+  font-size: 15px;
   font-weight: 700;
   margin: 0;
   line-height: 1.2;
 }
 
 .popup-vaga .preco {
-  color: #4f46e5; /* Cor primária */
+  color: var(--accent);
   font-weight: 800;
-  font-size: 1.1rem;
+  font-size: 15px;
   margin: 0;
 }
 
 .popup-vaga .endereco {
-  color: #6b7090;
-  font-size: 0.8rem;
+  color: var(--muted);
+  font-size: 12px;
   margin: 0;
   line-height: 1.4;
 }
 
+/* Botão de detalhes combinando com o novo tema */
 .popup-vaga .btn-detalhes {
   margin-top: 10px;
-  background: #4f46e5;
+  background: var(--accent);
   color: white;
   text-align: center;
   text-decoration: none;
   padding: 8px 0;
   border-radius: 6px;
-  font-size: 0.85rem;
+  font-size: 13px;
   font-weight: 600;
   transition: background 0.2s;
 }
 
 .popup-vaga .btn-detalhes:hover {
-  background: #3a33d1;
+  background: var(--primary-dark);
+}
+
+/* =========================================================
+   RESPONSIVO
+   ========================================================= */
+@media (max-width: 800px) {
+  .app {
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar {
+    flex-direction: row;
+    align-items: center;
+    padding: 16px;
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .sidebar-toggle {
+    display: none;
+  }
+
+  .logo {
+    margin-bottom: 0;
+    margin-right: 20px;
+  }
+
+  .logo img {
+    max-width: 130px;
+  }
+
+  .nav {
+    flex-direction: row;
+    overflow-x: auto;
+  }
+  
+  .nav-item span {
+    display: none;
+  }
+
+  .content {
+    padding: 20px 16px;
+  }
+
+  #mapaFavoritos {
+    min-height: 55vh;
+  }
+
+    .welcome-banner {
+    padding: 20px;
+  }
+  
+  .banner-symbol {
+    display: none; /* Em celulares, escondemos o ícone para economizar espaço */
+  }
+
+  #mapaFavoritos {
+    min-height: 60vh;
+  }
+
 }
