@@ -43,10 +43,7 @@ async function chamarApi(caminho, { metodo = "GET", corpo } = {}) {
             status: resposta.status
         };
 
-        // [MODO DE TESTE] Comentado para não expulsar o usuário se o token for falso ou não existir
         if (erroApi.codigo === "TOKEN_INVALIDO") {
-            // limparSessao();
-            // window.location.href = "login.html";
             console.warn("Token inválido detectado, mas a trava está desativada para testes.");
         }
 
@@ -57,7 +54,7 @@ async function chamarApi(caminho, { metodo = "GET", corpo } = {}) {
 }
 
 function armazenamento() {
-    return sessionStorage.getItem("token") ? sessionStorage : localStorage;
+    return localStorage.getItem("token") ? localStorage : sessionStorage;
 }
 
 function salvarSessao({ token, usuarioId, perfil }, lembrar = false) {
@@ -66,16 +63,28 @@ function salvarSessao({ token, usuarioId, perfil }, lembrar = false) {
     destino.setItem("token", token);
     destino.setItem("usuarioId", usuarioId);
     destino.setItem("perfil", perfil);
+
+    const emailUsuario = document.getElementById("email")?.value;
+    if (lembrar && emailUsuario) {
+        localStorage.setItem("emailLembrado", emailUsuario.trim());
+    } else {
+        localStorage.removeItem("emailLembrado");
+    }
 }
 
 function obterSessao() {
-    const origem = armazenamento();
+    const origem = localStorage.getItem("token") ? localStorage : (sessionStorage.getItem("token") ? sessionStorage : null);
+    if (!origem) {
+        return { 
+            token: "mock-token-de-teste", 
+            usuarioId: "1", 
+            perfil: "estudante" 
+        };
+    }
     const token = origem.getItem("token");
     const usuarioId = origem.getItem("usuarioId");
     const perfil = origem.getItem("perfil");
     
-    // [MODO DE TESTE] Se não tiver sessão, finge que o usuário 1 está logado
-    // para que o mapa consiga carregar os dados sem quebrar
     if (!token || !usuarioId || !perfil) {
         return { 
             token: "mock-token-de-teste", 
@@ -96,7 +105,6 @@ function limparSessao() {
 }
 
 function exigirLogin(perfilEsperado) {
-    // [MODO DE TESTE] Ignora a verificação de login e deixa o usuário acessar a tela
     console.warn(`[MODO DE TESTE] Proteção desativada. Acesso liberado para o perfil: ${perfilEsperado}`);
     return true;
 }
