@@ -1,5 +1,6 @@
 
-const API_NOVA_SENHA = "/api/auth/redefinir-senha";
+// API_BASE vem de api.js (mesmo endereço usado pelo resto do app)
+const API_NOVA_SENHA = `${API_BASE}/auth/redefinir-senha`;
 
 const novaSenhaForm = document.getElementById("novaSenhaForm");
 if (novaSenhaForm) {
@@ -55,7 +56,11 @@ if (novaSenhaForm) {
       mensagem.textContent = "Senha alterada com sucesso! Redirecionando para o login...";
       mensagem.classList.add("success");
       novaSenhaForm.reset();
-      setTimeout(() => { window.location.href = "login-aluno.html?senhaAtualizada=1"; }, 1600);
+      const destinoLogin = sessionStorage.getItem("origemLogin") === "proprietario"
+        ? "login-proprietario.html"
+        : "login-aluno.html";
+      sessionStorage.removeItem("origemLogin");
+      setTimeout(() => { window.location.href = destinoLogin; }, 1600);
     } catch (erro) {
       mensagem.textContent = erro.message || "Ocorreu um erro. Tente novamente.";
     } finally {

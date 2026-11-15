@@ -1,11 +1,18 @@
 
+// API_BASE vem de api.js (mesmo endereço usado pelo resto do app)
 const API_RECUPERACAO = {
-  solicitar: "/api/auth/solicitar-recuperacao",
-  verificar: "/api/auth/verificar-codigo"
+  solicitar: `${API_BASE}/auth/solicitar-recuperacao`,
+  verificar: `${API_BASE}/auth/verificar-codigo`
 };
 
 const solicitarForm = document.getElementById("solicitarCodigoForm");
 const verificarForm = document.getElementById("verificarCodigoForm");
+
+// Guarda de qual tela de login o usuário veio, para voltar para ela no fim do fluxo
+const origemParam = new URLSearchParams(window.location.search).get("origem");
+if (origemParam === "aluno" || origemParam === "proprietario") {
+  sessionStorage.setItem("origemLogin", origemParam);
+}
 
 if (solicitarForm && verificarForm) {
   const emailInput = document.getElementById("email");
@@ -119,7 +126,8 @@ if (solicitarForm && verificarForm) {
       const resultado = await requisicao(API_RECUPERACAO.verificar, { email: emailAtual, codigo });
       if (!resultado.tokenRecuperacao) throw new Error("A resposta do servidor não retornou o token de recuperação.");
       sessionStorage.setItem("tokenRecuperacao", resultado.tokenRecuperacao);
-      window.location.href = `nova-senha.html?token=${encodeURIComponent(resultado.tokenRecuperacao)}`;
+      // A tela de "Crie uma nova senha" é esqueceu-senha.html; o token segue pelo sessionStorage
+      window.location.href = "esqueceu-senha.html";
     } catch (erro) {
       codigoInputs.forEach(input => { input.value = ""; input.classList.add("is-invalid"); });
       codigoInputs[0].focus();
