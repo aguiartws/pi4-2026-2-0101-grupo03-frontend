@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 
@@ -126,7 +125,7 @@
         <li>
           <a class="active" href="questionario-proprietario.html">
             <svg><use href="#i-clip"/></svg>
-            Questionário de compatibilidade
+            Adiconar casa
           </a>
         </li>
 
@@ -163,343 +162,105 @@
       <!-- FORMULÁRIO -->
       <form id="formQuestionario" novalidate>
 
-
-        <!-- ================================= -->
-        <!-- ETAPA 1 -->
-        <!-- ================================= -->
+        <!-- ====================================== -->
+        <!-- ETAPA 1: DADOS DA MORADIA -->
+        <!-- ====================================== -->
 
         <section class="form-step active" id="etapa1">
 
-          <!-- ENDEREÇO OBRIGATÓRIO -->
+          <div class="step-indicator">
+            ETAPA 1 DE 3 — DADOS DA MORADIA
+          </div>
+
+          <!-- ENDEREÇO DA RESIDÊNCIA -->
           <div class="address-field">
 
-            <label for="endereco">
-              <svg><use href="#i-home"/></svg>
-              Endereço da residência
-              <span class="required">*</span>
+            <h2>Localização da residência</h2>
+
+            <p>Preencha os dados de localização da sua república.</p>
+
+            <label for="cep">
+              CEP <span class="required">*</span>
             </label>
 
-            <p>Informe o endereço completo de sua moradia.</p>
+            <input
+              type="text"
+              id="cep"
+              name="cep"
+              placeholder="00000-000"
+              maxlength="9"
+              inputmode="numeric"
+              autocomplete="postal-code"
+              required
+            >
+
+            <label for="cidade">
+              Cidade <span class="required">*</span>
+            </label>
+
+            <input
+              type="text"
+              id="cidade"
+              name="cidade"
+              placeholder="Digite a cidade"
+              autocomplete="address-level2"
+              required
+            >
+
+            <label for="estado">
+              Estado <span class="required">*</span>
+            </label>
+
+            <input
+              type="text"
+              id="estado"
+              name="estado"
+              placeholder="Digite o estado ou UF"
+              autocomplete="address-level1"
+              required
+            >
+
+            <label for="endereco">
+              Endereço <span class="required">*</span>
+            </label>
 
             <input
               type="text"
               id="endereco"
               name="endereco"
-              placeholder="Rua, número, bairro, cidade e estado"
+              placeholder="Rua, avenida, etc."
               autocomplete="street-address"
               required
             >
 
-            <small>Campo obrigatório.</small>
+            <label for="numero">
+              Número <span class="required">*</span>
+            </label>
+
+            <input
+              type="text"
+              id="numero"
+              name="numero"
+              placeholder="Número da residência"
+              required
+            >
+
+            <label for="nomeRepublica">
+              Nome da Moradia <span class="required">*</span>
+            </label>
+
+            <input
+              type="text"
+              id="nomeRepublica"
+              name="nomeRepublica"
+              placeholder="Ex.: República Sol Nascente"
+              required
+            >
 
           </div>
 
 
-          <div class="step-indicator">ETAPA 1 DE 2</div>
-
-
-          <!-- PERGUNTA 1 -->
-          <fieldset class="question" style="border:0">
-
-            <svg><use href="#i-party"/></svg>
-
-            <div class="q-body">
-
-              <h3>1. Você aceita barulho depois das 22h durante a semana?</h3>
-
-              <p>Informe se os moradores podem fazer barulho nesse horário.</p>
-
-              <div class="options" style="--cols:2">
-
-                <label class="option">
-                  <input type="radio" name="barulho" value="sim">
-                  <span class="box"><b>Sim</b></span>
-                </label>
-
-                <label class="option">
-                  <input type="radio" name="barulho" value="nao">
-                  <span class="box"><b>Não</b></span>
-                </label>
-
-              </div>
-            </div>
-          </fieldset>
-
-
-          <!-- PERGUNTA 2 -->
-          <fieldset class="question" style="border:0">
-
-            <svg><use href="#i-home"/></svg>
-
-            <div class="q-body">
-
-              <h3>2. É permitido fumar em sua residência?</h3>
-
-              <p>Informe se os moradores podem fumar na residência.</p>
-
-              <div class="options" style="--cols:2">
-
-                <label class="option">
-                  <input type="radio" name="fumar" value="sim">
-                  <span class="box"><b>Sim</b></span>
-                </label>
-
-                <label class="option">
-                  <input type="radio" name="fumar" value="nao">
-                  <span class="box"><b>Não</b></span>
-                </label>
-
-              </div>
-            </div>
-          </fieldset>
-
-
-          <!-- PERGUNTA 3 -->
-          <fieldset class="question" style="border:0">
-
-            <svg><use href="#i-paw"/></svg>
-
-            <div class="q-body">
-
-              <h3>3. É permitido ter animais de estimação?</h3>
-
-              <p>Informe se os moradores podem ter animais na residência.</p>
-
-              <div class="options" style="--cols:2">
-
-                <label class="option">
-                  <input type="radio" name="animais" value="sim">
-                  <span class="box"><b>Sim</b></span>
-                </label>
-
-                <label class="option">
-                  <input type="radio" name="animais" value="nao">
-                  <span class="box"><b>Não</b></span>
-                </label>
-
-              </div>
-            </div>
-          </fieldset>
-
-
-          <!-- PERGUNTA 4 -->
-          <fieldset class="question" style="border:0">
-
-            <svg><use href="#i-users"/></svg>
-
-            <div class="q-body">
-
-              <h3>4. É permitido receber visitas na residência?</h3>
-
-              <p>Informe se os moradores podem receber amigos e familiares.</p>
-
-              <div class="options" style="--cols:2">
-
-                <label class="option">
-                  <input type="radio" name="visitas" value="sim">
-                  <span class="box"><b>Sim</b></span>
-                </label>
-
-                <label class="option">
-                  <input type="radio" name="visitas" value="nao">
-                  <span class="box"><b>Não</b></span>
-                </label>
-
-              </div>
-            </div>
-          </fieldset>
-
-
-          <!-- PERGUNTA 5 -->
-          <fieldset class="question" style="border:0">
-
-            <svg><use href="#i-home"/></svg>
-
-            <div class="q-body">
-
-              <h3>5. Os moradores costumam cozinhar na residência?</h3>
-
-              <p>Informe se a cozinha é utilizada pelos moradores.</p>
-
-              <div class="options" style="--cols:2">
-
-                <label class="option">
-                  <input type="radio" name="cozinhar" value="sim">
-                  <span class="box"><b>Sim</b></span>
-                </label>
-
-                <label class="option">
-                  <input type="radio" name="cozinhar" value="nao">
-                  <span class="box"><b>Não</b></span>
-                </label>
-
-              </div>
-            </div>
-          </fieldset>
-
-
-          <!-- BOTÃO PRÓXIMO -->
-          <button class="next" id="btnProximo" type="button">
-
-            Próximo
-
-            <svg><use href="#i-arrow-r"/></svg>
-
-          </button>
-
-        </section>
-
-
-        <!-- ================================= -->
-        <!-- ETAPA 2 -->
-        <!-- ================================= -->
-
-        <section class="form-step" id="etapa2" hidden>
-
-          <div class="step-indicator">ETAPA 2 DE 2</div>
-
-
-          <!-- PERGUNTA 6 -->
-          <fieldset class="question" style="border:0">
-
-            <svg><use href="#i-check"/></svg>
-
-            <div class="q-body">
-
-              <h3>6. Existem horários definidos para estudo na residência?</h3>
-
-              <p>Informe se existe uma rotina de horários para estudar.</p>
-
-              <div class="options" style="--cols:2">
-
-                <label class="option">
-                  <input type="radio" name="horarios_estudo" value="sim">
-                  <span class="box"><b>Sim</b></span>
-                </label>
-
-                <label class="option">
-                  <input type="radio" name="horarios_estudo" value="nao">
-                  <span class="box"><b>Não</b></span>
-                </label>
-
-              </div>
-            </div>
-          </fieldset>
-
-
-          <!-- PERGUNTA 7 -->
-          <fieldset class="question" style="border:0">
-
-            <svg><use href="#i-users"/></svg>
-
-            <div class="q-body">
-
-              <h3>7. As tarefas domésticas são divididas entre os moradores?</h3>
-
-              <p>Informe se os moradores compartilham as responsabilidades da casa.</p>
-
-              <div class="options" style="--cols:2">
-
-                <label class="option">
-                  <input type="radio" name="tarefas" value="sim">
-                  <span class="box"><b>Sim</b></span>
-                </label>
-
-                <label class="option">
-                  <input type="radio" name="tarefas" value="nao">
-                  <span class="box"><b>Não</b></span>
-                </label>
-
-              </div>
-            </div>
-          </fieldset>
-
-
-          <!-- PERGUNTA 8 -->
-          <fieldset class="question" style="border:0">
-
-            <svg><use href="#i-home"/></svg>
-
-            <div class="q-body">
-
-              <h3>8. Os quartos de sua residência são compartilhados?</h3>
-
-              <p>Informe se mais de uma pessoa divide o mesmo quarto.</p>
-
-              <div class="options" style="--cols:2">
-
-                <label class="option">
-                  <input type="radio" name="quartos" value="sim">
-                  <span class="box"><b>Sim</b></span>
-                </label>
-
-                <label class="option">
-                  <input type="radio" name="quartos" value="nao">
-                  <span class="box"><b>Não</b></span>
-                </label>
-
-              </div>
-            </div>
-          </fieldset>
-
-
-          <!-- PERGUNTA 9 -->
-          <fieldset class="question" style="border:0">
-
-            <svg><use href="#i-party"/></svg>
-
-            <div class="q-body">
-
-              <h3>9. Sua residência costuma receber festas?</h3>
-
-              <p>Informe se acontecem festas ou confraternizações na moradia.</p>
-
-              <div class="options" style="--cols:2">
-
-                <label class="option">
-                  <input type="radio" name="festas" value="sim">
-                  <span class="box"><b>Sim</b></span>
-                </label>
-
-                <label class="option">
-                  <input type="radio" name="festas" value="nao">
-                  <span class="box"><b>Não</b></span>
-                </label>
-
-              </div>
-            </div>
-          </fieldset>
-
-
-          <!-- PERGUNTA 10 -->
-          <fieldset class="question" style="border:0">
-
-            <svg><use href="#i-users"/></svg>
-
-            <div class="q-body">
-
-              <h3>10. Os moradores costumam ser comunicativos entre si?</h3>
-
-              <p>Informe se existe interação e comunicação entre os moradores.</p>
-
-              <div class="options" style="--cols:2">
-
-                <label class="option">
-                  <input type="radio" name="comunicacao" value="sim">
-                  <span class="box"><b>Sim</b></span>
-                </label>
-
-                <label class="option">
-                  <input type="radio" name="comunicacao" value="nao">
-                  <span class="box"><b>Não</b></span>
-                </label>
-
-              </div>
-            </div>
-          </fieldset>
-
-
-          <!-- ADICIONAR FOTOS -->
+          <!-- FOTOS LOGO APÓS O NOME DA REPÚBLICA -->
           <section class="photo-upload">
 
             <div class="photo-upload-heading">
@@ -508,7 +269,10 @@
 
               <div>
                 <h3>Fotos da sua moradia</h3>
-                <p>Adicione até 5 fotos para os estudantes conhecerem melhor sua residência.</p>
+
+                <p>
+                  Adicione até 5 fotos para os estudantes conhecerem melhor sua república.
+                </p>
               </div>
 
             </div>
@@ -534,15 +298,425 @@
               Você pode selecionar no máximo 5 imagens.
             </p>
 
-            <div id="previewFotos" class="photo-preview" aria-live="polite"></div>
+            <div
+              id="previewFotos"
+              class="photo-preview"
+              aria-live="polite">
+            </div>
 
           </section>
+
+
+          <button class="next" id="btnProximo" type="button">
+
+            Próximo
+
+            <svg><use href="#i-arrow-r"/></svg>
+
+          </button>
+
+        </section>
+
+
+        <!-- ====================================== -->
+        <!-- ETAPA 2: PERGUNTAS 1 A 5 -->
+        <!-- ====================================== -->
+
+        <section class="form-step" id="etapa2" hidden>
+
+          <div class="step-indicator">
+            ETAPA 2 DE 3 — SOBRE A MORADIA
+          </div>
+
+
+          <!-- PERGUNTA 1 -->
+          <fieldset class="question" style="border:0">
+
+            <svg><use href="#i-party"/></svg>
+
+            <div class="q-body">
+
+              <h3>
+                1. Após as 22h é comum ter barulhos em sua residência?
+              </h3>
+
+              <p>
+                Informe se os moradores podem fazer barulho nesse horário.
+              </p>
+
+              <div class="options" style="--cols:2">
+
+                <label class="option">
+                  <input type="radio" name="barulho" value="sim">
+                  <span class="box"><b>Sim</b></span>
+                </label>
+
+                <label class="option">
+                  <input type="radio" name="barulho" value="nao">
+                  <span class="box"><b>Não</b></span>
+                </label>
+
+              </div>
+
+            </div>
+
+          </fieldset>
+
+
+          <!-- PERGUNTA 2 -->
+          <fieldset class="question" style="border:0">
+
+            <svg><use href="#i-home"/></svg>
+
+            <div class="q-body">
+
+              <h3>
+                2. É permitido fumar em sua residência?
+              </h3>
+
+              <p>
+                Informe se os moradores podem fumar na residência.
+              </p>
+
+              <div class="options" style="--cols:2">
+
+                <label class="option">
+                  <input type="radio" name="fumar" value="sim">
+                  <span class="box"><b>Sim</b></span>
+                </label>
+
+                <label class="option">
+                  <input type="radio" name="fumar" value="nao">
+                  <span class="box"><b>Não</b></span>
+                </label>
+
+              </div>
+
+            </div>
+
+          </fieldset>
+
+
+          <!-- PERGUNTA 3 -->
+          <fieldset class="question" style="border:0">
+
+            <svg><use href="#i-paw"/></svg>
+
+            <div class="q-body">
+
+              <h3>
+                3. É permitido ter animais de estimação?
+              </h3>
+
+              <p>
+                Informe se os moradores podem ter animais na residência.
+              </p>
+
+              <div class="options" style="--cols:2">
+
+                <label class="option">
+                  <input type="radio" name="animais" value="sim">
+                  <span class="box"><b>Sim</b></span>
+                </label>
+
+                <label class="option">
+                  <input type="radio" name="animais" value="nao">
+                  <span class="box"><b>Não</b></span>
+                </label>
+
+              </div>
+
+            </div>
+
+          </fieldset>
+
+
+          <!-- PERGUNTA 4 -->
+          <fieldset class="question" style="border:0">
+
+            <svg><use href="#i-users"/></svg>
+
+            <div class="q-body">
+
+              <h3>
+                4. É permitido receber visitas na residência?
+              </h3>
+
+              <p>
+                Informe se os moradores podem receber amigos e familiares.
+              </p>
+
+              <div class="options" style="--cols:2">
+
+                <label class="option">
+                  <input type="radio" name="visitas" value="sim">
+                  <span class="box"><b>Sim</b></span>
+                </label>
+
+                <label class="option">
+                  <input type="radio" name="visitas" value="nao">
+                  <span class="box"><b>Não</b></span>
+                </label>
+
+              </div>
+
+            </div>
+
+          </fieldset>
+
+
+          <!-- PERGUNTA 5 -->
+          <fieldset class="question" style="border:0">
+
+            <svg><use href="#i-home"/></svg>
+
+            <div class="q-body">
+
+              <h3>
+                5. Os moradores costumam cozinhar na residência?
+              </h3>
+
+              <p>
+                Informe se a cozinha é utilizada pelos moradores.
+              </p>
+
+              <div class="options" style="--cols:2">
+
+                <label class="option">
+                  <input type="radio" name="cozinhar" value="sim">
+                  <span class="box"><b>Sim</b></span>
+                </label>
+
+                <label class="option">
+                  <input type="radio" name="cozinhar" value="nao">
+                  <span class="box"><b>Não</b></span>
+                </label>
+
+              </div>
+
+            </div>
+
+          </fieldset>
 
 
           <!-- BOTÕES -->
           <div class="form-actions">
 
-            <button class="back-step" id="btnVoltar" type="button">
+            <button
+              class="back-step"
+              id="btnVoltarEtapa2"
+              type="button">
+
+              <svg><use href="#i-arrow-l"/></svg>
+
+              Voltar
+
+            </button>
+
+            <button
+              class="next"
+              id="btnProximoEtapa2"
+              type="button">
+
+              Próximo
+
+              <svg><use href="#i-arrow-r"/></svg>
+
+            </button>
+
+          </div>
+
+        </section>
+
+
+        <!-- ====================================== -->
+        <!-- ETAPA 3: PERGUNTAS 6 A 10 -->
+        <!-- ====================================== -->
+
+        <section class="form-step" id="etapa3" hidden>
+
+          <div class="step-indicator">
+            ETAPA 3 DE 3 — CONVIVÊNCIA
+          </div>
+
+
+          <!-- PERGUNTA 6 -->
+          <fieldset class="question" style="border:0">
+
+            <svg><use href="#i-check"/></svg>
+
+            <div class="q-body">
+
+              <h3>
+                6. Existem espaços definidos para estudo na residência?
+              </h3>
+
+              <p>
+                Informe se existe uma rotina de horários para estudar.
+              </p>
+
+              <div class="options" style="--cols:2">
+
+                <label class="option">
+                  <input type="radio" name="horarios_estudo" value="sim">
+                  <span class="box"><b>Sim</b></span>
+                </label>
+
+                <label class="option">
+                  <input type="radio" name="horarios_estudo" value="nao">
+                  <span class="box"><b>Não</b></span>
+                </label>
+
+              </div>
+
+            </div>
+
+          </fieldset>
+
+
+          <!-- PERGUNTA 7 -->
+          <fieldset class="question" style="border:0">
+
+            <svg><use href="#i-users"/></svg>
+
+            <div class="q-body">
+
+              <h3>
+                7. As tarefas domésticas são divididas entre os moradores?
+              </h3>
+
+              <p>
+                Informe se os moradores compartilham as responsabilidades da casa.
+              </p>
+
+              <div class="options" style="--cols:2">
+
+                <label class="option">
+                  <input type="radio" name="tarefas" value="sim">
+                  <span class="box"><b>Sim</b></span>
+                </label>
+
+                <label class="option">
+                  <input type="radio" name="tarefas" value="nao">
+                  <span class="box"><b>Não</b></span>
+                </label>
+
+              </div>
+
+            </div>
+
+          </fieldset>
+
+
+          <!-- PERGUNTA 8 -->
+          <fieldset class="question" style="border:0">
+
+            <svg><use href="#i-home"/></svg>
+
+            <div class="q-body">
+
+              <h3>
+                8. Os quartos de sua residência são compartilhados?
+              </h3>
+
+              <p>
+                Informe se mais de uma pessoa divide o mesmo quarto.
+              </p>
+
+              <div class="options" style="--cols:2">
+
+                <label class="option">
+                  <input type="radio" name="quartos" value="sim">
+                  <span class="box"><b>Sim</b></span>
+                </label>
+
+                <label class="option">
+                  <input type="radio" name="quartos" value="nao">
+                  <span class="box"><b>Não</b></span>
+                </label>
+
+              </div>
+
+            </div>
+
+          </fieldset>
+
+
+          <!-- PERGUNTA 9 -->
+          <fieldset class="question" style="border:0">
+
+            <svg><use href="#i-party"/></svg>
+
+            <div class="q-body">
+
+              <h3>
+                9. Sua residência costuma receber festas?
+              </h3>
+
+              <p>
+                Informe se acontecem festas ou confraternizações na moradia.
+              </p>
+
+              <div class="options" style="--cols:2">
+
+                <label class="option">
+                  <input type="radio" name="festas" value="sim">
+                  <span class="box"><b>Sim</b></span>
+                </label>
+
+                <label class="option">
+                  <input type="radio" name="festas" value="nao">
+                  <span class="box"><b>Não</b></span>
+                </label>
+
+              </div>
+
+            </div>
+
+          </fieldset>
+
+
+          <!-- PERGUNTA 10 -->
+          <fieldset class="question" style="border:0">
+
+            <svg><use href="#i-users"/></svg>
+
+            <div class="q-body">
+
+              <h3>
+                10. Os moradores costumam ser comunicativos entre si?
+              </h3>
+
+              <p>
+                Informe se existe interação e comunicação entre os moradores.
+              </p>
+
+              <div class="options" style="--cols:2">
+
+                <label class="option">
+                  <input type="radio" name="comunicacao" value="sim">
+                  <span class="box"><b>Sim</b></span>
+                </label>
+
+                <label class="option">
+                  <input type="radio" name="comunicacao" value="nao">
+                  <span class="box"><b>Não</b></span>
+                </label>
+
+              </div>
+
+            </div>
+
+          </fieldset>
+
+
+          <!-- BOTÕES FINAIS -->
+          <div class="form-actions">
+
+            <button
+              class="back-step"
+              id="btnVoltarEtapa3"
+              type="button">
 
               <svg><use href="#i-arrow-l"/></svg>
 

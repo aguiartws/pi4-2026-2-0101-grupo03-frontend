@@ -1,268 +1,367 @@
+// Navegação e validação do questionário FindUHouse — 3 etapas
 
-// ---------- DADOS DO PERFIL DO PROPRIETÁRIO ----------
+const form = document.getElementById("formQuestionario");
 
-// O perfil deve salvar estes mesmos nomes no localStorage:
-// finduhouseNomeProprietario
-// finduhouseFotoProprietario
+const etapas = [
+  document.getElementById("etapa1"),
+  document.getElementById("etapa2"),
+  document.getElementById("etapa3")
+];
 
-const nomePerfilUsuario = document.getElementById('nomePerfilUsuario');
-const fotoPerfilUsuario = document.getElementById('fotoPerfilUsuario');
+let etapaAtual = 0;
 
-const nomeSalvo = localStorage.getItem('finduhouseNomeProprietario');
-const fotoSalva = localStorage.getItem('finduhouseFotoProprietario');
 
-if (nomeSalvo && nomePerfilUsuario) {
-  nomePerfilUsuario.textContent = nomeSalvo;
+// MOSTRAR ETAPA
+function mostrarEtapa(indice) {
+
+  etapas.forEach((etapa, i) => {
+
+    etapa.hidden = i !== indice;
+
+    etapa.classList.toggle("active", i === indice);
+
+  });
+
+  etapaAtual = indice;
+
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
+
 }
 
-if (fotoSalva && fotoPerfilUsuario) {
-  fotoPerfilUsuario.src = fotoSalva;
-} else if (fotoPerfilUsuario) {
-  fotoPerfilUsuario.style.display = 'none';
+
+// VALIDAR ETAPA
+function validarEtapa(indice) {
+
+  const etapa = etapas[indice];
+
+  // Verifica os campos obrigatórios de texto da primeira etapa.
+  const campos = etapa.querySelectorAll("input[required]");
+
+  for (const campo of campos) {
+
+    if (!campo.value.trim()) {
+
+      campo.focus();
+
+      campo.reportValidity();
+
+      return false;
+
+    }
+
+  }
+
+
+  // Verifica se todas as perguntas da etapa foram respondidas.
+  const grupos = [...new Set(
+
+    [...etapa.querySelectorAll('input[type="radio"]')]
+
+      .map(input => input.name)
+
+  )];
+
+
+  for (const nome of grupos) {
+
+    if (!etapa.querySelector(`input[name="${nome}"]:checked`)) {
+
+      alert("Por favor, responda todas as perguntas antes de continuar.");
+
+      const primeiraOpcao = etapa.querySelector(`input[name="${nome}"]`);
+
+      if (primeiraOpcao) primeiraOpcao.focus();
+
+      return false;
+
+    }
+
+  }
+
+  return true;
+
 }
 
 
-// ---------- ELEMENTOS DO FORMULÁRIO ----------
+// BOTÃO PRÓXIMO DA ETAPA 1
+document.getElementById("btnProximo").addEventListener("click", () => {
 
-const form = document.getElementById('formQuestionario');
+  if (validarEtapa(0)) {
 
-const etapa1 = document.getElementById('etapa1');
-const etapa2 = document.getElementById('etapa2');
+    mostrarEtapa(1);
 
-const btnProximo = document.getElementById('btnProximo');
-const btnVoltar = document.getElementById('btnVoltar');
+  }
 
-const inputFotos = document.getElementById('fotosMoradia');
-const previewFotos = document.getElementById('previewFotos');
+});
 
-const inputEndereco = document.getElementById('endereco');
+
+// BOTÃO VOLTAR DA ETAPA 2
+document.getElementById("btnVoltarEtapa2").addEventListener("click", () => {
+
+  mostrarEtapa(0);
+
+});
+
+
+// BOTÃO PRÓXIMO DA ETAPA 2
+document.getElementById("btnProximoEtapa2").addEventListener("click", () => {
+
+  if (validarEtapa(1)) {
+
+    mostrarEtapa(2);
+
+  }
+
+});
+
+
+// BOTÃO VOLTAR DA ETAPA 3
+document.getElementById("btnVoltarEtapa3").addEventListener("click", () => {
+
+  mostrarEtapa(1);
+
+});
+
+
+// CARREGAR NOME E FOTO DO PERFIL
+const nomeSalvo = localStorage.getItem("finduhouseNomeProprietario");
+
+const fotoSalva = localStorage.getItem("finduhouseFotoProprietario");
+
+if (nomeSalvo) {
+
+  document.getElementById("nomePerfilUsuario").textContent = nomeSalvo;
+
+}
+
+if (fotoSalva) {
+
+  document.getElementById("fotoPerfilUsuario").src = fotoSalva;
+
+}
+
+
+// MÁSCARA DO CEP: 00000-000
+const campoCep = document.getElementById("cep");
+
+campoCep.addEventListener("input", () => {
+
+  let valor = campoCep.value.replace(/\D/g, "").slice(0, 8);
+
+  if (valor.length > 5) {
+
+    valor = valor.slice(0, 5) + "-" + valor.slice(5);
+
+  }
+
+  campoCep.value = valor;
+
+});
+
+
+// SELEÇÃO E PRÉ-VISUALIZAÇÃO DAS FOTOS
+const inputFotos = document.getElementById("fotosMoradia");
+
+const previewFotos = document.getElementById("previewFotos");
 
 let fotosSelecionadas = [];
 
 
-// ---------- VALIDAR ENDEREÇO ----------
+inputFotos.addEventListener("change", () => {
 
-function validarEndereco() {
+  const novasFotos = [...inputFotos.files];
 
-  if (inputEndereco.value.trim() === '') {
+  const imagensValidas = novasFotos.filter(arquivo =>
+    arquivo.type.startsWith("image/")
+  );
 
-    alert('Por favor, informe o endereço da sua residência.');
 
-    inputEndereco.focus();
+  if (imagensValidas.length !== novasFotos.length) {
 
-    inputEndereco.scrollIntoView({
-      behavior: 'smooth',
-      block: 'center'
-    });
+    alert("Selecione somente arquivos de imagem.");
 
-    return false;
   }
 
-  return true;
-}
 
+  if (fotosSelecionadas.length + imagensValidas.length > 5) {
 
-// ---------- VALIDAR PERGUNTAS ----------
+    alert("Você pode adicionar no máximo 5 fotos.");
 
-function validarEtapa(etapa) {
-
-  const grupos = etapa.querySelectorAll('fieldset');
-
-  for (const grupo of grupos) {
-
-    const radios = grupo.querySelectorAll('input[type="radio"]');
-
-    let respondida = false;
-
-    radios.forEach(radio => {
-
-      if (radio.checked) {
-        respondida = true;
-      }
-
-    });
-
-    if (!respondida) {
-
-      alert('Por favor, responda todas as perguntas antes de continuar.');
-
-      grupo.scrollIntoView({
-        behavior: 'smooth',
-        block: 'center'
-      });
-
-      return false;
-    }
   }
 
-  return true;
-}
+
+  const vagas = 5 - fotosSelecionadas.length;
+
+  fotosSelecionadas = fotosSelecionadas.concat(
+    imagensValidas.slice(0, vagas)
+  );
 
 
-// ---------- IR PARA A ETAPA 2 ----------
+  atualizarPreview();
 
-btnProximo.addEventListener('click', function () {
-
-  // Primeiro verifica se o endereço foi preenchido
-  if (!validarEndereco()) {
-    return;
-  }
-
-  // Depois verifica se as perguntas da etapa 1 foram respondidas
-  if (!validarEtapa(etapa1)) {
-    return;
-  }
-
-  etapa1.hidden = true;
-  etapa2.hidden = false;
-
-  window.scrollTo({
-    top: 0,
-    behavior: 'smooth'
-  });
+  inputFotos.value = "";
 
 });
 
 
-// ---------- VOLTAR PARA A ETAPA 1 ----------
+// ATUALIZAR PRÉ-VISUALIZAÇÃO
+function atualizarPreview() {
 
-btnVoltar.addEventListener('click', function () {
-
-  etapa2.hidden = true;
-  etapa1.hidden = false;
-
-  window.scrollTo({
-    top: 0,
-    behavior: 'smooth'
-  });
-
-});
+  previewFotos.innerHTML = "";
 
 
-// ---------- SELECIONAR FOTOS ----------
+  fotosSelecionadas.forEach((arquivo, indice) => {
 
-inputFotos.addEventListener('change', function () {
+    const item = document.createElement("div");
 
-  const novasFotos = Array.from(inputFotos.files);
-
-  if (fotosSelecionadas.length + novasFotos.length > 5) {
-
-    alert('Você pode adicionar no máximo 5 fotos.');
-
-    inputFotos.value = '';
-    return;
-  }
-
-  for (const foto of novasFotos) {
-
-    if (!foto.type.startsWith('image/')) {
-
-      alert('Selecione somente arquivos de imagem.');
-
-      continue;
-    }
-
-    fotosSelecionadas.push(foto);
-  }
-
-  inputFotos.value = '';
-
-  mostrarFotos();
-
-});
+    item.className = "photo-item";
 
 
-// ---------- MOSTRAR PRÉVIA DAS FOTOS ----------
+    const imagem = document.createElement("img");
 
-function mostrarFotos() {
+    imagem.src = URL.createObjectURL(arquivo);
 
-  // Libera as URLs das imagens que estavam na prévia anterior
-  previewFotos.querySelectorAll('img').forEach(imagem => {
+    imagem.alt = `Foto da moradia ${indice + 1}`;
 
-    URL.revokeObjectURL(imagem.src);
 
-  });
+    const remover = document.createElement("button");
 
-  previewFotos.innerHTML = '';
+    remover.type = "button";
 
-  fotosSelecionadas.forEach((foto, indice) => {
+    remover.className = "remove-photo";
 
-    const container = document.createElement('div');
+    remover.textContent = "Remover";
 
-    container.classList.add('photo-item');
 
-    const imagem = document.createElement('img');
-
-    imagem.src = URL.createObjectURL(foto);
-
-    imagem.alt = 'Foto da moradia ' + (indice + 1);
-
-    const botaoRemover = document.createElement('button');
-
-    botaoRemover.type = 'button';
-
-    botaoRemover.classList.add('remove-photo');
-
-    botaoRemover.textContent = '×';
-
-    botaoRemover.setAttribute('aria-label', 'Remover foto');
-
-    botaoRemover.addEventListener('click', function () {
+    remover.addEventListener("click", () => {
 
       fotosSelecionadas.splice(indice, 1);
 
-      mostrarFotos();
+      atualizarPreview();
 
     });
 
-    container.appendChild(imagem);
 
-    container.appendChild(botaoRemover);
+    item.appendChild(imagem);
 
-    previewFotos.appendChild(container);
+    item.appendChild(remover);
+
+    previewFotos.appendChild(item);
 
   });
 
 }
 
 
-// ---------- ENVIAR QUESTIONÁRIO ----------
+// ENVIAR QUESTIONÁRIO
+form.addEventListener("submit", (evento) => {
 
-form.addEventListener('submit', function (event) {
+  evento.preventDefault();
 
-  event.preventDefault();
 
-  // Verifica novamente o endereço
-  if (!validarEndereco()) {
+  if (!validarEtapa(2)) {
+
     return;
+
   }
 
-  // Verifica as perguntas da segunda etapa
-  if (!validarEtapa(etapa2)) {
-    return;
-  }
 
+  // Guardar respostas das perguntas.
   const respostas = {};
 
-  // Guarda o endereço preenchido
-  respostas.endereco = inputEndereco.value.trim();
 
-  // Guarda todas as respostas das perguntas
-  const campos = form.querySelectorAll('input[type="radio"]:checked');
+  form.querySelectorAll('input[type="radio"]:checked').forEach(input => {
 
-  campos.forEach(campo => {
-
-    respostas[campo.name] = campo.value;
+    respostas[input.name] = input.value;
 
   });
 
-  // Mostra os dados no console
-  console.log('Respostas do questionário:', respostas);
 
-  console.log('Fotos selecionadas:', fotosSelecionadas);
+  // Guardar informações da moradia.
+  respostas.cep = document.getElementById("cep").value.trim();
+
+  respostas.cidade = document.getElementById("cidade").value.trim();
+
+  respostas.estado = document.getElementById("estado").value.trim();
+
+  respostas.endereco = document.getElementById("endereco").value.trim();
+
+  respostas.numero = document.getElementById("numero").value.trim();
+
+  respostas.nomeRepublica = document.getElementById("nomeRepublica").value.trim();
+
+
+  // Exibir informações no console.
+  console.log("Respostas do questionário:", respostas);
+
+  console.log("Fotos selecionadas:", fotosSelecionadas);
+
 
   alert(
-    'As respostas e fotos foram preparadas! Na próxima etapa vamos conectar o formulário ao servidor para realizar o envio definitivo.'
+    "Questionário preenchido! As respostas e fotos estão prontas para serem enviadas ao sistema."
   );
 
 });
+
+// RECOLHER E EXPANDIR A SIDEBAR
+
+const sidebar = document.querySelector(".sidebar");
+const layout = document.querySelector(".layout");
+
+// Criar botão da seta
+const botaoSidebar = document.createElement("button");
+
+botaoSidebar.type = "button";
+botaoSidebar.className = "sidebar-toggle";
+botaoSidebar.setAttribute("aria-label", "Recolher menu");
+botaoSidebar.setAttribute("aria-expanded", "true");
+botaoSidebar.title = "Recolher menu";
+
+botaoSidebar.innerHTML = `
+  <svg viewBox="0 0 24 24" aria-hidden="true">
+    <path d="M15 18l-6-6 6-6"/>
+  </svg>
+`;
+
+// Adicionar botão no menu lateral
+sidebar.insertBefore(botaoSidebar, sidebar.firstChild);
+
+// Alternar entre aberto e recolhido
+botaoSidebar.addEventListener("click", () => {
+
+  const recolhida = sidebar.classList.toggle("collapsed");
+
+  layout.classList.toggle("sidebar-collapsed", recolhida);
+
+  botaoSidebar.setAttribute("aria-expanded", String(!recolhida));
+
+  if (recolhida) {
+
+    botaoSidebar.setAttribute("aria-label", "Expandir menu");
+    botaoSidebar.title = "Expandir menu";
+
+    botaoSidebar.innerHTML = `
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M9 18l6-6-6-6"/>
+      </svg>
+    `;
+
+  } else {
+
+    botaoSidebar.setAttribute("aria-label", "Recolher menu");
+    botaoSidebar.title = "Recolher menu";
+
+    botaoSidebar.innerHTML = `
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M15 18l-6-6 6-6"/>
+      </svg>
+    `;
+
+  }
+
+});
+// INICIAR NA PRIMEIRA ETAPA
+mostrarEtapa(0);

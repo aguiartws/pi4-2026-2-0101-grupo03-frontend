@@ -1,18 +1,17 @@
 
 :root {
-  --bg: #2b1d8c;
-  --bg-dark: #21166f;
-  --primary: #4c2fd6;
-  --primary-soft: #eeeafc;
-  --primary-border: #c9bff5;
-  --text: #1e1b3a;
-  --muted: #6b6788;
-  --line: #e6e3f3;
+  --bg: #f1f0ff;
+  --bg-dark: #3330b8;
+  --primary: #514ee2;
+  --primary-soft: #eeedff;
+  --primary-border: #c9c3fa;
+  --text: #17183f;
+  --muted: #8589a8;
+  --line: #e2e2f3;
   --white: #fff;
   --green: #2bb673;
   --radius: 14px;
 }
-
 
 /* ---------- Configurações gerais ---------- */
 
@@ -54,7 +53,6 @@ a {
   text-decoration: none;
 }
 
-
 /* ---------- Cabeçalho superior ---------- */
 
 .topbar {
@@ -63,6 +61,7 @@ a {
   height: 56px;
   padding: 0 24px 0 16px;
   color: #fff;
+  background: linear-gradient(105deg, #8684ff, #514ee2 58%, #2f6fe0);
 }
 
 .logo {
@@ -103,25 +102,36 @@ a {
   flex-shrink: 0;
 }
 
-
 /* ---------- Layout principal ---------- */
 
 .layout {
   display: grid;
-  grid-template-columns: 190px minmax(0, 1fr);
+  grid-template-columns: 235px minmax(0, 1fr);
   gap: 8px;
   padding: 0 14px 14px 0;
   min-height: calc(100vh - 56px);
+  transition: grid-template-columns .3s ease;
 }
-
 
 /* ---------- Menu lateral ---------- */
 
 .sidebar {
   display: flex;
   flex-direction: column;
+  min-width: 0;
+  width: 100%;
   padding: 22px 10px 0 14px;
   color: #fff;
+  background: linear-gradient(
+    160deg,
+    #8684ff 0%,
+    #6b68ed 35%,
+    #514ee2 65%,
+    #3330b8 100%
+  );
+  position: relative;
+  overflow: hidden;
+  transition: padding .3s ease;
 }
 
 .back {
@@ -130,7 +140,7 @@ a {
   gap: 9px;
   margin: 0 6px 30px;
   font-size: 11px;
-  color: #ddd6ff;
+  color: #f0efff;
 }
 
 .back svg {
@@ -171,15 +181,20 @@ a {
   border-radius: 8px;
   font-size: 11px;
   line-height: 1.4;
-  color: #ddd6ff;
+  color: #f0efff;
+  transition: .2s;
 }
 
 .menu a svg {
   font-size: 17px;
 }
 
+.menu a:hover {
+  background: rgba(255, 255, 255, .15);
+}
+
 .menu a.active {
-  background: #5c43dc;
+  background: linear-gradient(135deg, #514ee2, #3330b8);
   color: #fff;
   font-weight: 600;
 }
@@ -189,7 +204,7 @@ a {
   margin-bottom: 14px;
   padding: 26px 14px 14px;
   border-radius: 12px;
-  background: rgba(255,255,255,.12);
+  background: rgba(255,255,255,.16);
   text-align: center;
   font-size: 11px;
   font-weight: 600;
@@ -202,7 +217,7 @@ a {
   display: grid;
   place-items: center;
   border-radius: 12px;
-  background: rgba(255,255,255,.18);
+  background: rgba(255,255,255,.20);
   font-size: 26px;
 }
 
@@ -212,6 +227,90 @@ a {
   font-size: 15px;
 }
 
+/* ---------- Botão de recolher a sidebar ---------- */
+
+.sidebar-toggle {
+  position: absolute;
+  top: 14px;
+  right: 10px;
+  width: 27px;
+  height: 27px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 7px;
+  color: #fff;
+  background: rgba(255, 255, 255, .18);
+  transition: .2s;
+  z-index: 5;
+}
+
+.sidebar-toggle:hover {
+  background: rgba(255, 255, 255, .32);
+}
+
+.sidebar-toggle svg {
+  width: 17px;
+  height: 17px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+}
+
+/* ---------- Sidebar recolhida ---------- */
+
+.layout.sidebar-collapsed {
+  grid-template-columns: 76px minmax(0, 1fr);
+}
+
+.sidebar.collapsed {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+/* Esconder textos e elementos da sidebar */
+
+.sidebar.collapsed .back {
+  font-size: 0;
+  justify-content: center;
+  gap: 0;
+  margin-left: 0;
+  margin-right: 0;
+  margin-top: 30px;
+}
+
+.sidebar.collapsed .back svg {
+  font-size: 18px;
+}
+
+.sidebar.collapsed .profile {
+  justify-content: center;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.sidebar.collapsed .profile div {
+  display: none;
+}
+
+.sidebar.collapsed .menu {
+  margin-top: 15px;
+}
+
+.sidebar.collapsed .menu a {
+  justify-content: center;
+  gap: 0;
+  padding: 12px 5px;
+  font-size: 0;
+}
+
+.sidebar.collapsed .menu a svg {
+  font-size: 19px;
+}
+
+.sidebar.collapsed .promo {
+  display: none;
+}
 
 /* ---------- Cartão principal ---------- */
 
@@ -225,7 +324,6 @@ a {
   min-width: 0;
   width: 100%;
 }
-
 
 /* ---------- Título e subtítulo ---------- */
 
@@ -251,7 +349,6 @@ a {
   line-height: 1.4;
 }
 
-
 /* ---------- Etapas do questionário ---------- */
 
 .form-step[hidden] {
@@ -270,11 +367,16 @@ a {
   letter-spacing: .5px;
 }
 
-
 /* ---------- Endereço da moradia ---------- */
 
 .address-field {
   margin: 0 14px 24px;
+}
+
+.address-field h2 {
+  font-size: 14px;
+  margin-bottom: 6px;
+  color: var(--text);
 }
 
 .address-field label {
@@ -284,7 +386,7 @@ a {
   font-size: 12px;
   font-weight: 700;
   color: var(--text);
-  margin-bottom: 6px;
+  margin: 14px 0 6px;
 }
 
 .address-field label svg {
@@ -316,11 +418,11 @@ a {
 
 .address-field input:focus {
   border-color: var(--primary);
-  box-shadow: 0 0 0 3px rgba(76, 47, 214, .10);
+  box-shadow: 0 0 0 3px rgba(81, 78, 226, .10);
 }
 
 .address-field input::placeholder {
-  color: #aaa6bd;
+  color: var(--muted);
 }
 
 .address-field small {
@@ -329,7 +431,6 @@ a {
   font-size: 9px;
   color: var(--muted);
 }
-
 
 /* ---------- Perguntas ---------- */
 
@@ -363,7 +464,6 @@ a {
   margin: 3px 0 12px;
   max-width: 100%;
 }
-
 
 /* ---------- Alternativas das perguntas ---------- */
 
@@ -424,7 +524,7 @@ a {
   width: 11px;
   height: 11px;
   margin-top: -5.5px;
-  border: 1.5px solid #cfcce0;
+  border: 1.5px solid var(--primary-border);
   border-radius: 50%;
 }
 
@@ -435,7 +535,7 @@ a {
 .option input:checked + .box {
   background: var(--primary-soft);
   border-color: var(--primary-border);
-  box-shadow: 0 2px 8px rgba(76,47,214,.15);
+  box-shadow: 0 2px 8px rgba(81,78,226,.15);
 }
 
 .option input:checked + .box::after {
@@ -447,7 +547,6 @@ a {
   outline: 2px solid var(--primary);
   outline-offset: 2px;
 }
-
 
 /* ---------- Área de fotos ---------- */
 
@@ -499,7 +598,7 @@ a {
 }
 
 .upload-button:hover {
-  background: #3e24c0;
+  background: #3330b8;
 }
 
 .upload-button svg {
@@ -553,7 +652,6 @@ a {
   background: #ffe8ec;
 }
 
-
 /* ---------- Botões ---------- */
 
 .card form {
@@ -573,11 +671,11 @@ a {
   display: inline-flex;
   gap: 10px;
   align-items: center;
-  box-shadow: 0 6px 16px rgba(76,47,214,.35);
+  box-shadow: 0 6px 16px rgba(81,78,226,.24);
 }
 
 .next:hover {
-  background: #3e24c0;
+  background: #3330b8;
 }
 
 .next svg {
@@ -613,19 +711,15 @@ a {
   color: var(--primary);
 }
 
-
 /* ---------- Responsividade ---------- */
 
 @media (max-width: 1100px) {
-
   .options {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
-
 }
 
 @media (max-width: 800px) {
-
   .layout {
     grid-template-columns: 1fr;
     padding: 0 12px 12px;
@@ -642,11 +736,9 @@ a {
   .photo-preview {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
-
 }
 
 @media (max-width: 480px) {
-
   .topbar {
     padding: 0 12px;
   }
@@ -684,5 +776,4 @@ a {
     margin-left: 0;
     margin-right: 0;
   }
-
 }
