@@ -68,20 +68,39 @@
     <main class="content">
 
       <!-- Banner Mesclado -->
-      <section class="card welcome-card">
-        <div class="banner-bg"></div>
-        <div class="welcome-body">
-          <div class="avatar" aria-label="Avatar do Aluno" id="avatarAluno">A</div>
-          <div class="welcome-info">
-            <h1>
-              <span id="nomeAluno">Estudante</span>
-              <svg class="verified" viewBox="0 0 24 24" width="20" height="20" aria-label="Verificado">
-                <circle cx="12" cy="12" r="11" fill="var(--accent)"/>
-                <path d="m7.5 12.5 3 3 6-6.5" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+            <section class="welcome-banner">
+        <div class="banner-decoration banner-decoration-one"></div>
+        <div class="banner-decoration banner-decoration-two"></div>
+
+        <div class="welcome-copy">
+          <span class="eyebrow">MEU PERFIL</span>
+          <h1>
+            <span id="nomeAluno">Ana Clara</span>
+            <svg class="verified" viewBox="0 0 24 24" width="20" height="20" aria-label="Verificado">
+              <circle cx="12" cy="12" r="11" fill="#fff"/>
+              <path d="m7.5 12.5 3 3 6-6.5" fill="none" stroke="var(--accent)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </h1>
+          <p>Bem-vindo(a) de volta! 👋 Seu perfil está ativo. Explore as opções abaixo para gerenciar seus matches, ver o mapa ou ajustar suas preferências.</p>
+        </div>
+
+        <div class="banner-avatar">
+          <div class="avatar-area">
+            <div class="avatar-frame">
+              <span class="avatar-initials" id="avatarAluno" aria-label="Avatar do Aluno">AC</span>
+              <img id="fotoPreview" alt="Foto de perfil" hidden>
+            </div>
+
+            <button type="button" class="avatar-edit" id="btnFoto" title="Alterar foto" aria-label="Alterar foto">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+                <circle cx="12" cy="13" r="4"/>
               </svg>
-            </h1>
-            <p>Bem-vindo(a) de volta! 👋 Seu perfil está ativo. Explore as opções na barra lateral para gerenciar seus matches, ver o mapa ou ajustar suas preferências.</p>
+            </button>
           </div>
+
+          <input type="file" id="fotoPerfil" name="fotoPerfil" accept="image/png,image/jpeg,image/webp" hidden>
+          <span class="photo-error" id="erroFoto" role="alert"></span>
         </div>
       </section>
 

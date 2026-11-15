@@ -180,21 +180,106 @@ body {
   min-width: 0;
 }
 
-.page-header {
-  margin-bottom: 4px;
+/* =========================================================
+   BANNER PADRONIZADO (Versão Reduzida)
+   ========================================================= */
+.welcome-banner {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  width: 100%;
+  min-height: 140px; /* Original era 190px */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24px 40px; /* Original era 34px 48px */
+  border-radius: 20px; /* Original era 25px */
+  background: linear-gradient(115deg, #7774f5 0%, #514ee2 53%, #2f6fe0 100%);
+  color: #ffffff;
+  box-shadow: 0 12px 28px rgba(81, 78, 226, .22); /* Sombra um pouco menor */
+  flex-shrink: 0;
 }
 
-.page-header h1 {
-  font-size: 24px;
-  font-weight: 700;
-  color: var(--title);
+.welcome-copy {
+  position: relative;
+  z-index: 2;
+  max-width: 590px;
+  text-align: left; /* Garante que o texto fique à esquerda */
 }
 
-.page-header p {
-  font-size: 14px;
-  color: var(--muted);
-  margin-top: 6px;
-  line-height: 1.5;
+.eyebrow {
+  display: inline-block;
+  margin-bottom: 8px; /* Original era 12px */
+  color: rgba(255, 255, 255, .78);
+  font-size: 10px; /* Original era 11px */
+  font-weight: 800;
+  letter-spacing: 2px;
+}
+
+.welcome-banner h1 {
+  font-size: clamp(24px, 2.5vw, 30px); /* Original era clamp(27px, 3vw, 36px) */
+  font-weight: 800;
+  letter-spacing: -1px;
+  color: #ffffff;
+  margin: 0;
+}
+
+.welcome-banner p {
+  max-width: 550px;
+  margin-top: 6px; /* Original era 10px */
+  color: rgba(255, 255, 255, .84);
+  font-size: 12px; /* Original era 13px */
+  line-height: 1.6;
+}
+
+.banner-symbol {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  width: 80px; /* Original era 112px */
+  height: 80px;
+  margin-right: 20px; /* Original era 50px */
+  border: 1px solid rgba(255, 255, 255, .27);
+  border-radius: 20px; /* Original era 30px */
+  background: rgba(255, 255, 255, .14);
+  color: rgba(255, 255, 255, .94);
+  transform: rotate(-8deg);
+  backdrop-filter: blur(8px);
+  flex-shrink: 0;
+}
+
+/* Ajuste do ícone SVG dentro do quadrado para ele não ficar gigante */
+.banner-symbol svg {
+  width: 36px;
+  height: 36px;
+}
+
+/* =========================================================
+   AS DECORAÇÕES DE FUNDO CONTINUAM IGUAIS
+   ========================================================= */
+.banner-decoration {
+  position: absolute;
+  z-index: -1;
+  border: 1px solid rgba(255, 255, 255, .14);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.banner-decoration-one {
+  width: 360px;
+  height: 360px;
+  top: -230px;
+  right: 80px;
+  box-shadow: 0 0 0 35px rgba(255, 255, 255, .035), 0 0 0 70px rgba(255, 255, 255, .025);
+}
+
+.banner-decoration-two {
+  width: 250px;
+  height: 250px;
+  right: -95px;
+  bottom: -185px;
+  background: rgba(255, 255, 255, .08);
 }
 
 .card {
@@ -323,4 +408,17 @@ body {
   #mapaFavoritos {
     min-height: 55vh;
   }
+
+    .welcome-banner {
+    padding: 20px;
+  }
+  
+  .banner-symbol {
+    display: none; /* Em celulares, escondemos o ícone para economizar espaço */
+  }
+
+  #mapaFavoritos {
+    min-height: 60vh;
+  }
+
 }

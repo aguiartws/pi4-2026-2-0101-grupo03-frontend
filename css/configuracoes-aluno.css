@@ -90,7 +90,7 @@ a {
   border-radius: 50%;
   background: #fff;
   border: 1px solid #e6e8f5;
-  color: var(--roxo-1);
+  color: var(--primary);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -101,7 +101,7 @@ a {
 }
 
 .sidebar-toggle:hover {
-  background: #f5f3ff;
+   background: var(--primary-soft);
 }
 
 .app.collapsed .sidebar-toggle svg {
@@ -152,14 +152,14 @@ a {
 }
 
 .nav-item:hover {
-  background: rgba(124, 58, 237, 0.06);
-  color: var(--roxo-1);
+  background: var(--primary-soft); /* Fundo azulzinho suave */
+  color: var(--primary-dark);
 }
 
 .nav-item.active {
-  background: linear-gradient(135deg, var(--roxo-1), var(--roxo-2));
+  background: linear-gradient(135deg, var(--primary), var(--accent)); /* Azul/Roxo suave */
   color: #fff;
-  box-shadow: 0 4px 12px rgba(124, 58, 237, 0.25);
+  box-shadow: 0 4px 12px rgba(134, 132, 255, 0.25); /* Sombra azulada */
 }
 
 .nav-item.active svg {
