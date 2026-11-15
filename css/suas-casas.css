@@ -11,48 +11,38 @@ body {
   background-attachment: fixed;
 }
 
-/* ---------- Cabeçalho da Página ---------- */
-.page-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 20px;
-  padding: 10px 0 30px 0;
+/* Quadrado ao redor do ícone da casa no banner */
+.banner-symbol {
   position: relative;
-  margin-bottom: 36px;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  width: 112px;
+  height: 112px;
+  margin-right: 50px;
+  border: 1px solid rgba(255, 255, 255, .27);
+  border-radius: 30px;
+  background: rgba(255, 255, 255, .14);
+  color: rgba(255, 255, 255, .94);
+  transform: rotate(-8deg);
+  backdrop-filter: blur(8px);
+  flex-shrink: 0;
 }
 
-.page-header::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 3px;
-  background: linear-gradient(90deg, var(--primary) 0%, rgba(65, 59, 255, 0.08) 100%);
-  border-radius: 3px;
+
+
+.houses-toolbar {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 10px; /* Dá um espacinho antes dos cards */
 }
 
-.header-text h1 {
-  font-size: 2.2rem;
-  color: var(--text);
-  font-weight: 800;
-  letter-spacing: -1px;
-  line-height: 1.1;
-}
 
-.header-text p {
-  color: var(--muted);
-  font-size: 1.05rem;
-  margin-top: 8px;
-}
-
-/* Botão principal: pílula, com o "+" girando ao passar o mouse */
 .btn-novo {
   display: flex;
   align-items: center;
   gap: 10px;
-  background: var(--primary);
+  background: var(--accent);
   color: #fff;
   border: none;
   padding: 14px 26px;
@@ -63,17 +53,17 @@ body {
   cursor: pointer;
   white-space: nowrap;
   transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
-  box-shadow: 0 6px 18px rgba(65, 59, 255, 0.28);
+  box-shadow: 0 6px 18px rgba(81, 78, 226, 0.28);
+}
+
+.btn-novo:hover {
+  background: var(--primary-dark); /* Alterado para ficar mais escuro no hover */
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(51, 48, 184, 0.36);
 }
 
 .btn-novo svg {
   transition: transform 0.3s ease;
-}
-
-.btn-novo:hover {
-  background: #3a33d1;
-  transform: translateY(-2px);
-  box-shadow: 0 10px 24px rgba(65, 59, 255, 0.36);
 }
 
 .btn-novo:hover svg {
@@ -314,7 +304,25 @@ body {
 }
 
 /* ---------- Responsividade ---------- */
+@media (max-width: 800px) {
+  .banner-symbol {
+    width: 76px;
+    height: 76px;
+    margin-right: 0;
+    border-radius: 22px;
+  }
+}
+
 @media (max-width: 600px) {
+  .houses-toolbar {
+    justify-content: center;
+  }
+  
+  .btn-novo {
+    width: 100%;
+    justify-content: center;
+  }
+  
   .page-header {
     flex-direction: column;
     align-items: flex-start;
@@ -323,11 +331,6 @@ body {
 
   .header-text h1 {
     font-size: 1.8rem;
-  }
-
-  .btn-novo {
-    width: 100%;
-    justify-content: center;
   }
 
   .houses-grid {
@@ -345,4 +348,6 @@ body {
   .house-card:hover {
     transform: none;
   }
+
+  
 }

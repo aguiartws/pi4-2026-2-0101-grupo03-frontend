@@ -31,6 +31,7 @@ const erroSenha = document.getElementById("erroSenha");
 const mensagem = document.getElementById("mensagem");
 const novaSenha = document.getElementById("novaSenha");
 const confirmarSenha = document.getElementById("confirmarSenha");
+const telefoneInput = document.getElementById("telefone");
 const nomeInput = document.getElementById("nome");
 const nomeExibicao = document.getElementById("nomeExibicao");
 const tipoExibicao = document.getElementById("tipoExibicao");
@@ -48,6 +49,28 @@ let urlFotoTemporaria = null;
 // atualiza o nome mostrado no cartão de perfil.
 nomeInput.addEventListener("input", () => {
     nomeExibicao.textContent = nomeInput.value.trim() || "Seu perfil";
+});
+
+// Máscara de telefone
+telefoneInput.addEventListener("input", (e) => {
+    let valor = e.target.value.replace(/\D/g, ""); // Remove tudo que não for número
+    
+    if (valor.length > 11) {
+        valor = valor.slice(0, 11); // Limita a 11 dígitos (DDD + 9 dígitos)
+    }
+
+    // Aplica a formatação dinamicamente
+    if (valor.length > 10) {
+        valor = valor.replace(/^(\d{2})(\d{5})(\d{4}).*/, "($1) $2-$3");
+    } else if (valor.length > 6) {
+        valor = valor.replace(/^(\d{2})(\d{4})(\d{0,4}).*/, "($1) $2-$3");
+    } else if (valor.length > 2) {
+        valor = valor.replace(/^(\d{2})(\d{0,5}).*/, "($1) $2");
+    } else if (valor.length > 0) {
+        valor = valor.replace(/^(\d*)/, "($1");
+    }
+
+    e.target.value = valor;
 });
 
 
@@ -250,8 +273,21 @@ async function carregarPerfil() {
         document.getElementById("email").value =
             perfil.email || "";
 
-        document.getElementById("telefone").value =
-            perfil.telefone || "";
+        // Formata o telefone que vem do banco de dados
+        const telefoneSalvo = perfil.telefone || "";
+        let telefoneFormatado = telefoneSalvo.replace(/\D/g, "");
+
+        if (telefoneFormatado.length > 10) {
+            telefoneFormatado = telefoneFormatado.replace(/^(\d{2})(\d{5})(\d{4}).*/, "($1) $2-$3");
+        } else if (telefoneFormatado.length > 6) {
+            telefoneFormatado = telefoneFormatado.replace(/^(\d{2})(\d{4})(\d{0,4}).*/, "($1) $2-$3");
+        } else if (telefoneFormatado.length > 2) {
+            telefoneFormatado = telefoneFormatado.replace(/^(\d{2})(\d{0,5}).*/, "($1) $2");
+        } else if (telefoneFormatado.length > 0) {
+            telefoneFormatado = telefoneFormatado.replace(/^(\d*)/, "($1");
+        }
+
+        document.getElementById("telefone").value = telefoneFormatado;
 
         document.getElementById("cidade").value =
             perfil.cidade || "";
