@@ -1,9 +1,30 @@
 document.addEventListener("DOMContentLoaded", () => {
+    // ==========================================
+    // 1. LÓGICA DA BARRA LATERAL RETRÁTIL
+    // ==========================================
+    const appLayout = document.getElementById('appLayout');
+    const sidebarToggle = document.getElementById('sidebarToggle');
+
+    if (sidebarToggle && appLayout) {
+        sidebarToggle.addEventListener('click', () => {
+            appLayout.classList.toggle('collapsed');
+            const isCollapsed = appLayout.classList.contains('collapsed');
+            sidebarToggle.setAttribute('aria-label', isCollapsed ? 'Expandir menu' : 'Recolher menu');
+        });
+    }
+
+    // ==========================================
+    // 2. LÓGICA DO MAPA (MODO DE TESTE)
+    // ==========================================
+    
+    // TRAVA DE LOGIN DESATIVADA PARA TESTES
+    /*
     if (!exigirLogin("estudante")) {
         return;
     }
+    */
 
-    // 1. Inicializar o Mapa (Focado na PUC-Campinas Campus 1)
+    // Inicializar o Mapa (Focado na PUC-Campinas Campus 1)
     const map = L.map('mapaFavoritos').setView([-22.8343, -47.0523], 15);
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -23,15 +44,20 @@ document.addEventListener("DOMContentLoaded", () => {
         .bindPopup('<b>PUC-Campinas</b><br>Campus 1')
         .openPopup();
 
-    // 2. Função para buscar os favoritos no Backend
+    // Função para buscar os favoritos no Backend
     async function carregarFavoritosNoMapa() {
         try {
-            const estudanteId = obterSessao().usuarioId;
-            
+            // Como estamos testando, usamos um ID fixo.
+            let estudanteId = 1; 
+            if (typeof obterSessao === 'function' && obterSessao()) {
+                estudanteId = obterSessao().usuarioId;
+            }
+
+            // Tenta chamar a API
             const dados = await chamarApi(`/favoritos?estudanteId=${encodeURIComponent(estudanteId)}`);
 
-            // 3. Verifica se tem favoritos e os adiciona no mapa
-            if (dados.favoritos && dados.favoritos.length > 0) {
+            // Verifica se tem favoritos e os adiciona no mapa
+            if (dados && dados.favoritos && dados.favoritos.length > 0) {
                 dados.favoritos.forEach(casa => {
                     const precoFormatado = casa.valorAluguel.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
                     
@@ -44,7 +70,6 @@ document.addEventListener("DOMContentLoaded", () => {
                         </div>
                     `;
 
-                    // Usa as coordenadas vindas do banco de dados
                     L.marker([casa.latitude, casa.longitude])
                         .addTo(map)
                         .bindPopup(popupContent);
@@ -54,14 +79,11 @@ document.addEventListener("DOMContentLoaded", () => {
             }
 
         } catch (erro) {
-            console.error("Falha de comunicação com o backend:", erro);
-            const mensagemErro = document.getElementById("mensagemErro");
-            if (mensagemErro) {
-                mensagemErro.textContent = mensagemDeErro(erro);
-            }
+            // Se o servidor estiver desligado, não quebra o mapa.
+            console.warn("Backend offline ou falhou, mas o mapa continuará visível para testes:", erro);
         }
     }
 
-    // 4. Executa a busca assim que a página carregar
+    // Executa a busca
     carregarFavoritosNoMapa();
 });

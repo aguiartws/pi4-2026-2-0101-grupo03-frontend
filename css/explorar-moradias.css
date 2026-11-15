@@ -1,0 +1,13 @@
+/* Importa toda a base, o banner e os cards da tela de Matches */
+@import url('matches-feitos-aluno.css');
+
+/* Ajuste apenas a cor da etiqueta (badge) que fica em cima da imagem */
+.category-badge {
+  background: var(--accent); /* Fundo azul escuro */
+  color: #ffffff;            /* Letra branca */
+  padding: 6px 14px;
+  border-radius: 99px;
+  font-size: 12px;
+  font-weight: 800;
+  box-shadow: 0 4px 12px rgba(81, 78, 226, 0.3);
+}

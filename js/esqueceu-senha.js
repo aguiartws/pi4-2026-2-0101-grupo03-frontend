@@ -1,9 +1,4 @@
-/*
- * Nova senha - FindUHouse
- * Ajuste a rota para a implementação real do backend.
- * O backend deve validar o token de recuperação, atualizar a senha com hash
- * seguro e invalidar o token após o uso.
- */
+
 const API_NOVA_SENHA = "/api/auth/redefinir-senha";
 
 const novaSenhaForm = document.getElementById("novaSenhaForm");
