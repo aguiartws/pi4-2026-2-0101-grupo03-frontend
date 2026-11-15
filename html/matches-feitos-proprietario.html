@@ -85,67 +85,8 @@
         </div>
       </section>
 
-      <div class="matches-grid">
-        
-        <!-- CARD 1 -->
-        <div class="match-card">
-          <div class="match-img student-bg">
-            <div class="student-avatar">JS</div>
-            <span class="match-badge">💜 95% Match</span>
-          </div>
-          <div class="match-info">
-            <h2>João Silva</h2>
-            <p class="match-course">Engenharia de Software - PUC</p>
-            
-            <div class="match-property">
-              <span class="label">Gostou de:</span>
-              <span class="value">República Vila Universitária</span>
-            </div>
-
-            <!-- Trocado para "Ver detalhes" e adicionado o data-respostas -->
-            <button class="btn-match" 
-                    data-nome="João Silva" 
-                    data-iniciais="JS" 
-                    data-curso="Engenharia de Software - PUC" 
-                    data-email="joao.silva@puccampinas.edu.br" 
-                    data-telefone="(19) 99876-5432" 
-                    data-foto=""
-                    data-sobre-mim="Sou uma pessoa bem tranquila. Costumo estudar ouvindo música e gosto de cozinhar nos fins de semana. Procuro um lugar silencioso para descansar."
-                    data-respostas='[{"q":"Aceita barulho após 22h?","a":"Não"},{"q":"Fuma?","a":"Não"},{"q":"Aceita animais de estimação?","a":"Sim"},{"q":"Gosta de receber visitas?","a":"Sim"},{"q":"Gosta de cozinhar?","a":"Sim"},{"q":"Costuma estudar em casa?","a":"Sim"},{"q":"Divide as tarefas domésticas?","a":"Sim"},{"q":"Dividiria o quarto?","a":"Não"},{"q":"Topa festas de vez em quando?","a":"Não"},{"q":"É comunicativo?","a":"Sim"}]'>
-              Ver detalhes
-            </button>
-          </div>
-        </div>
-
-        <!-- CARD 2 -->
-        <div class="match-card">
-          <div class="match-img student-bg">
-            <div class="student-avatar">MC</div>
-            <span class="match-badge">💜 88% Match</span>
-          </div>
-          <div class="match-info">
-            <h2>Maria Clara</h2>
-            <p class="match-course">Medicina - PUC</p>
-            
-            <div class="match-property">
-              <span class="label">Gostou de:</span>
-              <span class="value">Kitnet Moderna Centro</span>
-            </div>
-
-            <button class="btn-match" 
-                    data-nome="Maria Clara" 
-                    data-iniciais="MC" 
-                    data-curso="Medicina - PUC" 
-                    data-email="maria.clara@puccampinas.edu.br" 
-                    data-telefone="(19) 98765-4321" 
-                    data-foto=""
-                    data-sobre-mim="Estudante de medicina, passo a maior parte do tempo estudando. Sou bem organizada e prefiro ambientes calmos. Tenho um gato."
-                    data-respostas='[{"q":"Aceita barulho após 22h?","a":"Não"},{"q":"Fuma?","a":"Não"},{"q":"Aceita animais de estimação?","a":"Sim"},{"q":"Gosta de receber visitas?","a":"Não"},{"q":"Gosta de cozinhar?","a":"Não"},{"q":"Costuma estudar em casa?","a":"Sim"},{"q":"Divide as tarefas domésticas?","a":"Sim"},{"q":"Dividiria o quarto?","a":"Não"},{"q":"Topa festas de vez em quando?","a":"Não"},{"q":"É comunicativo?","a":"Sim"}]'>
-              Ver detalhes
-            </button>
-          </div>
-        </div>
-
+      <div class="matches-grid" id="matchesGrid">
+        <p class="loading-msg">Carregando matches...</p>
       </div>
     </main>
   </div>
@@ -204,6 +145,7 @@
     </div>
   </div>
 
+  <script src="../js/api.js?v=6"></script>
   <script src="../js/matches-feitos-proprietario.js"></script>
 </body>
 

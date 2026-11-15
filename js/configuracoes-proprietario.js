@@ -19,8 +19,7 @@
 
 const TIPO_USUARIO = "proprietario";
 
-// ajustar a rota para o endpoint 
-const API_PERFIL = "/api/usuario/perfil";
+const API_PERFIL = `${API_BASE}/usuario/perfil`;
 
 const form = document.getElementById("formConfiguracoes");
 const fotoInput = document.getElementById("fotoPerfil");
@@ -86,14 +85,14 @@ if (fotoInput && fotoPreview) {
         }
 
         if (!TIPOS_PERMITIDOS.includes(arquivo.type)) {
-            if (erroFoto) erroFoto.textContent = "Escolha uma imagem JPG, PNG ou WEBP.";
+            if (erroFoto) erroFoto.textContent = mensagemDeErro({ codigo: "ARQUIVO_INVALIDO" });
             fotoInput.value = "";
             fotoSelecionada = null;
             return;
         }
 
-        if (arquivo.size > TAMANHO_MAXIMO_FOTO) {
-            if (erroFoto) erroFoto.textContent = "A imagem deve ter no máximo 5 MB.";
+        if (arquivo.size === 0 || arquivo.size > TAMANHO_MAXIMO_FOTO) {
+            if (erroFoto) erroFoto.textContent = mensagemDeErro({ codigo: "ARQUIVO_INVALIDO" });
             fotoInput.value = "";
             fotoSelecionada = null;
             return;
@@ -205,34 +204,35 @@ if (form) {
         const dados = new FormData(form);
 
         dados.delete("confirmarSenha");
-        dados.append("tipoUsuario", TIPO_USUARIO);
-        dados.append("removerFoto", String(removerFotoSelecionada));
+        dados.set("tipoUsuario", TIPO_USUARIO);
+        dados.set("nome", nomeInput.value.trim());
+        dados.set("email", document.getElementById("email").value.trim());
+        dados.set("telefone", telefoneInput.value.trim());
+        dados.set("cidade", document.getElementById("cidade").value.trim());
+        dados.set("curso", document.getElementById("curso")?.value.trim() || "");
+        dados.set("novaSenha", novaSenha?.value || "");
+        dados.set("removerFoto", String(removerFotoSelecionada && !fotoSelecionada));
 
         if (!fotoSelecionada) {
             dados.delete("fotoPerfil");
         }
 
         try {
-            const resposta = await fetch(API_PERFIL, {
-                method: "PUT",
-                body: dados,
-                credentials: "include"
+            const resultado = await chamarApiMultipart("/usuario/perfil", {
+                metodo: "PUT",
+                corpo: dados
             });
-
-            if (!resposta.ok) {
-                throw new Error("Não foi possível salvar as alterações.");
-            }
-
-            const resultado = await resposta.json();
-
-            if (resultado.fotoPerfilUrl && fotoPreview) {
-                fotoPreview.src = resultado.fotoPerfilUrl;
+            if (fotoPreview) {
+                fotoPreview.src = resultado?.fotoPerfilUrl || FOTO_PADRAO;
             }
 
             if (resultado.nome && nomeInput && nomeExibicao) {
                 nomeInput.value = resultado.nome;
                 nomeExibicao.textContent = resultado.nome;
             }
+            if (resultado.email) document.getElementById("email").value = resultado.email;
+            if (resultado.telefone) telefoneInput.value = resultado.telefone;
+            if (resultado.cidade) document.getElementById("cidade").value = resultado.cidade;
 
             if (mensagem) {
                 mensagem.textContent = "Alterações salvas com sucesso!";
@@ -248,7 +248,7 @@ if (form) {
 
         } catch (erro) {
             if (mensagem) {
-                mensagem.textContent = erro.message || "Ocorreu um erro ao salvar. Tente novamente.";
+                mensagem.textContent = mensagemDeErro(erro);
                 mensagem.classList.add("error");
             }
         }
@@ -258,16 +258,7 @@ if (form) {
 // carregar perfil
 async function carregarPerfil() {
     try {
-        const resposta = await fetch(API_PERFIL, {
-            method: "GET",
-            credentials: "include"
-        });
-
-        if (!resposta.ok) {
-            return;
-        }
-
-        const perfil = await resposta.json();
+        const perfil = await chamarApi("/usuario/perfil");
 
         if (nomeInput) nomeInput.value = perfil.nome || "";
 
@@ -293,8 +284,8 @@ async function carregarPerfil() {
         const cidadeEl = document.getElementById("cidade");
         if (cidadeEl) cidadeEl.value = perfil.cidade || "";
 
-        if (perfil.fotoPerfilUrl && fotoPreview) {
-            fotoPreview.src = perfil.fotoPerfilUrl;
+        if (fotoPreview) {
+            fotoPreview.src = perfil.fotoPerfilUrl || FOTO_PADRAO;
         }
 
         if (nomeExibicao) {
@@ -302,9 +293,11 @@ async function carregarPerfil() {
         }
 
     } catch (erro) {
-        console.error("Não foi possível carregar o perfil:", erro);
+        if (mensagem) {
+            mensagem.textContent = mensagemDeErro(erro);
+            mensagem.classList.add("error");
+        }
     }
 }
 
-configurarTipoUsuario();
 carregarPerfil();

@@ -35,6 +35,9 @@ const BOOLEANOS = [
 ];
 
 let fotosSelecionadas = [];
+let fotosAtuais = [];
+const TAMANHO_MAXIMO_FOTO = 5 * 1024 * 1024;
+const TIPOS_PERMITIDOS = ["image/jpeg", "image/png", "image/webp"];
 
 /* ---------- Toast ---------- */
 let toastTimer;
@@ -86,18 +89,22 @@ function configurarFotosMoradia() {
     erroFotos.textContent = "";
     const novosArquivos = Array.from(e.target.files);
 
-    if (fotosSelecionadas.length + novosArquivos.length > 5) {
-      erroFotos.textContent = "Você pode enviar no máximo 5 fotos por moradia.";
+    if (fotosAtuais.length + fotosSelecionadas.length + novosArquivos.length > 5) {
+      erroFotos.textContent = mensagemDeErro({ codigo: "LIMITE_FOTOS_EXCEDIDO" });
       return;
     }
 
-    novosArquivos.forEach((arquivo) => {
-      if (fotosSelecionadas.length < 5) {
-        fotosSelecionadas.push(arquivo);
+    for (const arquivo of novosArquivos) {
+      if (!TIPOS_PERMITIDOS.includes(arquivo.type) || arquivo.size === 0 || arquivo.size > TAMANHO_MAXIMO_FOTO) {
+        erroFotos.textContent = mensagemDeErro({ codigo: "ARQUIVO_INVALIDO" });
+        inputFotos.value = "";
+        return;
       }
-    });
+      fotosSelecionadas.push(arquivo);
+    }
 
     renderizarPreviewsFotos();
+    inputFotos.value = "";
   });
 }
 
@@ -169,6 +176,7 @@ async function carregar() {
   try {
     const resposta = await chamarApi(`/vagas/${encodeURIComponent(casaId)}`);
     const vaga = resposta && resposta.vaga ? resposta.vaga : resposta;
+      fotosAtuais = Array.isArray(vaga.fotos) ? vaga.fotos : [];
     preencherFormulario(vaga);
   } catch (err) {
     toast(mensagemDeErro(err), true);
@@ -189,7 +197,6 @@ async function salvar(e) {
   }
 
   const sessao = obterSessao();
-
   const regras = {};
   BOOLEANOS.forEach((nome) => {
     const cb = form.querySelector(`input[name="${nome}"]`);
@@ -221,14 +228,20 @@ async function salvar(e) {
 
     // 2. Se houver fotos selecionadas, envia via FormData para o endpoint de fotos da moradia
     if (fotosSelecionadas.length > 0) {
+      if (fotosAtuais.length + fotosSelecionadas.length > 5) {
+        throw { codigo: "LIMITE_FOTOS_EXCEDIDO" };
+      }
+
       const formData = new FormData();
       fotosSelecionadas.forEach((foto) => formData.append("fotos", foto));
 
-      await fetch(`${API_BASE}/vagas/${casaId}/fotos`, {
-        method: "POST",
-        headers: { "Authorization": `Bearer ${sessao.token}` },
-        body: formData
+      const resultadoFotos = await chamarApiMultipart(`/vagas/${encodeURIComponent(casaId)}/fotos`, {
+        corpo: formData
       });
+      if (!resultadoFotos || !Array.isArray(resultadoFotos.fotos)) {
+        throw { codigo: "FALHA_UPLOAD_IMAGEM" };
+      }
+      fotosSelecionadas = [];
     }
 
     toast("Anúncio atualizado com sucesso!");

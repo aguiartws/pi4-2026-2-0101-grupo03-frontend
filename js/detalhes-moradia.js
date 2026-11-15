@@ -9,8 +9,9 @@ document.addEventListener('DOMContentLoaded', () => {
   // 2. Pega o ID da URL
   const urlParams = new URLSearchParams(window.location.search);
   const vagaId = urlParams.get('id') || '1';
-  const token = localStorage.getItem('token');
-  const estudanteId = localStorage.getItem('usuarioId');
+  const sessao = obterSessao();
+  const token = sessao.token;
+  const estudanteId = sessao.usuarioId;
 
   // ==========================================
   // 3. CARREGAR DADOS DA MORADIA
@@ -24,16 +25,8 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelector('.features-grid').innerHTML = '<p>Buscando características...</p>';
 
     try {
-      const response = await fetch(`http://localhost:8081/api/vagas/${vagaId}`, {
-        headers: { 'Authorization': `Bearer ${token}` }
-      });
-
-      if (response.status === 401) {
-        throw new Error('Sessão expirada. Faça login novamente.');
-      }
-      if (!response.ok) throw new Error('Erro ao buscar detalhes');
-
-      const vaga = await response.json();
+      const vaga = await chamarApi(`/vagas/${encodeURIComponent(vagaId)}`);
+      renderizarGaleria(Array.isArray(vaga.fotos) ? vaga.fotos : []);
 
       // Atualiza o título da página e os dados no HTML
       document.title = `${vaga.titulo} | FindUHouse`;
@@ -66,7 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
     } catch (error) {
       console.error('Erro ao carregar detalhes:', error);
       document.querySelector('.title-section h1').textContent = 'Erro ao carregar';
-      document.querySelector('.description-section p').textContent = error.message;
+      document.querySelector('.description-section p').textContent = error.mensagem || error.message || 'Não foi possível carregar os detalhes.';
       document.querySelector('.price-value').textContent = '--';
       document.querySelector('.features-grid').innerHTML = '';
     }
@@ -134,23 +127,9 @@ document.addEventListener('DOMContentLoaded', () => {
       btnFecharMatch.disabled = true;
 
       try {
-        const response = await fetch(`http://localhost:8081/api/vagas/${vagaId}/interesse?estudanteId=${estudanteId}`, {
-          method: 'POST',
-          headers: { 
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json' 
-          }
+        await chamarApi(`/vagas/${encodeURIComponent(vagaId)}/interesse?estudanteId=${encodeURIComponent(estudanteId)}`, {
+          metodo: 'POST'
         });
-
-        if (response.status === 401) {
-          alert('Sessão expirada. Faça login novamente.');
-          return;
-        }
-
-        if (!response.ok) {
-          const err = await response.json();
-          throw new Error(err.mensagem || 'Falha ao registrar interesse');
-        }
 
         // Sucesso
         matches.push(vagaId);
@@ -198,39 +177,23 @@ document.addEventListener('DOMContentLoaded', () => {
       btnFavoritar.disabled = true;
 
       try {
-        const response = await fetch('http://localhost:8081/api/favoritos', {
-          method: 'POST',
-          headers: {
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
+        await chamarApi("/favoritos", {
+          metodo: 'POST',
+          corpo: {
             estudanteId: estudanteId,
             vagaId: vagaId
-          })
-        });
-
-        if (response.status === 401) {
-          alert('Sessão expirada. Faça login novamente.');
-          return;
-        }
-
-        if (!response.ok) {
-          const err = await response.json();
-          if (err.codigo === 'VAGA_JA_FAVORITADA') {
-            alert('Esta vaga já está nos seus favoritos!');
-          } else {
-            throw new Error(err.mensagem || 'Erro ao favoritar');
           }
-        } else {
-          // Sucesso!
-          btnFavoritar.classList.add('active');
-          btnFavoritar.querySelector('span').textContent = 'Favoritado';
-        }
+        });
+        btnFavoritar.classList.add('active');
+        btnFavoritar.querySelector('span').textContent = 'Favoritado';
         
       } catch (error) {
         console.error(error);
-        alert(error.message || 'Erro ao conectar com o servidor.');
+        if (error.codigo === 'VAGA_JA_FAVORITADA') {
+          alert('Esta vaga já está nos seus favoritos!');
+        } else {
+          alert(mensagemDeErro(error));
+        }
         btnFavoritar.querySelector('span').textContent = 'Favoritar';
       } finally {
         btnFavoritar.disabled = false;
@@ -243,15 +206,40 @@ document.addEventListener('DOMContentLoaded', () => {
   // ==========================================
   const lightbox = document.getElementById('lightbox');
   const lightboxImg = document.getElementById('lightboxImg');
-  const imagens = [
-    'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&q=80&w=1200',
-    'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&q=80&w=1200',
-    'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&q=80&w=1200'
-  ];
+  const PLACEHOLDER_FOTO = 'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&q=80&w=1200';
+  let imagens = [PLACEHOLDER_FOTO];
   let indexAtual = 0;
 
+  function renderizarGaleria(fotos) {
+    imagens = fotos.filter((foto) => typeof foto === 'string' && foto.trim() !== "");
+    if (imagens.length === 0) imagens = [PLACEHOLDER_FOTO];
+
+    const galeria = document.querySelector(".gallery");
+    const laterais = document.createElement("div");
+    laterais.className = "side-photos";
+
+    imagens.forEach((foto, index) => {
+      const elemento = document.createElement("div");
+      elemento.className = index === 0 ? "main-photo" : "photo";
+      elemento.style.backgroundImage = `url("${foto}")`;
+      elemento.addEventListener("click", () => window.abrirLightbox(index));
+
+      const teste = new Image();
+      teste.onerror = () => {
+        elemento.style.backgroundImage = `url("${PLACEHOLDER_FOTO}")`;
+      };
+      teste.src = foto;
+
+      if (index === 0) {
+        galeria.replaceChildren(elemento, laterais);
+      } else {
+        laterais.appendChild(elemento);
+      }
+    });
+  }
+
   window.abrirLightbox = function(index) {
-    indexAtual = index;
+    indexAtual = Math.max(0, Math.min(index, imagens.length - 1));
     lightboxImg.src = imagens[indexAtual];
     lightbox.classList.add('active');
   }
@@ -271,6 +259,10 @@ document.addEventListener('DOMContentLoaded', () => {
       lightboxImg.style.opacity = 1;
     }, 150);
   }
+
+  lightboxImg.addEventListener("error", () => {
+    lightboxImg.src = PLACEHOLDER_FOTO;
+  });
 
   if (lightbox) {
     lightbox.addEventListener('click', (e) => {

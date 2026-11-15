@@ -31,6 +31,16 @@ function criarCardCasa(vaga) {
   const card = document.createElement("div");
   card.className = "house-card card";
 
+  const imagem = document.createElement("img");
+  imagem.src = vaga.fotoCapa || "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&q=80&w=400";
+  imagem.alt = vaga.titulo ? `Foto de ${vaga.titulo}` : "Foto da moradia";
+  imagem.style.width = "100%";
+  imagem.style.height = "180px";
+  imagem.style.objectFit = "cover";
+  imagem.addEventListener("error", () => {
+    imagem.src = "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&q=80&w=400";
+  }, { once: true });
+
   const cabecalho = document.createElement("div");
   cabecalho.className = "house-header";
 
@@ -74,7 +84,7 @@ function criarCardCasa(vaga) {
   });
   rodape.appendChild(botaoEditar);
 
-  card.append(cabecalho, corpo, rodape);
+  card.append(imagem, cabecalho, corpo, rodape);
   return card;
 }
 
