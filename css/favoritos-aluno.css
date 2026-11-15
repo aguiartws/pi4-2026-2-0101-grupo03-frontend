@@ -106,3 +106,40 @@ input[type="range"]::-webkit-slider-thumb:hover { transform: scale(1.1); }
   .matches-grid { grid-template-columns: 1fr; }
   .filters-card { flex-direction: column; gap: 20px; }
 }
+
+/* ... mantenha todo o CSS que já estava antes ... */
+
+/* =========================================================
+   TOAST DE NOTIFICAÇÃO (PARABÉNS)
+   ========================================================= */
+.toast-sucesso {
+  position: fixed;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%) translateY(100px); /* Começa escondido embaixo */
+  background: #10b981; /* Verde sucesso */
+  color: #fff;
+  padding: 16px 28px;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 700;
+  box-shadow: 0 10px 30px rgba(16, 185, 129, 0.4);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  z-index: 10000;
+}
+
+.toast-sucesso.show {
+  transform: translateX(-50%) translateY(0);
+  opacity: 1;
+  visibility: visible;
+}
+
+.toast-sucesso svg {
+  width: 24px;
+  height: 24px;
+}

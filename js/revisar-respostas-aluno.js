@@ -1,4 +1,11 @@
 document.addEventListener('DOMContentLoaded', () => {
+  // 1. Lógica da barra lateral retrátil
+  const appLayout = document.getElementById('appLayout');
+  const sidebarToggle = document.getElementById('sidebarToggle');
+  if (sidebarToggle && appLayout) {
+    sidebarToggle.addEventListener('click', () => appLayout.classList.toggle('collapsed'));
+  }
+
   const PERGUNTAS = [
     { texto: 'Você aceita barulho depois das 22h durante a semana?', chave: 'aceitaBarulhoDepoisDas22' },
     { texto: 'Você fuma?', chave: 'fuma' },
@@ -17,8 +24,10 @@ document.addEventListener('DOMContentLoaded', () => {
   const charCount = document.getElementById('charCount');
   const btnSalvar = document.getElementById('btnSalvar');
   const btnVoltar = document.getElementById('btnVoltar');
+  
   let respostas = [];
 
+  // Valida a sessão do estudante
   function obterEstudanteId() {
     const sessao = obterSessao();
     const estudanteId = sessao && Number(sessao.usuarioId);
@@ -68,6 +77,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  // CARREGA OS DADOS DA API
   async function carregarDados() {
     const estudanteId = obterEstudanteId();
     if (!estudanteId) return;
@@ -89,6 +99,7 @@ document.addEventListener('DOMContentLoaded', () => {
         return respostasApi[pergunta.chave] ? 'sim' : 'nao';
       });
 
+      // Puxa o "Sobre mim" do cache (já que a API de questionário pode não devolver o texto)
       const cache = localStorage.getItem('finduhouse_perfil_aluno');
       if (cache) {
         try {
@@ -108,6 +119,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   sobreMim.addEventListener('input', atualizarContador);
 
+  // SALVA OS DADOS NA API
   btnSalvar.addEventListener('click', async () => {
     if (btnSalvar.disabled) return;
 
@@ -120,12 +132,15 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
+    // Prepara os dados para o formato que a API espera
     const respostasApi = Object.fromEntries(
       PERGUNTAS.map((pergunta, index) => [
         pergunta.chave,
         respostas[index] === 'sim'
       ])
     );
+    
+    // Prepara o objeto para salvar no cache local
     const dadosCache = {
       respostas: PERGUNTAS.map((pergunta, index) => ({
         pergunta: pergunta.texto,
@@ -151,9 +166,15 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
+  // BOTÃO VOLTAR INTELIGENTE (Volta para a última tela ou para o perfil)
   btnVoltar.addEventListener('click', () => {
-    window.location.href = 'perfil-aluno.html';
+    if (window.history.length > 1) {
+      window.history.back();
+    } else {
+      window.location.href = 'perfil-aluno.html';
+    }
   });
 
+  // Inicializa
   carregarDados();
 });
