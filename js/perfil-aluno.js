@@ -11,37 +11,39 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // 2. Lógica do "Sobre mim" e Nome do Aluno
+  // 2. Elementos do perfil
   const sobreMimText = document.getElementById('sobreMimText');
   const nomeAlunoEl = document.getElementById('nomeAluno');
   const avatarAlunoEl = document.getElementById('avatarAluno');
+  const mensagemPerfil = document.getElementById('mensagemPerfil');
+  const perfilEmail = document.getElementById('perfilEmail');
+  const perfilTelefone = document.getElementById('perfilTelefone');
+  const perfilCidade = document.getElementById('perfilCidade');
+  const perfilCurso = document.getElementById('perfilCurso');
+  const FOTO_PADRAO = "../imagens/avatar-padrao.png";
 
-  if (sobreMimText) {
-    try {
-      const dadosSalvos = localStorage.getItem('finduhouse_perfil_aluno');
-      let nomeSalvo = localStorage.getItem('finduhouse_usuario_nome');
+  function atualizarPerfil(perfil) {
+    const nome = perfil.nome || "";
+    nomeAlunoEl.textContent = nome;
+    avatarAlunoEl.textContent = nome
+      .trim()
+      .split(/\s+/)
+      .filter(Boolean)
+      .slice(0, 2)
+      .map((parte) => parte.charAt(0).toUpperCase())
+      .join("");
+    if (perfilEmail) perfilEmail.textContent = perfil.email || "";
+    if (perfilTelefone) perfilTelefone.textContent = perfil.telefone || "";
+    if (perfilCidade) perfilCidade.textContent = perfil.cidade || "";
+    if (perfilCurso) perfilCurso.textContent = perfil.curso || "";
 
-      if (dadosSalvos) {
-        const dados = JSON.parse(dadosSalvos);
-        
-        sobreMimText.textContent = dados.sobreMim && dados.sobreMim.trim() !== '' 
-          ? dados.sobreMim 
-          : "Você ainda não escreveu nada sobre você.";
+    const temFoto = typeof perfil.fotoPerfilUrl === "string" && perfil.fotoPerfilUrl.trim() !== "";
+    fotoPreview.src = temFoto ? perfil.fotoPerfilUrl : FOTO_PADRAO;
+    fotoPreview.hidden = false;
+    avatarAlunoEl.hidden = true;
 
-        if (dados.nome) nomeSalvo = dados.nome;
-      } else {
-        sobreMimText.textContent = "You ainda não escreveu nada sobre você.";
-      }
-
-      if (nomeSalvo && nomeSalvo.trim() !== "") {
-        nomeAlunoEl.textContent = nomeSalvo;
-        if (avatarAlunoEl) {
-          avatarAlunoEl.textContent = nomeSalvo.charAt(0).toUpperCase();
-        }
-      }
-    } catch (e) {
-      console.error("Erro ao ler os dados do perfil:", e);
-      sobreMimText.textContent = "Erro ao carregar informações.";
+    if (sobreMimText) {
+      sobreMimText.textContent = "Informações sobre você ainda não foram preenchidas.";
     }
   }
 
@@ -65,13 +67,13 @@ document.addEventListener('DOMContentLoaded', () => {
       if (!arquivo) return;
 
       if (!TIPOS_PERMITIDOS.includes(arquivo.type)) {
-        erroFoto.textContent = 'Escolha uma imagem JPG, PNG ou WEBP.';
+        erroFoto.textContent = mensagemDeErro({ codigo: "ARQUIVO_INVALIDO" });
         fotoInput.value = '';
         return;
       }
 
-      if (arquivo.size > TAMANHO_MAXIMO_FOTO) {
-        erroFoto.textContent = 'A imagem deve ter no máximo 5 MB.';
+      if (arquivo.size === 0 || arquivo.size > TAMANHO_MAXIMO_FOTO) {
+        erroFoto.textContent = mensagemDeErro({ codigo: "ARQUIVO_INVALIDO" });
         fotoInput.value = '';
         return;
       }
@@ -85,23 +87,40 @@ document.addEventListener('DOMContentLoaded', () => {
 
       try {
         const sessao = obterSessao();
+        if (sessao.token === "mock-token-de-teste") {
+          throw new Error("É necessário fazer login com uma sessão real para enviar a foto.");
+        }
         const formData = new FormData();
         formData.append("foto", arquivo);
 
-        const resposta = await fetch(`${API_BASE}/alunos/${sessao.usuarioId}/foto`, {
-          method: "POST",
-          headers: {
-            "Authorization": `Bearer ${sessao.token}`
-          },
-          body: formData
+        const resultado = await chamarApiMultipart(`/alunos/${sessao.usuarioId}/foto`, {
+          corpo: formData
         });
 
-        if (!resposta.ok) throw new Error("Erro ao salvar foto no servidor.");
-        console.log("Foto de perfil do aluno atualizada com sucesso!");
+        const fotoUrl = resultado?.fotoUrl;
+        if (fotoUrl) fotoPreview.src = fotoUrl;
+        await carregarPerfil();
       } catch (erro) {
         console.error("Erro ao enviar foto:", erro);
-        erroFoto.textContent = "Falha ao enviar a foto para o servidor.";
+        erroFoto.textContent = mensagemDeErro(erro);
       }
     });
   }
+
+  async function carregarPerfil() {
+    try {
+      const sessao = obterSessao();
+      if (sessao.token === "mock-token-de-teste") {
+        throw new Error("É necessário fazer login com uma sessão real para consultar o perfil.");
+      }
+      const perfil = await chamarApi("/usuario/perfil");
+      atualizarPerfil(perfil);
+    } catch (erro) {
+      const mensagemErro = mensagemDeErro(erro);
+      erroFoto.textContent = mensagemErro;
+      if (mensagemPerfil) mensagemPerfil.textContent = mensagemErro;
+    }
+  }
+
+  carregarPerfil();
 });

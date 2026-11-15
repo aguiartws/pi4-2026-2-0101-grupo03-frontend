@@ -81,8 +81,8 @@ document.addEventListener("DOMContentLoaded", () => {
                     nome: document.getElementById("nome").value.trim(),
                     email: document.getElementById("email").value.trim(),
                     telefone: document.getElementById("telefone").value.trim(),
+                    cidade: document.getElementById("cidade").value.trim(),
                     senha: senha.value
-                    // TODO: cidade ainda não é aceita pelo backend.
                 }
             });
 

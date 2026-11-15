@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
-  // 1. Sidebar
   const appLayout = document.getElementById('appLayout');
   const sidebarToggle = document.getElementById('sidebarToggle');
+  const grid = document.getElementById('matchesGrid');
 
   if (sidebarToggle && appLayout) {
     sidebarToggle.addEventListener('click', () => {
@@ -11,90 +11,126 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // 2. Lógica do Modal
-  const modalOverlay = document.getElementById('modalContato');
-  const btnFecharX = document.getElementById('fecharModalX');
-  const btnFechar = document.getElementById('btnFecharModal');
-  
-  const modalNome = document.getElementById('modalNome');
-  const modalCurso = document.getElementById('modalCurso');
-  const modalEmail = document.getElementById('modalEmail');
-  const modalTelefone = document.getElementById('modalTelefone');
-  const modalIniciais = document.getElementById('modalIniciais');
-  const modalFoto = document.getElementById('modalFoto');
-  const modalSobreMim = document.getElementById('modalSobreMim');
-  const modalRespostas = document.getElementById('modalRespostas');
+  const iniciais = (nome) => (nome || '')
+    .trim()
+    .split(/\s+/)
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((parte) => parte.charAt(0).toUpperCase())
+    .join('');
 
-  const botoesConversar = document.querySelectorAll('.btn-match');
+  const escaparHtml = (valor) => String(valor ?? '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
 
-  botoesConversar.forEach(botao => {
-    botao.addEventListener('click', () => {
-      const nome = botao.getAttribute('data-nome');
-      const iniciais = botao.getAttribute('data-iniciais');
-      const curso = botao.getAttribute('data-curso');
-      const email = botao.getAttribute('data-email');
-      const telefone = botao.getAttribute('data-telefone');
-      const fotoUrl = botao.getAttribute('data-foto');
-      const sobreMim = botao.getAttribute('data-sobre-mim');
-      const respostasJson = botao.getAttribute('data-respostas');
+  function criarCard(match) {
+    const nome = escaparHtml(match.nomeEstudante || 'Estudante');
+    const curso = escaparHtml(match.curso || 'Curso não informado');
+    const tituloVaga = escaparHtml(match.tituloVaga || 'Moradia');
+    const iniciaisAluno = escaparHtml(iniciais(match.nomeEstudante));
+    const fotoPerfilUrl = typeof match.fotoPerfilUrl === 'string'
+      ? match.fotoPerfilUrl.trim()
+      : '';
+    const dados = encodeURIComponent(JSON.stringify(match));
 
-      // Preenche contatos
-      modalNome.textContent = nome;
-      modalCurso.textContent = curso;
-      modalEmail.textContent = email;
-      modalEmail.href = `mailto:${email}`;
-      
-      modalTelefone.textContent = telefone;
-      const telNumeros = telefone.replace(/\D/g, '');
-      modalTelefone.href = `https://wa.me/55${telNumeros}`;
-      modalTelefone.target = "_blank";
-
-      // Foto / Iniciais
-      if (fotoUrl && fotoUrl.trim() !== '') {
-        modalFoto.src = fotoUrl;
-        modalFoto.hidden = false;
-        modalIniciais.hidden = true;
-      } else {
-        modalFoto.hidden = true;
-        modalIniciais.hidden = false;
-        modalIniciais.textContent = iniciais;
-      }
-
-      // Preenche o Sobre Mim
-      modalSobreMim.textContent = sobreMim || "O estudante não escreveu nada sobre si.";
-
-      // Monta a lista de Respostas do Questionário
-      modalRespostas.innerHTML = '';
-      if (respostasJson) {
-        try {
-          const respostas = JSON.parse(respostasJson);
-          respostas.forEach(item => {
-            const qaItem = document.createElement('div');
-            qaItem.className = 'qa-item';
-            const classeResposta = item.a.toLowerCase() === 'sim' ? 'yes' : 'no';
-            
-            qaItem.innerHTML = `
-              <span class="qa-q">${item.q}</span>
-              <span class="qa-a ${classeResposta}">${item.a}</span>
-            `;
-            modalRespostas.appendChild(qaItem);
-          });
-        } catch (e) {
-          modalRespostas.innerHTML = '<p>Erro ao carregar respostas.</p>';
-        }
-      }
-
-      modalOverlay.classList.add('active');
-    });
-  });
-
-  function fecharModal() {
-    modalOverlay.classList.remove('active');
+    const card = document.createElement('div');
+    card.className = 'match-card';
+    card.innerHTML = `
+      <div class="match-img student-bg">
+        ${fotoPerfilUrl
+          ? `<img class="student-avatar" src="${escaparHtml(fotoPerfilUrl)}" alt="Foto de ${nome}">`
+          : `<div class="student-avatar">${iniciaisAluno}</div>`}
+        <span class="match-badge">💜 Interesse recebido</span>
+      </div>
+      <div class="match-info">
+        <h2>${nome}</h2>
+        <p class="match-course">${curso}</p>
+        <div class="match-property">
+          <span class="label">Gostou de:</span>
+          <span class="value">${tituloVaga}</span>
+        </div>
+        <button class="btn-match" type="button" data-match="${dados}">Ver detalhes</button>
+      </div>
+    `;
+    return card;
   }
 
-  btnFecharX.addEventListener('click', fecharModal);
-  btnFechar.addEventListener('click', fecharModal);
-  modalOverlay.addEventListener('click', (e) => {
-    if (e.target === modalOverlay) fecharModal();
-  });
+  function abrirModal(match) {
+    const modalOverlay = document.getElementById('modalContato');
+    const modalNome = document.getElementById('modalNome');
+    const modalCurso = document.getElementById('modalCurso');
+    const modalEmail = document.getElementById('modalEmail');
+    const modalTelefone = document.getElementById('modalTelefone');
+    const modalIniciais = document.getElementById('modalIniciais');
+    const modalFoto = document.getElementById('modalFoto');
+    const modalSobreMim = document.getElementById('modalSobreMim');
+    const modalRespostas = document.getElementById('modalRespostas');
+
+    modalNome.textContent = match.nomeEstudante || 'Estudante';
+    modalCurso.textContent = match.curso || 'Curso não informado';
+    modalEmail.textContent = match.email || 'E-mail não informado';
+    modalEmail.href = match.email ? `mailto:${match.email}` : '#';
+    modalTelefone.textContent = match.telefone || 'Telefone não informado';
+    modalTelefone.href = match.telefone
+      ? `https://wa.me/55${match.telefone.replace(/\D/g, '')}`
+      : '#';
+
+    const fotoPerfilUrl = typeof match.fotoPerfilUrl === 'string'
+      ? match.fotoPerfilUrl.trim()
+      : '';
+    modalFoto.src = fotoPerfilUrl;
+    modalFoto.hidden = !fotoPerfilUrl;
+    modalIniciais.hidden = Boolean(fotoPerfilUrl);
+    modalIniciais.textContent = iniciais(match.nomeEstudante);
+    modalSobreMim.textContent = 'O estudante não escreveu nada sobre si.';
+    modalRespostas.innerHTML = '<p>Preferências não disponíveis.</p>';
+    modalOverlay.classList.add('active');
+  }
+
+  function configurarModal() {
+    const modalOverlay = document.getElementById('modalContato');
+    const fechar = () => modalOverlay.classList.remove('active');
+    document.getElementById('fecharModalX').addEventListener('click', fechar);
+    document.getElementById('btnFecharModal').addEventListener('click', fechar);
+    modalOverlay.addEventListener('click', (evento) => {
+      if (evento.target === modalOverlay) fechar();
+    });
+  }
+
+  async function carregarMatches() {
+    const sessao = obterSessao();
+    if (sessao.token === 'mock-token-de-teste') {
+      grid.innerHTML = '<p class="loading-msg">Faça login como proprietário para ver os matches.</p>';
+      return;
+    }
+
+    try {
+      const resposta = await chamarApi(
+        `/vagas/responsavel/${encodeURIComponent(sessao.usuarioId)}/matches`
+      );
+      const matches = Array.isArray(resposta) ? resposta : (resposta?.matches || []);
+      grid.innerHTML = '';
+
+      if (matches.length === 0) {
+        grid.innerHTML = '<p class="loading-msg">Nenhum estudante demonstrou interesse nas suas moradias.</p>';
+        return;
+      }
+
+      matches.forEach((match) => grid.appendChild(criarCard(match)));
+      grid.querySelectorAll('[data-match]').forEach((botao) => {
+        botao.addEventListener('click', () => {
+          abrirModal(JSON.parse(decodeURIComponent(botao.dataset.match)));
+        });
+      });
+    } catch (erro) {
+      console.error('Erro ao carregar matches do proprietário:', erro);
+      grid.innerHTML = `<p class="loading-msg">${escaparHtml(mensagemDeErro(erro))}</p>`;
+    }
+  }
+
+  configurarModal();
+  carregarMatches();
 });

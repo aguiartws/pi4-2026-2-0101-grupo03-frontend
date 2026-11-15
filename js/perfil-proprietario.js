@@ -11,22 +11,33 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // 2. Lógica para puxar o nome do proprietário
+  // 2. Elementos do perfil
   const nomeProprietarioEl = document.getElementById('nomeProprietario');
   const avatarProprietarioEl = document.getElementById('avatarProprietario');
+  const mensagemPerfil = document.getElementById('mensagemPerfil');
+  const perfilEmail = document.getElementById('perfilEmail');
+  const perfilTelefone = document.getElementById('perfilTelefone');
+  const perfilCidade = document.getElementById('perfilCidade');
+  const FOTO_PADRAO = "../imagens/avatar-padrao.png";
 
-  const nomeSalvo = localStorage.getItem('finduhouse_usuario_nome');
+  function atualizarPerfil(perfil) {
+    const nome = perfil.nome || "";
+    nomeProprietarioEl.textContent = nome;
+    avatarProprietarioEl.textContent = nome
+      .trim()
+      .split(/\s+/)
+      .filter(Boolean)
+      .slice(0, 2)
+      .map((parte) => parte.charAt(0).toUpperCase())
+      .join("");
+    if (perfilEmail) perfilEmail.textContent = perfil.email || "";
+    if (perfilTelefone) perfilTelefone.textContent = perfil.telefone || "";
+    if (perfilCidade) perfilCidade.textContent = perfil.cidade || "";
 
-  if (nomeSalvo && nomeSalvo.trim() !== "") {
-    if (nomeProprietarioEl) nomeProprietarioEl.textContent = nomeSalvo;
-    if (avatarProprietarioEl) {
-      const partes = nomeSalvo.trim().split(" ");
-      let iniciais = partes[0].charAt(0).toUpperCase();
-      if (partes.length > 1) {
-        iniciais += partes[partes.length - 1].charAt(0).toUpperCase();
-      }
-      avatarProprietarioEl.textContent = iniciais;
-    }
+    const temFoto = typeof perfil.fotoPerfilUrl === "string" && perfil.fotoPerfilUrl.trim() !== "";
+    fotoPreview.src = temFoto ? perfil.fotoPerfilUrl : FOTO_PADRAO;
+    fotoPreview.hidden = false;
+    avatarProprietarioEl.hidden = true;
   }
 
   // 3. Foto de perfil (Câmara e Upload)
@@ -49,13 +60,13 @@ document.addEventListener('DOMContentLoaded', () => {
       if (!arquivo) return;
 
       if (!TIPOS_PERMITIDOS.includes(arquivo.type)) {
-        erroFoto.textContent = 'Escolha uma imagem JPG, PNG ou WEBP.';
+        erroFoto.textContent = mensagemDeErro({ codigo: "ARQUIVO_INVALIDO" });
         fotoInput.value = '';
         return;
       }
 
-      if (arquivo.size > TAMANHO_MAXIMO_FOTO) {
-        erroFoto.textContent = 'A imagem deve ter no máximo 5 MB.';
+      if (arquivo.size === 0 || arquivo.size > TAMANHO_MAXIMO_FOTO) {
+        erroFoto.textContent = mensagemDeErro({ codigo: "ARQUIVO_INVALIDO" });
         fotoInput.value = '';
         return;
       }
@@ -70,23 +81,40 @@ document.addEventListener('DOMContentLoaded', () => {
       // Envio da foto para o backend via FormData
       try {
         const sessao = obterSessao();
+        if (sessao.token === "mock-token-de-teste") {
+          throw new Error("É necessário fazer login com uma sessão real para enviar a foto.");
+        }
         const formData = new FormData();
         formData.append("foto", arquivo);
 
-        const resposta = await fetch(`${API_BASE}/proprietarios/${sessao.usuarioId}/foto`, {
-          method: "POST",
-          headers: {
-            "Authorization": `Bearer ${sessao.token}`
-          },
-          body: formData
+        const resultado = await chamarApiMultipart(`/proprietarios/${sessao.usuarioId}/foto`, {
+          corpo: formData
         });
 
-        if (!resposta.ok) throw new Error("Erro ao salvar foto no servidor.");
-        console.log("Foto de perfil do proprietário atualizada com sucesso!");
+        const fotoUrl = resultado?.fotoUrl;
+        if (fotoUrl) fotoPreview.src = fotoUrl;
+        await carregarPerfil();
       } catch (erro) {
         console.error("Erro ao enviar foto:", erro);
-        erroFoto.textContent = "Falha ao enviar a foto para o servidor.";
+        erroFoto.textContent = mensagemDeErro(erro);
       }
     });
   }
+
+  async function carregarPerfil() {
+    try {
+      const sessao = obterSessao();
+      if (sessao.token === "mock-token-de-teste") {
+        throw new Error("É necessário fazer login com uma sessão real para consultar o perfil.");
+      }
+      const perfil = await chamarApi("/usuario/perfil");
+      atualizarPerfil(perfil);
+    } catch (erro) {
+      const mensagemErro = mensagemDeErro(erro);
+      erroFoto.textContent = mensagemErro;
+      if (mensagemPerfil) mensagemPerfil.textContent = mensagemErro;
+    }
+  }
+
+  carregarPerfil();
 });

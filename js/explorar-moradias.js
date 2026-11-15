@@ -5,7 +5,6 @@ document.addEventListener('DOMContentLoaded', () => {
     sidebarToggle.addEventListener('click', () => appLayout.classList.toggle('collapsed'));
   }
 
-  const API_BASE = 'http://localhost:8081/api';
   const grid = document.getElementById('explorarGrid');
   
   const filtroPreco = document.getElementById('filtroPreco');
@@ -16,8 +15,9 @@ document.addEventListener('DOMContentLoaded', () => {
   let vagasNoBanco = [];
   let idsFavoritos = []; // Guarda apenas os IDs das vagas que o aluno favoritou
   
-  const token = localStorage.getItem('token'); 
-  const estudanteId = localStorage.getItem('usuarioId');
+  const sessao = obterSessao();
+  const token = sessao.token === "mock-token-de-teste" ? null : sessao.token;
+  const estudanteId = token ? sessao.usuarioId : null;
 
   
   function renderizarGrid() {
@@ -40,33 +40,25 @@ document.addEventListener('DOMContentLoaded', () => {
     grid.innerHTML = '<p class="loading-msg">Carregando moradias...</p>';
 
     try {
-      const [respVagas, respFavoritos] = await Promise.all([
-        fetch(`${API_BASE}/vagas?valorAluguelMaximo=${filtroPreco.value}&distanciaMaxima=${filtroDistancia.value}`, {
-          headers: { 'Authorization': `Bearer ${token}` }
-        }),
-        fetch(`${API_BASE}/favoritos?estudanteId=${estudanteId}`, {
-          headers: { 'Authorization': `Bearer ${token}` }
-        })
+      const [dataVagas, dataFavoritos] = await Promise.all([
+        chamarApi(`/vagas?valorAluguelMaximo=${filtroPreco.value}&distanciaMaxima=${filtroDistancia.value}`),
+        chamarApi(`/favoritos?estudanteId=${estudanteId}`)
       ]);
 
-      if (respVagas.status === 401 || respFavoritos.status === 401) {
-        grid.innerHTML = '<p class="empty-msg">Sessão expirada. Faça login novamente.</p>';
-        return;
-      }
-
-      const dataVagas = await respVagas.json();
-      const dataFavoritos = await respFavoritos.json();
-
-      vagasNoBanco = dataVagas.vagas || [];
+      const vagas = Array.isArray(dataVagas) ? dataVagas : (dataVagas?.vagas || []);
+      vagasNoBanco = Array.isArray(vagas) ? vagas : [];
       
       // Garante que todos os IDs sejam do tipo Number para a comparação funcionar
-      idsFavoritos = (dataFavoritos.favoritos || []).map(fav => Number(fav.id));
+      const favoritos = Array.isArray(dataFavoritos)
+        ? dataFavoritos
+        : (dataFavoritos?.favoritos || []);
+      idsFavoritos = favoritos.map(fav => Number(fav.id));
 
       renderizarGrid();
 
     } catch (error) {
       console.error(error);
-      grid.innerHTML = '<p class="empty-msg">Erro ao carregar moradias. Verifique o console.</p>';
+      grid.innerHTML = `<p class="empty-msg">${mensagemDeErro(error)}</p>`;
     }
   }
 
@@ -74,12 +66,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const card = document.createElement('div');
     card.className = 'match-card';
     
-    const imagem = 'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&q=80&w=400';
+    const imagem = vaga.fotoCapa || 'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&q=80&w=400';
     const badge = 'Moradia'; 
     
     const precoFormatado = Number(vaga.valorAluguel).toLocaleString('pt-BR', { minimumFractionDigits: 0 });
     const distanciaFormatada = vaga.distanciaCampus ? Number(vaga.distanciaCampus).toFixed(1).replace('.', ',') : '?';
-    const enderecoCurto = vaga.endereco.split('-')[0] || vaga.endereco;
+    const endereco = vaga.endereco || "Endereço não informado";
+    const enderecoCurto = endereco.split('-')[0] || endereco;
 
     // Força a conversão para Number na hora de checar
     const isFavorito = idsFavoritos.includes(Number(vaga.id));
@@ -118,26 +111,16 @@ document.addEventListener('DOMContentLoaded', () => {
           idsFavoritos = idsFavoritos.filter(id => id !== idVagaNumero);
           console.warn('Favorito removido da tela, mas o endpoint DELETE ainda não existe no backend.');
         } else {
-          const resp = await fetch(`${API_BASE}/favoritos`, {
-            method: 'POST',
-            headers: { 
-              'Authorization': `Bearer ${token}`,
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ estudanteId: Number(estudanteId), vagaId: idVagaNumero })
+          await chamarApi("/favoritos", {
+            metodo: 'POST',
+            corpo: { estudanteId: Number(estudanteId), vagaId: idVagaNumero }
           });
-          
-          if (resp.ok) {
-            idsFavoritos.push(idVagaNumero);
-          } else {
-            btnHeart.classList.remove('active');
-            const err = await resp.json();
-            if (err.codigo !== 'VAGA_JA_FAVORITADA') alert(err.mensagem);
-          }
+          idsFavoritos.push(idVagaNumero);
         }
       } catch (error) {
         console.error(error);
         btnHeart.classList.toggle('active');
+        if (error.codigo !== 'VAGA_JA_FAVORITADA') alert(mensagemDeErro(error));
       }
     });
 

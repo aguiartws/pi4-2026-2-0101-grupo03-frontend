@@ -12,8 +12,9 @@ document.addEventListener('DOMContentLoaded', () => {
   let favoritosDoBanco = []; 
 
   async function carregarFavoritos() {
-    const token = localStorage.getItem('token');
-    const estudanteId = localStorage.getItem('usuarioId');
+    const sessao = obterSessao();
+    const token = sessao.token === "mock-token-de-teste" ? null : sessao.token;
+    const estudanteId = token ? sessao.usuarioId : null;
 
     if (!token || !estudanteId) {
       grid.innerHTML = '';
@@ -26,15 +27,23 @@ document.addEventListener('DOMContentLoaded', () => {
     avisoVazio.style.display = 'none';
 
     try {
-      const response = await fetch(`http://localhost:8081/api/favoritos?estudanteId=${estudanteId}`, {
-        headers: { 'Authorization': `Bearer ${token}` }
-      });
+      const data = await chamarApi(`/favoritos?estudanteId=${encodeURIComponent(estudanteId)}`);
+      favoritosDoBanco = Array.isArray(data) ? data : (data?.favoritos || []);
 
-      if (!response.ok) throw new Error('Erro ao buscar favoritos');
+      favoritosDoBanco = await Promise.all(favoritosDoBanco.map(async (favorito) => {
+        if (favorito.fotoCapa) return favorito;
 
-      const data = await response.json();
-      
-      favoritosDoBanco = data.favoritos || [];
+        try {
+          const vaga = await chamarApi(`/vagas/${encodeURIComponent(favorito.id)}`);
+          return {
+            ...favorito,
+            fotoCapa: vaga.fotoCapa || vaga.fotos?.[0] || null
+          };
+        } catch (erro) {
+          console.warn(`Não foi possível carregar a foto da vaga ${favorito.id}:`, erro);
+          return favorito;
+        }
+      }));
 
       renderizarGrid();
       
@@ -42,7 +51,7 @@ document.addEventListener('DOMContentLoaded', () => {
       console.error(error);
       grid.innerHTML = '';
       avisoVazio.style.display = 'block';
-      avisoVazio.textContent = 'Erro ao carregar favoritos.';
+      avisoVazio.textContent = mensagemDeErro(error);
     }
   }
 
@@ -77,7 +86,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const enderecoCurto = endereco.split('-')[0];
 
       card.innerHTML = `
-        <div class="match-img" style="background-image: url('${imagemPlaceholder}');"></div>
+        <div class="match-img" style="background-image: url('${fav.fotoCapa || imagemPlaceholder}');"></div>
         <div class="match-info">
           <h2>${fav.titulo}</h2>
           <p class="match-location">
