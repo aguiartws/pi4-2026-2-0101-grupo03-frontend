@@ -1,4 +1,29 @@
 
+// ---------- DADOS DO PERFIL DO PROPRIETÁRIO ----------
+
+// O perfil deve salvar estes mesmos nomes no localStorage:
+// finduhouseNomeProprietario
+// finduhouseFotoProprietario
+
+const nomePerfilUsuario = document.getElementById('nomePerfilUsuario');
+const fotoPerfilUsuario = document.getElementById('fotoPerfilUsuario');
+
+const nomeSalvo = localStorage.getItem('finduhouseNomeProprietario');
+const fotoSalva = localStorage.getItem('finduhouseFotoProprietario');
+
+if (nomeSalvo && nomePerfilUsuario) {
+  nomePerfilUsuario.textContent = nomeSalvo;
+}
+
+if (fotoSalva && fotoPerfilUsuario) {
+  fotoPerfilUsuario.src = fotoSalva;
+} else if (fotoPerfilUsuario) {
+  fotoPerfilUsuario.style.display = 'none';
+}
+
+
+// ---------- ELEMENTOS DO FORMULÁRIO ----------
+
 const form = document.getElementById('formQuestionario');
 
 const etapa1 = document.getElementById('etapa1');
@@ -50,9 +75,11 @@ function validarEtapa(etapa) {
     let respondida = false;
 
     radios.forEach(radio => {
+
       if (radio.checked) {
         respondida = true;
       }
+
     });
 
     if (!respondida) {
@@ -129,7 +156,9 @@ inputFotos.addEventListener('change', function () {
   for (const foto of novasFotos) {
 
     if (!foto.type.startsWith('image/')) {
+
       alert('Selecione somente arquivos de imagem.');
+
       continue;
     }
 
@@ -149,7 +178,9 @@ function mostrarFotos() {
 
   // Libera as URLs das imagens que estavam na prévia anterior
   previewFotos.querySelectorAll('img').forEach(imagem => {
+
     URL.revokeObjectURL(imagem.src);
+
   });
 
   previewFotos.innerHTML = '';
@@ -157,18 +188,23 @@ function mostrarFotos() {
   fotosSelecionadas.forEach((foto, indice) => {
 
     const container = document.createElement('div');
+
     container.classList.add('photo-item');
 
     const imagem = document.createElement('img');
 
     imagem.src = URL.createObjectURL(foto);
+
     imagem.alt = 'Foto da moradia ' + (indice + 1);
 
     const botaoRemover = document.createElement('button');
 
     botaoRemover.type = 'button';
+
     botaoRemover.classList.add('remove-photo');
+
     botaoRemover.textContent = '×';
+
     botaoRemover.setAttribute('aria-label', 'Remover foto');
 
     botaoRemover.addEventListener('click', function () {
@@ -180,6 +216,7 @@ function mostrarFotos() {
     });
 
     container.appendChild(imagem);
+
     container.appendChild(botaoRemover);
 
     previewFotos.appendChild(container);
@@ -214,11 +251,14 @@ form.addEventListener('submit', function (event) {
   const campos = form.querySelectorAll('input[type="radio"]:checked');
 
   campos.forEach(campo => {
+
     respostas[campo.name] = campo.value;
+
   });
 
   // Mostra os dados no console
   console.log('Respostas do questionário:', respostas);
+
   console.log('Fotos selecionadas:', fotosSelecionadas);
 
   alert(

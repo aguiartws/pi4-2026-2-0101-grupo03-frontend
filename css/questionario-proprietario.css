@@ -94,11 +94,13 @@ a {
 }
 
 .avatar {
-  width: 26px;
-  height: 26px;
+  width: 30px;
+  height: 30px;
   border-radius: 50%;
+  object-fit: cover;
   background: linear-gradient(135deg, #f3c9a8, #8a5a44);
   border: 2px solid #fff;
+  flex-shrink: 0;
 }
 
 
@@ -106,7 +108,7 @@ a {
 
 .layout {
   display: grid;
-  grid-template-columns: 190px 135px minmax(0, 1fr);
+  grid-template-columns: 190px minmax(0, 1fr);
   gap: 8px;
   padding: 0 14px 14px 0;
   min-height: calc(100vh - 56px);
@@ -211,32 +213,6 @@ a {
 }
 
 
-/* ---------- Área visual decorativa ---------- */
-
-.photo {
-  position: relative;
-  border-radius: var(--radius) var(--radius) 0 0;
-  overflow: hidden;
-  background:
-    linear-gradient(180deg, rgba(30,20,90,.15) 0%, rgba(20,12,70,.85) 100%),
-    radial-gradient(circle at 70% 25%, #7a8f6a 0, transparent 35%),
-    linear-gradient(160deg, #6b5a4e, #2a2438);
-}
-
-.photo p {
-  position: absolute;
-  left: 10px;
-  right: 10px;
-  bottom: 56px;
-  font-family: "Caveat", "Segoe Script", cursive;
-  font-size: 18px;
-  line-height: 1.15;
-  color: #fff;
-  transform: rotate(-6deg);
-  transform-origin: left bottom;
-}
-
-
 /* ---------- Cartão principal ---------- */
 
 .card {
@@ -246,6 +222,8 @@ a {
   position: relative;
   display: flex;
   flex-direction: column;
+  min-width: 0;
+  width: 100%;
 }
 
 
@@ -371,6 +349,7 @@ a {
 
 .q-body {
   flex: 1;
+  min-width: 0;
 }
 
 .q-body h3 {
@@ -382,7 +361,7 @@ a {
   font-size: 10px;
   color: var(--muted);
   margin: 3px 0 12px;
-  max-width: 280px;
+  max-width: 100%;
 }
 
 
@@ -391,13 +370,14 @@ a {
 .options {
   display: grid;
   gap: 10px;
-  grid-template-columns: repeat(var(--cols, 2), 1fr);
+  grid-template-columns: repeat(var(--cols, 2), minmax(0, 1fr));
 }
 
 .option {
   position: relative;
   display: block;
   cursor: pointer;
+  min-width: 0;
 }
 
 .option input {
@@ -417,6 +397,7 @@ a {
   font-size: 10.5px;
   color: var(--text);
   transition: .15s;
+  height: 100%;
 }
 
 .option .box small {
@@ -635,14 +616,10 @@ a {
 
 /* ---------- Responsividade ---------- */
 
-@media (max-width: 900px) {
+@media (max-width: 1100px) {
 
-  .layout {
-    grid-template-columns: 170px minmax(0, 1fr);
-  }
-
-  .photo {
-    display: none;
+  .options {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
 }
@@ -658,8 +635,8 @@ a {
     display: none;
   }
 
-  .options {
-    grid-template-columns: 1fr 1fr;
+  .card {
+    padding: 20px 18px 28px;
   }
 
   .photo-preview {
@@ -670,8 +647,33 @@ a {
 
 @media (max-width: 480px) {
 
+  .topbar {
+    padding: 0 12px;
+  }
+
+  .logo {
+    width: 180px;
+  }
+
+  .logo img {
+    width: 180px;
+  }
+
+  .user {
+    font-size: 10px;
+  }
+
+  .avatar {
+    width: 26px;
+    height: 26px;
+  }
+
   .card {
     padding: 18px 14px 24px;
+  }
+
+  .options {
+    grid-template-columns: 1fr;
   }
 
   .photo-preview {
