@@ -9,7 +9,6 @@
   padding: 0;
 }
 
-/* Paleta de cores idêntica ao perfil */
 :root {
   --primary: #8684ff;
   --primary-dark: #3330b8;
@@ -222,12 +221,31 @@ body {
   box-shadow: 0 12px 30px rgba(31, 35, 64, 0.12);
 }
 
-/* Imagem do Cartão */
+/* Imagem do Cartão (Adaptada para Aluno) */
 .match-img {
-  height: 160px;
-  background-size: cover;
-  background-position: center;
+  height: 140px;
   position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.student-bg {
+  background: linear-gradient(135deg, var(--primary-soft), var(--lilac));
+}
+
+.student-avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--primary), var(--accent));
+  color: #fff;
+  font-size: 28px;
+  font-weight: 800;
+  display: grid;
+  place-items: center;
+  border: 4px solid var(--card);
+  box-shadow: 0 4px 12px rgba(81, 78, 226, 0.3);
 }
 
 /* Selo de Match */
@@ -256,41 +274,45 @@ body {
 }
 
 .match-info h2 {
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 700;
   color: var(--title);
-  margin-bottom: 8px;
+  margin-bottom: 4px;
   line-height: 1.3;
 }
 
-.match-location {
-  display: flex;
-  align-items: center;
-  gap: 6px;
+.match-course {
   font-size: 13px;
   color: var(--muted);
   margin-bottom: 16px;
 }
 
-.match-location svg {
-  width: 16px;
-  height: 16px;
-  color: var(--primary);
-  flex-shrink: 0;
-}
-
-.match-price {
-  font-size: 22px;
-  font-weight: 800;
-  color: var(--accent);
+/* Caixa indicando qual casa o aluno gostou */
+.match-property {
+  background: var(--background);
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
   margin-bottom: 20px;
-  margin-top: auto; /* Empurra o preço e o botão para baixo */
+  margin-top: auto;
 }
 
-.match-price span {
-  font-size: 14px;
-  font-weight: 500;
+.match-property .label {
+  display: block;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
   color: var(--muted);
+  margin-bottom: 4px;
+  letter-spacing: 0.5px;
+}
+
+.match-property .value {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--accent);
+  line-height: 1.3;
 }
 
 /* Botão de Ação */

@@ -5,13 +5,13 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <title>FindUHouse | Meus Matches</title>
+  <title>FindUHouse | Matches com Estudantes</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Kumbh+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
-  <link rel="stylesheet" href="../css/opcoes-matches-feitos.css">
+  <link rel="stylesheet" href="../css/matches-feitos-proprietario.css">
 </head>
 
 <body>
@@ -32,7 +32,7 @@
 
       <nav class="nav" aria-label="Menu principal">
         <!-- Meu Perfil -->
-        <a class="nav-item" href="perfil-aluno.html" title="Meu perfil">
+        <a class="nav-item" href="perfil-proprietario.html" title="Meu perfil">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/>
           </svg>
@@ -40,24 +40,31 @@
         </a>
 
         <!-- Matches (Ativo) -->
-        <a class="nav-item active" href="opcoes-matches-feitos.html" title="Matches feitos">
+        <a class="nav-item active" href="matches-feitos-proprietario.html" title="Matches feitos">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
           </svg>
           <span>Matches<br>feitos</span>
         </a>
 
-        <!-- Mapa -->
-        <a class="nav-item" href="mapa-favoritos.html" title="Mapa">
+        <!-- Minhas Casas -->
+        <a class="nav-item" href="suas-casas.html" title="Minhas casas">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
-            <circle cx="12" cy="10" r="3"></circle>
+            <path d="M3 11 12 4l9 7"/><path d="M5 10v10h14V10"/><path d="M10 20v-5h4v5"/>
           </svg>
-          <span>Mapa</span>
+          <span>Minhas<br>casas</span>
+        </a>
+
+        <!-- Adicionar Casa -->
+        <a class="nav-item" href="questionario-proprietario.html" title="Adicionar casa">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 5v14M5 12h14"/>
+          </svg>
+          <span>Adicionar<br>casa</span>
         </a>
 
         <!-- Configurações -->
-        <a class="nav-item" href="configuracoes-aluno.html" title="Configurações">
+        <a class="nav-item" href="#" title="Configurações">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <circle cx="12" cy="12" r="3"/>
             <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
@@ -72,58 +79,67 @@
     <main class="content">
       
       <div class="page-header">
-        <h1>Meus Matches</h1>
-        <p>Estas são as moradias que combinaram com o seu perfil. Entre em contato e garanta o seu lugar!</p>
+        <h1>Matches com Estudantes</h1>
+        <p>Estes são os alunos que combinaram com as suas moradias. Entre em contato para fechar negócio!</p>
       </div>
 
-      <!-- GRADE DE MATCHES -->
+      <!-- GRADE DE MATCHES (ALUNOS) -->
       <div class="matches-grid">
         
         <!-- CARD DE EXEMPLO 1 -->
         <div class="match-card">
-          <div class="match-img" style="background-image: url('https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&q=80&w=400');">
+          <div class="match-img student-bg">
+            <div class="student-avatar">JS</div>
             <span class="match-badge">💜 95% Match</span>
           </div>
           <div class="match-info">
-            <h2>República Vila Universitária</h2>
-            <p class="match-location">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
-              Campinas, SP (1.2 km da PUC)
-            </p>
-            <p class="match-price">R$ 850<span>/mês</span></p>
-            <button class="btn-match">Detalhes da moradia</button>
+            <h2>João Silva</h2>
+            <p class="match-course">Engenharia de Software - PUC</p>
+            
+            <div class="match-property">
+              <span class="label">Gostou de:</span>
+              <span class="value">República Vila Universitária</span>
+            </div>
+
+            <button class="btn-match">Conversar com estudante</button>
           </div>
         </div>
 
         <!-- CARD DE EXEMPLO 2 -->
         <div class="match-card">
-          <div class="match-img" style="background-image: url('https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&q=80&w=400');">
+          <div class="match-img student-bg">
+            <div class="student-avatar">MC</div>
             <span class="match-badge">💜 88% Match</span>
           </div>
           <div class="match-info">
-            <h2>Kitnet Moderna Centro</h2>
-            <p class="match-location">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
-              Campinas, SP (2.5 km da PUC)
-            </p>
-            <p class="match-price">R$ 1.200<span>/mês</span></p>
-            <button class="btn-match">Detalhes da moradia</button>
+            <h2>Maria Clara</h2>
+            <p class="match-course">Medicina - PUC</p>
+            
+            <div class="match-property">
+              <span class="label">Gostou de:</span>
+              <span class="value">Kitnet Moderna Centro</span>
+            </div>
+
+            <button class="btn-match">Conversar com estudante</button>
           </div>
         </div>
 
         <!-- CARD DE EXEMPLO 3 -->
         <div class="match-card">
-          <div class="match-img" style="background-image: url('https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&q=80&w=400');">
+          <div class="match-img student-bg">
+            <div class="student-avatar">PA</div>
             <span class="match-badge">💜 75% Match</span>
           </div>
           <div class="match-info">
-            <h2>Quarto em Apartamento Compartilhado</h2>
-            <p class="match-location">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
-              Campinas, SP (0.8 km da PUC)
-            </p>
-            <p class="match-price">R$ 700<span>/mês</span></p>
-            <button class="btn-match">Detalhes da moradia</button>
+            <h2>Pedro Almeida</h2>
+            <p class="match-course">Direito - PUC</p>
+            
+            <div class="match-property">
+              <span class="label">Gostou de:</span>
+              <span class="value">Quarto em Apartamento Compartilhado</span>
+            </div>
+
+            <button class="btn-match">Conversar com estudante</button>
           </div>
         </div>
 
@@ -132,7 +148,7 @@
     </main>
   </div>
 
-  <script src="../js/opcoes-matches-feitos.js"></script>
+  <script src="../js/matches-feitos-proprietario.js"></script>
 </body>
 
 </html>
