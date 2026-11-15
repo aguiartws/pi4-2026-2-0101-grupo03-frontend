@@ -13,48 +13,57 @@ document.addEventListener('DOMContentLoaded', () => {
   const spanPreco = document.getElementById('valorPreco');
   const spanDistancia = document.getElementById('valorDistancia');
 
-  async function carregarVagas() {
-    // Pega o token da chave correta que vimos no console
-    const token = localStorage.getItem('token'); 
-    
-    if (!token) {
+  let vagasNoBanco = [];
+  let idsFavoritos = []; // Guarda apenas os IDs das vagas que o aluno favoritou
+  
+  const token = localStorage.getItem('token'); 
+  const estudanteId = localStorage.getItem('usuarioId');
+
+  
+  function renderizarGrid() {
+    grid.innerHTML = ''; 
+
+    if (vagasNoBanco.length === 0) {
+      grid.innerHTML = '<p class="empty-msg">Nenhuma moradia encontrada com esses filtros.</p>';
+      return;
+    }
+
+    vagasNoBanco.forEach(vaga => grid.appendChild(criarCard(vaga)));
+  }
+
+    async function inicializar() {
+    if (!token || !estudanteId) {
       grid.innerHTML = '<p class="empty-msg">Você precisa estar logado para ver as vagas.</p>';
       return;
     }
 
-    const precoMax = filtroPreco.value;
-    const distanciaMax = filtroDistancia.value;
-
-    // Limpa a tela e mostra carregando
     grid.innerHTML = '<p class="loading-msg">Carregando moradias...</p>';
 
     try {
-      const url = `${API_BASE}/vagas?valorAluguelMaximo=${precoMax}&distanciaMaxima=${distanciaMax}`;
-      const resp = await fetch(url, {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      });
+      const [respVagas, respFavoritos] = await Promise.all([
+        fetch(`${API_BASE}/vagas?valorAluguelMaximo=${filtroPreco.value}&distanciaMaxima=${filtroDistancia.value}`, {
+          headers: { 'Authorization': `Bearer ${token}` }
+        }),
+        fetch(`${API_BASE}/favoritos?estudanteId=${estudanteId}`, {
+          headers: { 'Authorization': `Bearer ${token}` }
+        })
+      ]);
 
-      if (resp.status === 401) {
+      if (respVagas.status === 401 || respFavoritos.status === 401) {
         grid.innerHTML = '<p class="empty-msg">Sessão expirada. Faça login novamente.</p>';
         return;
       }
+
+      const dataVagas = await respVagas.json();
+      const dataFavoritos = await respFavoritos.json();
+
+      vagasNoBanco = dataVagas.vagas || [];
       
-      if (!resp.ok) throw new Error('Falha ao buscar vagas');
+      // Garante que todos os IDs sejam do tipo Number para a comparação funcionar
+      idsFavoritos = (dataFavoritos.favoritos || []).map(fav => Number(fav.id));
 
-      const data = await resp.json();
-      const vagas = data.vagas || [];
+      renderizarGrid();
 
-      grid.innerHTML = ''; // Limpa o "Carregando..."
-
-      if (vagas.length === 0) {
-        grid.innerHTML = '<p class="empty-msg">Nenhuma moradia encontrada com esses filtros.</p>';
-        return;
-      }
-
-      vagas.forEach(vaga => grid.appendChild(criarCard(vaga)));
-      
     } catch (error) {
       console.error(error);
       grid.innerHTML = '<p class="empty-msg">Erro ao carregar moradias. Verifique o console.</p>';
@@ -65,13 +74,15 @@ document.addEventListener('DOMContentLoaded', () => {
     const card = document.createElement('div');
     card.className = 'match-card';
     
-    // O backend não manda imagem por enquanto, usamos um placeholder bonito
     const imagem = 'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&q=80&w=400';
     const badge = 'Moradia'; 
     
     const precoFormatado = Number(vaga.valorAluguel).toLocaleString('pt-BR', { minimumFractionDigits: 0 });
     const distanciaFormatada = vaga.distanciaCampus ? Number(vaga.distanciaCampus).toFixed(1).replace('.', ',') : '?';
     const enderecoCurto = vaga.endereco.split('-')[0] || vaga.endereco;
+
+    // Força a conversão para Number na hora de checar
+    const isFavorito = idsFavoritos.includes(Number(vaga.id));
 
     card.innerHTML = `
       <div class="match-img" style="background-image: url('${imagem}');">
@@ -86,7 +97,7 @@ document.addEventListener('DOMContentLoaded', () => {
         <p class="match-price">R$ ${precoFormatado}<span>/mês</span></p>
         <div class="card-actions">
           <a href="detalhes-moradia.html?id=${vaga.id}" class="btn-match">Ver detalhes</a>
-          <button class="btn-heart" data-id="${vaga.id}">
+          <button class="btn-heart ${isFavorito ? 'active' : ''}" data-id="${vaga.id}">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
           </button>
         </div>
@@ -94,20 +105,40 @@ document.addEventListener('DOMContentLoaded', () => {
     `;
 
     const btnHeart = card.querySelector('.btn-heart');
-    let favoritos = JSON.parse(localStorage.getItem('finduhouse_favoritos') || '[]');
-    
-    if (favoritos.includes(String(vaga.id))) btnHeart.classList.add('active');
 
-    btnHeart.addEventListener('click', () => {
-      const idStr = String(vaga.id);
-      if (favoritos.includes(idStr)) {
-        favoritos = favoritos.filter(favId => favId !== idStr);
-        btnHeart.classList.remove('active');
-      } else {
-        favoritos.push(idStr);
-        btnHeart.classList.add('active');
+    btnHeart.addEventListener('click', async () => {
+      if (!token || !estudanteId) return alert('Faça login para favoritar.');
+
+      btnHeart.classList.toggle('active');
+      const idVagaNumero = Number(vaga.id);
+      const jaEraFavorito = idsFavoritos.includes(idVagaNumero);
+
+      try {
+        if (jaEraFavorito) {
+          idsFavoritos = idsFavoritos.filter(id => id !== idVagaNumero);
+          console.warn('Favorito removido da tela, mas o endpoint DELETE ainda não existe no backend.');
+        } else {
+          const resp = await fetch(`${API_BASE}/favoritos`, {
+            method: 'POST',
+            headers: { 
+              'Authorization': `Bearer ${token}`,
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ estudanteId: Number(estudanteId), vagaId: idVagaNumero })
+          });
+          
+          if (resp.ok) {
+            idsFavoritos.push(idVagaNumero);
+          } else {
+            btnHeart.classList.remove('active');
+            const err = await resp.json();
+            if (err.codigo !== 'VAGA_JA_FAVORITADA') alert(err.mensagem);
+          }
+        }
+      } catch (error) {
+        console.error(error);
+        btnHeart.classList.toggle('active');
       }
-      localStorage.setItem('finduhouse_favoritos', JSON.stringify(favoritos));
     });
 
     return card;
@@ -117,9 +148,10 @@ document.addEventListener('DOMContentLoaded', () => {
     filtroPreco.addEventListener('input', () => spanPreco.textContent = `R$ ${filtroPreco.value}`);
     filtroDistancia.addEventListener('input', () => spanDistancia.textContent = `${filtroDistancia.value} km`);
 
-    filtroPreco.addEventListener('change', carregarVagas);
-    filtroDistancia.addEventListener('change', carregarVagas);
+    // Ao soltar o slider, busca as vagas com o novo filtro E os favoritos novamente
+    filtroPreco.addEventListener('change', inicializar);
+    filtroDistancia.addEventListener('change', inicializar);
   }
 
-  carregarVagas();
+  inicializar();
 });
