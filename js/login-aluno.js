@@ -1,10 +1,18 @@
 document.addEventListener("DOMContentLoaded", () => {
+    // Recupera o e-mail salvo anteriormente se a opção "Lembrar de mim" foi usada
+    const emailSalvo = localStorage.getItem("emailLembrado");
+    if (emailSalvo) {
+        const inputEmail = document.getElementById("email");
+        const checkLembrar = document.getElementById("lembrar");
+        if (inputEmail) inputEmail.value = emailSalvo;
+        if (checkLembrar) checkLembrar.checked = true;
+    }
+
     const senha = document.getElementById("senha");
     const toggleSenha = document.getElementById("toggleSenha");
     const loginForm = document.getElementById("loginForm");
     const mensagemErro = document.getElementById("mensagemErro");
     
-    // Se não houver formulário na tela, encerra o script para não dar erro
     if (!loginForm) return; 
 
     const botaoEnvio = loginForm.querySelector("button[type='submit']");
@@ -25,13 +33,15 @@ document.addEventListener("DOMContentLoaded", () => {
         botaoEnvio.disabled = true;
 
         try {
-            // 1. Chama a API de verdade para pegar o Token
+            const lembrarCheckbox = document.getElementById("lembrar");
+            const lembrarChecked = lembrarCheckbox ? lembrarCheckbox.checked : false;
+
             const resposta = await chamarApi("/auth/login", {
                 metodo: "POST",
                 corpo: {
                     email: document.getElementById("email").value.trim(),
                     senha: senha.value,
-                    lembrar: document.getElementById("lembrar") ? document.getElementById("lembrar").checked : false
+                    lembrar: lembrarChecked
                 }
             });
 
@@ -40,10 +50,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 return;
             }
 
-            // 2. Salva a sessão (Token e ID) no navegador
-            salvarSessao(resposta, document.getElementById("lembrar") ? document.getElementById("lembrar").checked : false);
+            salvarSessao(resposta, lembrarChecked);
 
-            // 3. Lógica para saber se vai pro questionário ou pro perfil
             const respostasSalvas = localStorage.getItem('finduhouse_perfil_aluno');
 
             if (respostasSalvas) {
