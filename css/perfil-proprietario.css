@@ -184,6 +184,8 @@ body {
   gap: 20px;
   overflow-y: auto;
   min-width: 0;
+  container-type: inline-size;
+  container-name: perfil;
 }
 
 .card {
@@ -192,70 +194,185 @@ body {
   box-shadow: var(--shadow);
 }
 
-/* --- Banner Mesclado --- */
-.welcome-card {
+/* --- banner --- */
+.welcome-banner {
   position: relative;
+  isolation: isolate;
   overflow: hidden;
-  display: flex;
-  flex-direction: column;
-}
-
-.banner-bg {
-  height: 90px;
-  width: 100%;
-  background: linear-gradient(120deg, var(--title) 0%, var(--primary-dark) 50%, var(--primary) 100%);
-}
-
-.welcome-body {
-  position: relative;
-  display: flex;
-  align-items: flex-start;
-  gap: 20px;
-  padding: 0 28px 24px 140px;
-  min-height: 80px;
-}
-
-.welcome-body .avatar {
-  position: absolute;
-  left: 28px;
-  top: -44px;
-  width: 96px;
-  height: 96px;
-  border-radius: 50%;
-  border: 5px solid var(--card);
-  background: linear-gradient(135deg, var(--primary), var(--accent));
-  color: #fff;
-  font-size: 32px;
-  font-weight: 800;
-  display: grid;
-  place-items: center;
-  box-shadow: var(--shadow);
-}
-
-.welcome-info {
-  margin-top: 18px;
-}
-
-.welcome-info h1 {
+  min-height: 240px;
   display: flex;
   align-items: center;
-  gap: 8px;
-  font-size: 22px;
-  font-weight: 700;
-  color: var(--title);
-  margin-bottom: 6px;
+  justify-content: space-between;
+  padding: 40px 56px;
+  border-radius: 25px;
+  background: linear-gradient(115deg, #7774f5 0%, #514ee2 53%, #2f6fe0 100%);
+  color: var(--white);
+  box-shadow: 0 18px 38px rgba(81, 78, 226, .22);
 }
 
-.welcome-info p {
-  font-size: 14px;
-  color: var(--muted);
-  line-height: 1.5;
+.welcome-copy {
+  position: relative;
+  z-index: 2;
+  max-width: 590px;
+}
+
+.eyebrow {
+  display: inline-block;
+  margin-bottom: 18px;
+  color: rgba(255, 255, 255, .78);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 2px;
+}
+
+.welcome-banner h1 {
+  font-size: clamp(27px, 3vw, 36px);
+  font-weight: 800;
+  letter-spacing: -1.2px;
+}
+
+.welcome-banner p {
+  max-width: 500px;
+  margin-top: 16px;
+  color: rgba(255, 255, 255, .84);
+  font-size: 13px;
+  line-height: 1.85;
+}
+
+.banner-avatar {
+  position: relative;
+  z-index: 1;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-right: 40px;
+}
+
+.avatar-area {
+  position: relative;
+}
+
+.avatar-frame {
+  width: 140px;
+  height: 140px;
+  padding: 6px;
+  border: 1px solid rgba(255, 255, 255, .5);
+  border-radius: 50%;
+  background: rgba(255, 255, 255, .17);
+  box-shadow: 0 8px 25px rgba(14, 12, 65, .22);
+}
+
+.avatar-frame img,
+.avatar-initials {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+}
+
+.avatar-frame img {
+  display: block;
+  background: #e7e5ff;
+  object-fit: cover;
+}
+
+.avatar-initials {
+  display: grid;
+  place-items: center;
+  background: #e7e5ff;
+  color: var(--accent);
+  font-size: 44px;
+  font-weight: 800;
+  letter-spacing: -1px;
+}
+
+.avatar-frame [hidden] {
+  display: none;
+}
+
+.avatar-edit {
+  position: absolute;
+  right: 4px;
+  bottom: 6px;
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border: 3px solid var(--accent);
+  border-radius: 50%;
+  background: #fff;
+  color: var(--accent);
+  cursor: pointer;
+  transition: transform .2s;
+}
+
+.avatar-edit:hover {
+  transform: scale(1.08);
+}
+
+.avatar-edit:focus-visible {
+  outline: 3px solid var(--lilac);
+  outline-offset: 2px;
+}
+
+.avatar-edit svg {
+  width: 18px;
+  height: 18px;
+}
+
+.photo-error {
+  max-width: 190px;
+  margin-top: 10px;
+  color: #ffe1e6;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.4;
+  text-align: center;
+}
+
+.photo-error:empty {
+  display: none;
+}
+
+.banner-decoration {
+  position: absolute;
+  z-index: -1;
+  border: 1px solid rgba(255, 255, 255, .14);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.banner-decoration-one {
+  width: 360px;
+  height: 360px;
+  top: -230px;
+  right: 80px;
+  box-shadow: 0 0 0 35px rgba(255, 255, 255, .035), 0 0 0 70px rgba(255, 255, 255, .025);
+}
+
+.banner-decoration-two {
+  width: 250px;
+  height: 250px;
+  right: -95px;
+  bottom: -185px;
+  background: rgba(255, 255, 255, .08);
+}
+
+.welcome-banner h1 {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.welcome-banner .verified {
+  flex-shrink: 0;
 }
 
 /* --- Cartão de Estatísticas --- */
 .stats-card {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 20px;
   padding: 24px;
 }
@@ -302,12 +419,13 @@ body {
 /* --- Botões dentro das Estatísticas --- */
 .stat-actions {
   display: flex;
+  flex-wrap: wrap;
   gap: 10px;
   margin-top: auto; /* Empurra os botões para o final */
 }
 
 .btn-small {
-  flex: 1;
+  flex: 1 1 150px;
   display: inline-block;
   font-size: 12px;
   font-weight: 700;
@@ -325,15 +443,14 @@ body {
   color: #fff;
 }
 
-/* =========================================================
-   RESPONSIVO
-   ========================================================= */
+/* responsivo */
 @media (max-width: 800px) {
   .app {
     grid-template-columns: 1fr;
   }
 
-  .sidebar {
+  .sidebar,
+  .app.collapsed .sidebar {
     flex-direction: row;
     align-items: center;
     padding: 16px;
@@ -345,9 +462,12 @@ body {
     display: none;
   }
 
-  .logo {
+  .logo,
+  .app.collapsed .logo {
     margin-bottom: 0;
     margin-right: 20px;
+    opacity: 1;
+    pointer-events: auto;
   }
 
   .logo img {
@@ -355,41 +475,121 @@ body {
   }
 
   .nav {
+    flex: 1;
+    min-width: 0;
     flex-direction: row;
     overflow-x: auto;
   }
-  
+
   .nav-item span {
     display: none;
+  }
+
+  .app.collapsed .nav-item {
+    justify-content: flex-start;
+    padding: 12px 16px;
   }
 
   .content {
     padding: 20px 16px;
   }
+}
 
-  .welcome-body {
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    padding: 0 20px 24px;
+@media (max-width: 480px) {
+  .sidebar,
+  .app.collapsed .sidebar {
+    padding: 12px;
   }
 
-  .welcome-body .avatar {
-    position: relative;
-    left: 0;
-    top: -44px;
-    margin-bottom: -30px;
+  .logo,
+  .app.collapsed .logo {
+    margin-right: 10px;
   }
 
-  .welcome-info {
-    margin-top: 10px;
+  .logo img {
+    max-width: 96px;
   }
 
-  .stats-card {
-    grid-template-columns: 1fr;
+  .nav {
+    gap: 2px;
   }
 
-  .stat-actions {
-    flex-direction: column;
+  .nav-item,
+  .app.collapsed .nav-item {
+    padding: 10px;
+  }
+}
+
+/* o banner usa a largura da área de conteúdo, porque a barra lateral ocupa espaço */
+@container perfil (max-width: 860px) {
+  .welcome-banner {
+    padding: 36px 40px;
+  }
+
+  .banner-avatar {
+    margin-right: 15px;
+  }
+}
+
+@container perfil (max-width: 650px) {
+  .welcome-banner {
+    min-height: 200px;
+    padding: 30px 25px;
+    border-radius: 21px;
+  }
+
+  .welcome-banner p {
+    max-width: 390px;
+    font-size: 12px;
+  }
+
+  .banner-avatar {
+    margin-right: 0;
+  }
+
+  .avatar-frame {
+    width: 108px;
+    height: 108px;
+  }
+
+  .avatar-initials {
+    font-size: 34px;
+  }
+
+  .avatar-edit {
+    width: 34px;
+    height: 34px;
+  }
+}
+
+@container perfil (max-width: 460px) {
+  .welcome-banner {
+    flex-direction: column-reverse;
+    align-items: flex-start;
+    gap: 20px;
+    min-height: 0;
+    padding: 26px 22px;
+  }
+
+  .welcome-banner h1 {
+    font-size: 26px;
+  }
+
+  .welcome-banner p {
+    max-width: 100%;
+    font-size: 12px;
+  }
+
+  .banner-avatar {
+    align-items: flex-start;
+  }
+
+  .avatar-frame {
+    width: 92px;
+    height: 92px;
+  }
+
+  .avatar-initials {
+    font-size: 30px;
   }
 }

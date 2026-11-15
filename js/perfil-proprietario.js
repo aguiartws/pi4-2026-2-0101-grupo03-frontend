@@ -30,4 +30,46 @@ document.addEventListener('DOMContentLoaded', () => {
       avatarProprietarioEl.textContent = iniciais;
     }
   }
+
+  // 3. foto de perfil (por enquanto só a visualização na tela)
+  const btnFoto = document.getElementById('btnFoto');
+  const fotoInput = document.getElementById('fotoPerfil');
+  const fotoPreview = document.getElementById('fotoPreview');
+  const erroFoto = document.getElementById('erroFoto');
+
+  const TAMANHO_MAXIMO_FOTO = 5 * 1024 * 1024;
+  const TIPOS_PERMITIDOS = ['image/jpeg', 'image/png', 'image/webp'];
+  let urlFotoTemporaria = null;
+
+  if (btnFoto && fotoInput && fotoPreview && avatarProprietarioEl) {
+    btnFoto.addEventListener('click', () => fotoInput.click());
+
+    fotoInput.addEventListener('change', () => {
+      erroFoto.textContent = '';
+
+      const arquivo = fotoInput.files[0];
+      if (!arquivo) return;
+
+      if (!TIPOS_PERMITIDOS.includes(arquivo.type)) {
+        erroFoto.textContent = 'Escolha uma imagem JPG, PNG ou WEBP.';
+        fotoInput.value = '';
+        return;
+      }
+
+      if (arquivo.size > TAMANHO_MAXIMO_FOTO) {
+        erroFoto.textContent = 'A imagem deve ter no máximo 5 MB.';
+        fotoInput.value = '';
+        return;
+      }
+
+      if (urlFotoTemporaria) URL.revokeObjectURL(urlFotoTemporaria);
+
+      urlFotoTemporaria = URL.createObjectURL(arquivo);
+      fotoPreview.src = urlFotoTemporaria;
+      fotoPreview.hidden = false;
+      avatarProprietarioEl.hidden = true;
+
+      // aqui entra o envio da foto ao banco
+    });
+  }
 });
