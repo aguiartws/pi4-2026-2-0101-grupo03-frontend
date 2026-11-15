@@ -44,97 +44,102 @@ let fotoSelecionada = null;
 let removerFotoSelecionada = false;
 let urlFotoTemporaria = null;
 
-
-
 // atualiza o nome mostrado no cartão de perfil.
-nomeInput.addEventListener("input", () => {
-    nomeExibicao.textContent = nomeInput.value.trim() || "Seu perfil";
-});
+if (nomeInput && nomeExibicao) {
+    nomeInput.addEventListener("input", () => {
+        nomeExibicao.textContent = nomeInput.value.trim() || "Seu perfil";
+    });
+}
 
 // Máscara de telefone
-telefoneInput.addEventListener("input", (e) => {
-    let valor = e.target.value.replace(/\D/g, ""); // Remove tudo que não for número
-    
-    if (valor.length > 11) {
-        valor = valor.slice(0, 11); // Limita a 11 dígitos (DDD + 9 dígitos)
-    }
+if (telefoneInput) {
+    telefoneInput.addEventListener("input", (e) => {
+        let valor = e.target.value.replace(/\D/g, "");
+        
+        if (valor.length > 11) {
+            valor = valor.slice(0, 11);
+        }
 
-    // Aplica a formatação dinamicamente
-    if (valor.length > 10) {
-        valor = valor.replace(/^(\d{2})(\d{5})(\d{4}).*/, "($1) $2-$3");
-    } else if (valor.length > 6) {
-        valor = valor.replace(/^(\d{2})(\d{4})(\d{0,4}).*/, "($1) $2-$3");
-    } else if (valor.length > 2) {
-        valor = valor.replace(/^(\d{2})(\d{0,5}).*/, "($1) $2");
-    } else if (valor.length > 0) {
-        valor = valor.replace(/^(\d*)/, "($1");
-    }
+        if (valor.length > 10) {
+            valor = valor.replace(/^(\d{2})(\d{5})(\d{4}).*/, "($1) $2-$3");
+        } else if (valor.length > 6) {
+            valor = valor.replace(/^(\d{2})(\d{4})(\d{0,4}).*/, "($1) $2-$3");
+        } else if (valor.length > 2) {
+            valor = valor.replace(/^(\d{2})(\d{0,5}).*/, "($1) $2");
+        } else if (valor.length > 0) {
+            valor = valor.replace(/^(\d*)/, "($1");
+        }
 
-    e.target.value = valor;
-});
-
+        e.target.value = valor;
+    });
+}
 
 // mostra a foto escolhida antes do envio ao servidor.
-fotoInput.addEventListener("change", () => {
-    erroFoto.textContent = "";
+if (fotoInput && fotoPreview) {
+    fotoInput.addEventListener("change", () => {
+        if (erroFoto) erroFoto.textContent = "";
 
-    const arquivo = fotoInput.files[0];
+        const arquivo = fotoInput.files[0];
 
-    if (!arquivo) {
-        return;
-    }
+        if (!arquivo) {
+            return;
+        }
 
-    if (!TIPOS_PERMITIDOS.includes(arquivo.type)) {
-        erroFoto.textContent = "Escolha uma imagem JPG, PNG ou WEBP.";
-        fotoInput.value = "";
+        if (!TIPOS_PERMITIDOS.includes(arquivo.type)) {
+            if (erroFoto) erroFoto.textContent = "Escolha uma imagem JPG, PNG ou WEBP.";
+            fotoInput.value = "";
+            fotoSelecionada = null;
+            return;
+        }
+
+        if (arquivo.size > TAMANHO_MAXIMO_FOTO) {
+            if (erroFoto) erroFoto.textContent = "A imagem deve ter no máximo 5 MB.";
+            fotoInput.value = "";
+            fotoSelecionada = null;
+            return;
+        }
+
+        if (urlFotoTemporaria) {
+            URL.revokeObjectURL(urlFotoTemporaria);
+        }
+
+        fotoSelecionada = arquivo;
+        removerFotoSelecionada = false;
+        urlFotoTemporaria = URL.createObjectURL(arquivo);
+        fotoPreview.src = urlFotoTemporaria;
+    });
+}
+
+// remove a foto atual
+if (removerFoto) {
+    removerFoto.addEventListener("click", () => {
+        if (fotoInput) fotoInput.value = "";
         fotoSelecionada = null;
-        return;
-    }
+        removerFotoSelecionada = true;
+        if (fotoPreview) fotoPreview.src = FOTO_PADRAO;
+        if (erroFoto) erroFoto.textContent = "";
 
-    if (arquivo.size > TAMANHO_MAXIMO_FOTO) {
-        erroFoto.textContent = "A imagem deve ter no máximo 5 MB.";
-        fotoInput.value = "";
-        fotoSelecionada = null;
-        return;
-    }
+        if (urlFotoTemporaria) {
+            URL.revokeObjectURL(urlFotoTemporaria);
+            urlFotoTemporaria = null;
+        }
+    });
+}
 
-    if (urlFotoTemporaria) {
-        URL.revokeObjectURL(urlFotoTemporaria);
-    }
-
-    fotoSelecionada = arquivo;
-    removerFotoSelecionada = false;
-    urlFotoTemporaria = URL.createObjectURL(arquivo);
-    fotoPreview.src = urlFotoTemporaria;
-});
-
-
-// remove a foto atual. a remoção só será efetivada após salvar
-removerFoto.addEventListener("click", () => {
-    fotoInput.value = "";
-    fotoSelecionada = null;
-    removerFotoSelecionada = true;
-    fotoPreview.src = FOTO_PADRAO;
-    erroFoto.textContent = "";
-
-    if (urlFotoTemporaria) {
-        URL.revokeObjectURL(urlFotoTemporaria);
-        urlFotoTemporaria = null;
-    }
-});
-
-
-// permite visualizar ou ocultar os campos de senha.
+// visibilidade da senha
 document.querySelectorAll(".toggle-password").forEach((botao) => {
     botao.addEventListener("click", () => {
         const campo = document.getElementById(botao.dataset.target);
+        if (!campo) return;
         const icone = botao.querySelector("i");
         const mostrarSenha = campo.type === "password";
 
         campo.type = mostrarSenha ? "text" : "password";
 
-        icone.classList.toggle("fa-eye", !mostrarSenha);
-        icone.classList.toggle("fa-eye-slash", mostrarSenha);
+        if (icone) {
+            icone.classList.toggle("fa-eye", !mostrarSenha);
+            icone.classList.toggle("fa-eye-slash", mostrarSenha);
+        }
 
         botao.setAttribute(
             "aria-label",
@@ -143,118 +148,114 @@ document.querySelectorAll(".toggle-password").forEach((botao) => {
     });
 });
 
-
-confirmarSenha.addEventListener("input", () => {
-    erroSenha.textContent = "";
-});
-
-
-// restaura a pré-visualização e as mensagens ao descartar alterações.
-form.addEventListener("reset", () => {
-    setTimeout(() => {
-        fotoInput.value = "";
-        fotoSelecionada = null;
-        removerFotoSelecionada = false;
-
-        fotoPreview.src = FOTO_PADRAO;
-
-        nomeExibicao.textContent =
-            nomeInput.value.trim() || "Seu perfil";
-
-        erroFoto.textContent = "";
+if (confirmarSenha && erroSenha) {
+    confirmarSenha.addEventListener("input", () => {
         erroSenha.textContent = "";
-        mensagem.textContent = "";
-        mensagem.className = "form-feedback";
+    });
+}
 
-        if (urlFotoTemporaria) {
-            URL.revokeObjectURL(urlFotoTemporaria);
-            urlFotoTemporaria = null;
+// reset
+if (form) {
+    form.addEventListener("reset", () => {
+        setTimeout(() => {
+            if (fotoInput) fotoInput.value = "";
+            fotoSelecionada = null;
+            removerFotoSelecionada = false;
+
+            if (fotoPreview) fotoPreview.src = FOTO_PADRAO;
+
+            if (nomeExibicao && nomeInput) {
+                nomeExibicao.textContent = nomeInput.value.trim() || "Seu perfil";
+            }
+
+            if (erroFoto) erroFoto.textContent = "";
+            if (erroSenha) erroSenha.textContent = "";
+            if (mensagem) {
+                mensagem.textContent = "";
+                mensagem.className = "form-feedback";
+            }
+
+            if (urlFotoTemporaria) {
+                URL.revokeObjectURL(urlFotoTemporaria);
+                urlFotoTemporaria = null;
+            }
+        }, 0);
+    });
+
+    // submit
+    form.addEventListener("submit", async (event) => {
+        event.preventDefault();
+
+        if (mensagem) {
+            mensagem.textContent = "";
+            mensagem.className = "form-feedback";
         }
-    }, 0);
-});
+        if (erroSenha) erroSenha.textContent = "";
 
+        const senhaFoiPreenchida = novaSenha?.value || confirmarSenha?.value;
 
-// envia os dados atualizados para o backend
-form.addEventListener("submit", async (event) => {
-    event.preventDefault();
-
-    mensagem.textContent = "";
-    mensagem.className = "form-feedback";
-    erroSenha.textContent = "";
-
-    const senhaFoiPreenchida =
-        novaSenha.value || confirmarSenha.value;
-
-    if (senhaFoiPreenchida) {
-
-        
-
-        if (novaSenha.value !== confirmarSenha.value) {
-            erroSenha.textContent = "As senhas não coincidem.";
-
-            confirmarSenha.focus();
-            return;
-        }
-    }
-
-    const dados = new FormData(form);
-
-    dados.delete("confirmarSenha");
-
-    dados.append("tipoUsuario", TIPO_USUARIO);
-    dados.append("removerFoto", String(removerFotoSelecionada));
-
-    if (!fotoSelecionada) {
-        dados.delete("fotoPerfil");
-    }
-
-    try {
-        const resposta = await fetch(API_PERFIL, {
-            method: "PUT",
-            body: dados,
-            credentials: "include"
-        });
-
-        if (!resposta.ok) {
-            throw new Error(
-                "Não foi possível salvar as alterações."
-            );
+        if (senhaFoiPreenchida) {
+            if (novaSenha.value !== confirmarSenha.value) {
+                if (erroSenha) erroSenha.textContent = "As senhas não coincidem.";
+                confirmarSenha.focus();
+                return;
+            }
         }
 
-        const resultado = await resposta.json();
+        const dados = new FormData(form);
 
-        if (resultado.fotoPerfilUrl) {
-            fotoPreview.src = resultado.fotoPerfilUrl;
+        dados.delete("confirmarSenha");
+        dados.append("tipoUsuario", TIPO_USUARIO);
+        dados.append("removerFoto", String(removerFotoSelecionada));
+
+        if (!fotoSelecionada) {
+            dados.delete("fotoPerfil");
         }
 
-        if (resultado.nome) {
-            nomeInput.value = resultado.nome;
-            nomeExibicao.textContent = resultado.nome;
+        try {
+            const resposta = await fetch(API_PERFIL, {
+                method: "PUT",
+                body: dados,
+                credentials: "include"
+            });
+
+            if (!resposta.ok) {
+                throw new Error("Não foi possível salvar as alterações.");
+            }
+
+            const resultado = await resposta.json();
+
+            if (resultado.fotoPerfilUrl && fotoPreview) {
+                fotoPreview.src = resultado.fotoPerfilUrl;
+            }
+
+            if (resultado.nome && nomeInput && nomeExibicao) {
+                nomeInput.value = resultado.nome;
+                nomeExibicao.textContent = resultado.nome;
+            }
+
+            if (mensagem) {
+                mensagem.textContent = "Alterações salvas com sucesso!";
+                mensagem.classList.add("success");
+            }
+
+            fotoSelecionada = null;
+            removerFotoSelecionada = false;
+
+            if (fotoInput) fotoInput.value = "";
+            if (novaSenha) novaSenha.value = "";
+            if (confirmarSenha) confirmarSenha.value = "";
+
+        } catch (erro) {
+            if (mensagem) {
+                mensagem.textContent = erro.message || "Ocorreu um erro ao salvar. Tente novamente.";
+                mensagem.classList.add("error");
+            }
         }
+    });
+}
 
-        mensagem.textContent =
-            "Alterações salvas com sucesso!";
-
-        mensagem.classList.add("success");
-
-        fotoSelecionada = null;
-        removerFotoSelecionada = false;
-
-        fotoInput.value = "";
-        novaSenha.value = "";
-        confirmarSenha.value = "";
-
-    } catch (erro) {
-        mensagem.textContent =
-            erro.message ||
-            "Ocorreu um erro ao salvar. Tente novamente.";
-
-        mensagem.classList.add("error");
-    }
-});
-
-
-// carrega as informações atuais do perfil
+// carregar perfil
 async function carregarPerfil() {
     try {
         const resposta = await fetch(API_PERFIL, {
@@ -268,12 +269,11 @@ async function carregarPerfil() {
 
         const perfil = await resposta.json();
 
-        nomeInput.value = perfil.nome || "";
+        if (nomeInput) nomeInput.value = perfil.nome || "";
 
-        document.getElementById("email").value =
-            perfil.email || "";
+        const emailEl = document.getElementById("email");
+        if (emailEl) emailEl.value = perfil.email || "";
 
-        // Formata o telefone que vem do banco de dados
         const telefoneSalvo = perfil.telefone || "";
         let telefoneFormatado = telefoneSalvo.replace(/\D/g, "");
 
@@ -287,32 +287,29 @@ async function carregarPerfil() {
             telefoneFormatado = telefoneFormatado.replace(/^(\d*)/, "($1");
         }
 
-        document.getElementById("telefone").value = telefoneFormatado;
+        const telefoneEl = document.getElementById("telefone");
+        if (telefoneEl) telefoneEl.value = telefoneFormatado;
 
-        document.getElementById("cidade").value =
-            perfil.cidade || "";
+        const cidadeEl = document.getElementById("cidade");
+        if (cidadeEl) cidadeEl.value = perfil.cidade || "";
 
-        if (perfil.curso && TIPO_USUARIO === "aluno") {
-            document.getElementById("curso").value =
-                perfil.curso;
+        const cursoEl = document.getElementById("curso");
+        if (perfil.curso && cursoEl && TIPO_USUARIO === "aluno") {
+            cursoEl.value = perfil.curso;
         }
 
-        if (perfil.fotoPerfilUrl) {
+        if (perfil.fotoPerfilUrl && fotoPreview) {
             fotoPreview.src = perfil.fotoPerfilUrl;
         }
 
-        nomeExibicao.textContent =
-            perfil.nome || "Seu perfil";
+        if (nomeExibicao) {
+            nomeExibicao.textContent = perfil.nome || "Seu perfil";
+        }
 
     } catch (erro) {
-        console.error(
-            "Não foi possível carregar o perfil:",
-            erro
-        );
+        console.error("Não foi possível carregar o perfil:", erro);
     }
 }
 
-
 configurarTipoUsuario();
 carregarPerfil();
-

@@ -1,93 +1,106 @@
 document.addEventListener('DOMContentLoaded', () => {
   const appLayout = document.getElementById('appLayout');
   const sidebarToggle = document.getElementById('sidebarToggle');
-  if (sidebarToggle) sidebarToggle.addEventListener('click', () => appLayout.classList.toggle('collapsed'));
+  if (sidebarToggle && appLayout) sidebarToggle.addEventListener('click', () => appLayout.classList.toggle('collapsed'));
 
-  // Banco de dados simulado
-  const todasAsCasas = [
-    { id: 'casa-1', titulo: 'República Vila Universitária', preco: 850, local: 'Campinas, SP (1.2 km da PUC)', img: 'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&q=80&w=400', distancia: 1.2 },
-    { id: 'casa-2', titulo: 'Kitnet Moderna Centro', preco: 1200, local: 'Campinas, SP (2.5 km da PUC)', img: 'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&q=80&w=400', distancia: 2.5 }
-  ];
-
-  let favoritosIds = JSON.parse(localStorage.getItem('finduhouse_favoritos') || '[]');
-  let matchesIds = JSON.parse(localStorage.getItem('finduhouse_matches') || '[]');
-  
   const grid = document.getElementById('favoritosGrid');
   const avisoVazio = document.getElementById('avisoVazio');
   
   const filtroPreco = document.getElementById('filtroPreco');
-  const filtroDistancia = document.getElementById('filtroDistancia');
+  const spanPreco = document.getElementById('valorPreco');
 
-  function renderizar() {
+  let favoritosDoBanco = []; 
+
+  async function carregarFavoritos() {
+    const token = localStorage.getItem('token');
+    const estudanteId = localStorage.getItem('usuarioId');
+
+    if (!token || !estudanteId) {
+      grid.innerHTML = '';
+      avisoVazio.style.display = 'block';
+      avisoVazio.textContent = 'Faça login para ver seus favoritos.';
+      return;
+    }
+
+    grid.innerHTML = '<p style="text-align: center; padding: 40px;">Carregando favoritos...</p>';
+    avisoVazio.style.display = 'none';
+
+    try {
+      const response = await fetch(`http://localhost:8081/api/favoritos?estudanteId=${estudanteId}`, {
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+
+      if (!response.ok) throw new Error('Erro ao buscar favoritos');
+
+      const data = await response.json();
+      
+      favoritosDoBanco = data.favoritos || [];
+
+      renderizarGrid();
+      
+    } catch (error) {
+      console.error(error);
+      grid.innerHTML = '';
+      avisoVazio.style.display = 'block';
+      avisoVazio.textContent = 'Erro ao carregar favoritos.';
+    }
+  }
+
+  function renderizarGrid() {
     grid.innerHTML = '';
     
-    const precoMax = Number(filtroPreco.value);
-    const distanciaMax = Number(filtroDistancia.value);
-    document.getElementById('valorPreco').textContent = `R$ ${precoMax}`;
-    document.getElementById('valorDistancia').textContent = `${distanciaMax} km`;
+    let precoMax = 999999;
+    if (filtroPreco) {
+      precoMax = Number(filtroPreco.value);
+      spanPreco.textContent = `R$ ${precoMax}`;
+    }
 
-    const favoritosFiltrados = favoritosIds.filter(id => {
-      const casa = todasAsCasas.find(c => c.id === id);
-      if (!casa) return false;
-      return casa.preco <= precoMax && casa.distancia <= distanciaMax;
-    });
+    const filtrados = favoritosDoBanco.filter(fav => Number(fav.valorAluguel) <= precoMax);
 
-    if (favoritosFiltrados.length === 0) {
+    if (filtrados.length === 0) {
       avisoVazio.style.display = 'block';
+      avisoVazio.textContent = 'Você ainda não tem favoritos (ou nenhum atende ao filtro de preço).';
       return;
     }
     avisoVazio.style.display = 'none';
 
-    favoritosFiltrados.forEach(id => {
-      const casa = todasAsCasas.find(c => c.id === id);
-      const isMatch = matchesIds.includes(id);
+    const imagemPlaceholder = 'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&q=80&w=400';
 
+    filtrados.forEach(fav => {
       const card = document.createElement('div');
       card.className = 'match-card';
       
-      // Estrutura limpa, sem estilos inline, usando classes CSS
+      const precoFormatado = Number(fav.valorAluguel).toLocaleString('pt-BR', { minimumFractionDigits: 0 });
+      
+      // Proteção caso o endereço venha nulo
+      const endereco = fav.endereco || "Endereço não informado";
+      const enderecoCurto = endereco.split('-')[0];
+
       card.innerHTML = `
-        <div class="match-img" style="background-image: url('${casa.img}');"></div>
+        <div class="match-img" style="background-image: url('${imagemPlaceholder}');"></div>
         <div class="match-info">
-          <h2>${casa.titulo}</h2>
+          <h2>${fav.titulo}</h2>
           <p class="match-location">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-            ${casa.local}
+            ${enderecoCurto}
           </p>
-          <p class="match-price">R$ ${casa.preco}<span>/mês</span></p>
+          <p class="match-price">R$ ${precoFormatado}<span>/mês</span></p>
           
           <div class="card-actions flex-col">
             <div class="flex-row">
-              <button class="btn-heart active" data-id="${casa.id}">
+              <button class="btn-heart active" data-id="${fav.id}">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
               </button>
-              <a href="detalhes-moradia.html" class="btn-match">Ver detalhes</a>
+              <a href="detalhes-moradia.html?id=${fav.id}" class="btn-match">Ver detalhes</a>
             </div>
-            <button class="btn-match btn-match-toggle ${isMatch ? 'is-match' : ''}">
-              ${isMatch ? 'Desfazer match' : 'Fechar match'}
-            </button>
           </div>
         </div>
       `;
 
-      // Remove dos favoritos
+      // Apenas remove visualmente
       card.querySelector('.btn-heart').addEventListener('click', () => {
-        favoritosIds = favoritosIds.filter(favId => favId !== casa.id);
-        localStorage.setItem('finduhouse_favoritos', JSON.stringify(favoritosIds));
-        renderizar();
-      });
-
-      // Fechar/Desfazer match
-      card.querySelector('.btn-match-toggle').addEventListener('click', () => {
-        if (matchesIds.includes(casa.id)) {
-          matchesIds = matchesIds.filter(matchId => matchId !== casa.id);
-        } else {
-          matchesIds.push(casa.id);
-          // Aqui você pode usar aquele Toast que criamos antes
-          alert('Parabéns, seu match foi feito! 🎉');
-        }
-        localStorage.setItem('finduhouse_matches', JSON.stringify(matchesIds));
-        renderizar();
+        favoritosDoBanco = favoritosDoBanco.filter(f => f.id !== fav.id);
+        renderizarGrid();
       });
 
       grid.appendChild(card);
@@ -95,9 +108,8 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   if (filtroPreco) {
-    filtroPreco.addEventListener('input', renderizar);
-    filtroDistancia.addEventListener('input', renderizar);
+    filtroPreco.addEventListener('input', renderizarGrid);
   }
 
-  renderizar();
+  carregarFavoritos();
 });

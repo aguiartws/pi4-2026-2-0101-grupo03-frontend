@@ -15,13 +15,11 @@ document.addEventListener('DOMContentLoaded', () => {
   const nomeProprietarioEl = document.getElementById('nomeProprietario');
   const avatarProprietarioEl = document.getElementById('avatarProprietario');
 
-  // Busca o nome que foi salvo durante o login/cadastro
   const nomeSalvo = localStorage.getItem('finduhouse_usuario_nome');
 
   if (nomeSalvo && nomeSalvo.trim() !== "") {
     if (nomeProprietarioEl) nomeProprietarioEl.textContent = nomeSalvo;
     if (avatarProprietarioEl) {
-      // Pega as iniciais (ex: "Ana Clara" -> "AC")
       const partes = nomeSalvo.trim().split(" ");
       let iniciais = partes[0].charAt(0).toUpperCase();
       if (partes.length > 1) {
@@ -31,7 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // 3. foto de perfil (por enquanto só a visualização na tela)
+  // 3. Foto de perfil (Câmara e Upload)
   const btnFoto = document.getElementById('btnFoto');
   const fotoInput = document.getElementById('fotoPerfil');
   const fotoPreview = document.getElementById('fotoPreview');
@@ -44,7 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (btnFoto && fotoInput && fotoPreview && avatarProprietarioEl) {
     btnFoto.addEventListener('click', () => fotoInput.click());
 
-    fotoInput.addEventListener('change', () => {
+    fotoInput.addEventListener('change', async () => {
       erroFoto.textContent = '';
 
       const arquivo = fotoInput.files[0];
@@ -69,7 +67,26 @@ document.addEventListener('DOMContentLoaded', () => {
       fotoPreview.hidden = false;
       avatarProprietarioEl.hidden = true;
 
-      // aqui entra o envio da foto ao banco
+      // Envio da foto para o backend via FormData
+      try {
+        const sessao = obterSessao();
+        const formData = new FormData();
+        formData.append("foto", arquivo);
+
+        const resposta = await fetch(`${API_BASE}/proprietarios/${sessao.usuarioId}/foto`, {
+          method: "POST",
+          headers: {
+            "Authorization": `Bearer ${sessao.token}`
+          },
+          body: formData
+        });
+
+        if (!resposta.ok) throw new Error("Erro ao salvar foto no servidor.");
+        console.log("Foto de perfil do proprietário atualizada com sucesso!");
+      } catch (erro) {
+        console.error("Erro ao enviar foto:", erro);
+        erroFoto.textContent = "Falha ao enviar a foto para o servidor.";
+      }
     });
   }
 });

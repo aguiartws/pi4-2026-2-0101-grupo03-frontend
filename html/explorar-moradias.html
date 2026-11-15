@@ -37,49 +37,22 @@
       </section>
 
       <!-- FILTROS -->
+           <!-- FILTROS -->
       <section class="filters-card">
         <div class="filter-group">
-          <label for="filtroPreco">Preço Máximo: <span id="valorPreco">R$ 2000</span></label>
-          <input type="range" id="filtroPreco" min="500" max="2000" step="50" value="2000">
+          <label for="filtroPreco">Preço Máximo: <span id="valorPreco">R$ 5000</span></label>
+          <input type="range" id="filtroPreco" min="500" max="5000" step="50" value="5000">
         </div>
         <div class="filter-group">
-          <label for="filtroDistancia">Distância Máxima: <span id="valorDistancia">5 km</span></label>
-          <input type="range" id="filtroDistancia" min="0.5" max="5" step="0.5" value="5">
+          <label for="filtroDistancia">Distância Máxima: <span id="valorDistancia">10 km</span></label>
+          <input type="range" id="filtroDistancia" min="0.5" max="10" step="0.5" value="10">
         </div>
       </section>
 
       <div class="matches-grid" id="explorarGrid">
-        <!-- CARD 1 -->
-        <div class="match-card" data-id="casa-1" data-preco="850" data-distancia="1.2">
-          <div class="match-img" style="background-image: url('https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&q=80&w=400');">
-            <span class="match-badge category-badge">República</span>
-          </div>
-          <div class="match-info">
-            <h2>República Vila Universitária</h2>
-            <p class="match-location"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>Campinas, SP (1.2 km da PUC)</p>
-            <p class="match-price">R$ 850<span>/mês</span></p>
-            <div class="card-actions">
-              <a href="detalhes-moradia.html" class="btn-match">Ver detalhes</a>
-              <button class="btn-heart" data-id="casa-1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
-            </div>
-          </div>
-        </div>
-
-        <!-- CARD 2 -->
-        <div class="match-card" data-id="casa-2" data-preco="1200" data-distancia="2.5">
-          <div class="match-img" style="background-image: url('https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&q=80&w=400');">
-            <span class="match-badge category-badge">Kitnet</span>
-          </div>
-          <div class="match-info">
-            <h2>Kitnet Moderna Centro</h2>
-            <p class="match-location"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>Campinas, SP (2.5 km da PUC)</p>
-            <p class="match-price">R$ 1.200<span>/mês</span></p>
-            <div class="card-actions">
-              <a href="detalhes-moradia.html" class="btn-match">Ver detalhes</a>
-              <button class="btn-heart" data-id="casa-2"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
-            </div>
-          </div>
-        </div>
+        <p class="loading-msg" id="loadingMsg">Carregando moradias...</p>
+      </div>
+      
       </div>
     </main>
   </div>
