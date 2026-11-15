@@ -33,7 +33,6 @@ document.addEventListener('DOMContentLoaded', () => {
       if (!response.ok) throw new Error('Erro ao buscar favoritos');
 
       const data = await response.json();
-      console.log("Dados recebidos:", data); // Para debug
       
       favoritosDoBanco = data.favoritos || [];
 
