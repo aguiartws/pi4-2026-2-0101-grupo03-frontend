@@ -170,26 +170,71 @@ document.addEventListener('DOMContentLoaded', () => {
   // ==========================================
   // 5. BOTÃO FAVORITAR
   // ==========================================
+    // ==========================================
+  // 5. BOTÃO FAVORITAR (INTEGRADO COM O BANCO)
+  // ==========================================
   const btnFavoritar = document.getElementById('btnFavoritar');
+  
   if (btnFavoritar) {
-    let favoritos = JSON.parse(localStorage.getItem('finduhouse_favoritos') || '[]');
-    
-    if (favoritos.includes(vagaId)) {
-      btnFavoritar.classList.add('active');
-      btnFavoritar.querySelector('span').textContent = 'Favoritado';
-    }
+    // Verifica se já está favoritado (podemos checar na API ou só assumir que não)
+    // Para simplificar, vamos apenas deixar o visual para depois de clicar.
 
-    btnFavoritar.addEventListener('click', () => {
-      if (favoritos.includes(vagaId)) {
-        favoritos = favoritos.filter(id => id !== vagaId);
+    btnFavoritar.addEventListener('click', async () => {
+      if (!token || !estudanteId) {
+        alert('Você precisa estar logado para favoritar.');
+        return;
+      }
+
+      // Se o botão já está ativo, significa que o usuário quer remover (mas vamos apenas avisar que precisa de delete)
+      if (btnFavoritar.classList.contains('active')) {
+        // Aqui entraria o DELETE /api/favoritos/{id}, mas como não existe, vamos remover só do visual
         btnFavoritar.classList.remove('active');
         btnFavoritar.querySelector('span').textContent = 'Favoritar';
-      } else {
-        favoritos.push(vagaId);
-        btnFavoritar.classList.add('active');
-        btnFavoritar.querySelector('span').textContent = 'Favoritado';
+        alert('Favorito removido da tela (Implementar DELETE no backend para remover do banco).');
+        return;
       }
-      localStorage.setItem('finduhouse_favoritos', JSON.stringify(favoritos));
+
+      btnFavoritar.querySelector('span').textContent = 'Salvando...';
+      btnFavoritar.disabled = true;
+
+      try {
+        const response = await fetch('http://localhost:8081/api/favoritos', {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            estudanteId: estudanteId,
+            vagaId: vagaId
+          })
+        });
+
+        if (response.status === 401) {
+          alert('Sessão expirada. Faça login novamente.');
+          return;
+        }
+
+        if (!response.ok) {
+          const err = await response.json();
+          if (err.codigo === 'VAGA_JA_FAVORITADA') {
+            alert('Esta vaga já está nos seus favoritos!');
+          } else {
+            throw new Error(err.mensagem || 'Erro ao favoritar');
+          }
+        } else {
+          // Sucesso!
+          btnFavoritar.classList.add('active');
+          btnFavoritar.querySelector('span').textContent = 'Favoritado';
+        }
+        
+      } catch (error) {
+        console.error(error);
+        alert(error.message || 'Erro ao conectar com o servidor.');
+        btnFavoritar.querySelector('span').textContent = 'Favoritar';
+      } finally {
+        btnFavoritar.disabled = false;
+      }
     });
   }
 
