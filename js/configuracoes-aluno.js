@@ -44,24 +44,6 @@ let removerFotoSelecionada = false;
 let urlFotoTemporaria = null;
 
 
-// ajustar os campos exibidos de acordo com o tipo de conta
-function configurarTipoUsuario() {
-    const grupoCurso = document.getElementById("grupoCurso");
-    const labelCidade = document.getElementById("labelCidade");
-    const cidade = document.getElementById("cidade");
-
-    if (TIPO_USUARIO === "proprietario") {
-        grupoCurso.hidden = true;
-        tipoExibicao.textContent = "Conta de proprietário";
-        labelCidade.textContent = "Cidade onde fica a moradia";
-        cidade.placeholder = "Digite a cidade da moradia";
-        return;
-    }
-
-    tipoExibicao.textContent = "Conta de estudante";
-    document.getElementById("curso").required = true;
-}
-
 
 // atualiza o nome mostrado no cartão de perfil.
 nomeInput.addEventListener("input", () => {
@@ -182,13 +164,7 @@ form.addEventListener("submit", async (event) => {
 
     if (senhaFoiPreenchida) {
 
-        if (novaSenha.value.length < 8) {
-            erroSenha.textContent =
-                "A senha deve ter pelo menos 8 caracteres.";
-
-            novaSenha.focus();
-            return;
-        }
+        
 
         if (novaSenha.value !== confirmarSenha.value) {
             erroSenha.textContent = "As senhas não coincidem.";

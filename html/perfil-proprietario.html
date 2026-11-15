@@ -64,7 +64,7 @@
         </a>
 
         <!-- Configurações -->
-        <a class="nav-item" href="#" title="Configurações">
+        <a class="nav-item" href="configuracoes-proprietario.html" title="Configurações">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <circle cx="12" cy="12" r="3"/>
             <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
@@ -79,20 +79,39 @@
     <main class="content">
 
       <!-- Banner Mesclado -->
-      <section class="card welcome-card">
-        <div class="banner-bg"></div>
-        <div class="welcome-body">
-          <div class="avatar" aria-label="Avatar do Proprietário" id="avatarProprietario">AC</div>
-          <div class="welcome-info">
-            <h1>
-              <span id="nomeProprietario">Ana Clara</span>
-              <svg class="verified" viewBox="0 0 24 24" width="20" height="20" aria-label="Verificado">
-                <circle cx="12" cy="12" r="11" fill="var(--accent)"/>
-                <path d="m7.5 12.5 3 3 6-6.5" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+      <section class="welcome-banner">
+        <div class="banner-decoration banner-decoration-one"></div>
+        <div class="banner-decoration banner-decoration-two"></div>
+
+        <div class="welcome-copy">
+          <span class="eyebrow">MEU PERFIL</span>
+          <h1>
+            <span id="nomeProprietario">Ana Clara</span>
+            <svg class="verified" viewBox="0 0 24 24" width="20" height="20" aria-label="Verificado">
+              <circle cx="12" cy="12" r="11" fill="#fff"/>
+              <path d="m7.5 12.5 3 3 6-6.5" fill="none" stroke="var(--accent)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </h1>
+          <p>Bem-vindo(a) de volta! 👋 Seu perfil está ativo. Acesse as opções abaixo para gerenciar suas casas e anúncios.</p>
+        </div>
+
+        <div class="banner-avatar">
+          <div class="avatar-area">
+            <div class="avatar-frame">
+              <span class="avatar-initials" id="avatarProprietario" aria-label="Avatar do Proprietário">AC</span>
+              <img id="fotoPreview" alt="Foto de perfil" hidden>
+            </div>
+
+            <button type="button" class="avatar-edit" id="btnFoto" title="Alterar foto" aria-label="Alterar foto">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+                <circle cx="12" cy="13" r="4"/>
               </svg>
-            </h1>
-            <p>Bem-vindo(a) de volta! 👋 Seu perfil está ativo. Acesse as opções abaixo para gerenciar suas casas e anúncios.</p>
+            </button>
           </div>
+
+          <input type="file" id="fotoPerfil" name="fotoPerfil" accept="image/png,image/jpeg,image/webp" hidden>
+          <span class="photo-error" id="erroFoto" role="alert"></span>
         </div>
       </section>
 
