@@ -96,7 +96,7 @@
         </div>
       </section>
 
-      <!-- GRADE DE MATCHES (ALUNOS) -->
+            <!-- GRADE DE MATCHES (ALUNOS) -->
       <div class="matches-grid">
         
         <!-- CARD DE EXEMPLO 1 -->
@@ -114,7 +114,15 @@
               <span class="value">República Vila Universitária</span>
             </div>
 
-            <button class="btn-match">Conversar com estudante</button>
+            <button class="btn-match" 
+                    data-nome="João Silva" 
+                    data-iniciais="JS" 
+                    data-curso="Engenharia de Software - PUC" 
+                    data-email="joao.silva@puccampinas.edu.br" 
+                    data-telefone="(19) 99876-5432" 
+                    data-foto="">
+              Conversar com estudante
+            </button>
           </div>
         </div>
 
@@ -133,7 +141,15 @@
               <span class="value">Kitnet Moderna Centro</span>
             </div>
 
-            <button class="btn-match">Conversar com estudante</button>
+            <button class="btn-match" 
+                    data-nome="Maria Clara" 
+                    data-iniciais="MC" 
+                    data-curso="Medicina - PUC" 
+                    data-email="maria.clara@puccampinas.edu.br" 
+                    data-telefone="(19) 98765-4321" 
+                    data-foto="">
+              Conversar com estudante
+            </button>
           </div>
         </div>
 
@@ -152,14 +168,61 @@
               <span class="value">Quarto em Apartamento Compartilhado</span>
             </div>
 
-            <button class="btn-match">Conversar com estudante</button>
+            <button class="btn-match" 
+                    data-nome="Pedro Almeida" 
+                    data-iniciais="PA" 
+                    data-curso="Direito - PUC" 
+                    data-email="pedro.almeida@puccampinas.edu.br" 
+                    data-telefone="(19) 97654-3210" 
+                    data-foto="">
+              Conversar com estudante
+            </button>
           </div>
         </div>
 
       </div>
-
     </main>
   </div>
+
+        <!-- MODAL DE CONTATO DO ESTUDANTE -->
+      <div class="modal-overlay" id="modalContato">
+        <div class="modal-box">
+          <button class="modal-close" id="fecharModalX" aria-label="Fechar">&times;</button>
+          
+          <div class="modal-header">
+            <div class="modal-avatar-container">
+              <div class="modal-initials" id="modalIniciais">JS</div>
+              <img id="modalFoto" src="" alt="Foto do aluno" hidden>
+            </div>
+            <h2 id="modalNome">Nome do Aluno</h2>
+            <p id="modalCurso">Curso do Aluno</p>
+          </div>
+
+          <div class="modal-body">
+            <h3>Informações de Contato</h3>
+            
+            <div class="contact-item">
+              <div class="contact-icon">✉️</div>
+              <div>
+                <span class="contact-label">E-mail</span>
+                <a href="#" id="modalEmail" class="contact-value">email@exemplo.com</a>
+              </div>
+            </div>
+
+            <div class="contact-item">
+              <div class="contact-icon">📱</div>
+              <div>
+                <span class="contact-label">Telefone / WhatsApp</span>
+                <a href="#" id="modalTelefone" class="contact-value">(00) 00000-0000</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="modal-footer">
+            <button class="btn-modal-close" id="btnFecharModal">Fechar</button>
+          </div>
+        </div>
+      </div>
 
   <script src="../js/matches-feitos-proprietario.js"></script>
 </body>
