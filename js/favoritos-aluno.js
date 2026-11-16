@@ -1,4 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
+  if (!exigirLogin("estudante")) return;
+
   const appLayout = document.getElementById('appLayout');
   const sidebarToggle = document.getElementById('sidebarToggle');
   if (sidebarToggle && appLayout) sidebarToggle.addEventListener('click', () => appLayout.classList.toggle('collapsed'));
@@ -13,8 +15,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   async function carregarFavoritos() {
     const sessao = obterSessao();
-    const token = sessao.token === "mock-token-de-teste" ? null : sessao.token;
-    const estudanteId = token ? sessao.usuarioId : null;
+    const token = sessao.token;
+    const estudanteId = sessao.usuarioId;
 
     if (!token || !estudanteId) {
       grid.innerHTML = '';
@@ -86,21 +88,21 @@ document.addEventListener('DOMContentLoaded', () => {
       const enderecoCurto = endereco.split('-')[0];
 
       card.innerHTML = `
-        <div class="match-img" style="background-image: url('${fav.fotoCapa || imagemPlaceholder}');"></div>
+        <div class="match-img" style="background-image: url('${escaparHtml(urlImagemSegura(fav.fotoCapa, imagemPlaceholder))}');"></div>
         <div class="match-info">
-          <h2>${fav.titulo}</h2>
+          <h2>${escaparHtml(fav.titulo)}</h2>
           <p class="match-location">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-            ${enderecoCurto}
+            ${escaparHtml(enderecoCurto)}
           </p>
-          <p class="match-price">R$ ${precoFormatado}<span>/mês</span></p>
+          <p class="match-price">R$ ${escaparHtml(precoFormatado)}<span>/mês</span></p>
           
           <div class="card-actions flex-col">
             <div class="flex-row">
-              <button class="btn-heart active" data-id="${fav.id}">
+              <button class="btn-heart active" data-id="${escaparHtml(fav.id)}">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
               </button>
-              <a href="detalhes-moradia.html?id=${fav.id}" class="btn-match">Ver detalhes</a>
+              <a href="detalhes-moradia.html?id=${escaparHtml(fav.id)}" class="btn-match">Ver detalhes</a>
             </div>
           </div>
         </div>

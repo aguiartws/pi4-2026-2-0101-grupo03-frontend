@@ -1,4 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
+  if (!exigirLogin("estudante")) return;
+
   // 1. Lógica da barra lateral retrátil
   const appLayout = document.getElementById('appLayout');
   const sidebarToggle = document.getElementById('sidebarToggle');
@@ -55,7 +57,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const isSim = resposta === 'sim';
 
       div.innerHTML = `
-        <span class="question-text">${index + 1}. ${PERGUNTAS[index].texto}</span>
+        <span class="question-text">${escaparHtml(index + 1)}. ${escaparHtml(PERGUNTAS[index].texto)}</span>
         <div class="toggle-group">
           <label>
             <input type="radio" name="q${index}" value="sim" ${isSim ? 'checked' : ''}>

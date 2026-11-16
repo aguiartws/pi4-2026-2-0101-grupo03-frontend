@@ -13,16 +13,9 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // ==========================================
-    // 2. LÓGICA DO MAPA (MODO DE TESTE)
-    // ==========================================
-    
-    // TRAVA DE LOGIN DESATIVADA PARA TESTES
-    /*
     if (!exigirLogin("estudante")) {
         return;
     }
-    */
 
     // Inicializar o Mapa (Focado na PUC-Campinas Campus 1)
     const map = L.map('mapaFavoritos').setView([-22.8343, -47.0523], 15);
@@ -47,11 +40,9 @@ document.addEventListener("DOMContentLoaded", () => {
     // Função para buscar os favoritos no Backend
     async function carregarFavoritosNoMapa() {
         try {
-            // Como estamos testando, usamos um ID fixo.
-            let estudanteId = 1; 
-            if (typeof obterSessao === 'function' && obterSessao()) {
-                estudanteId = obterSessao().usuarioId;
-            }
+            const sessao = obterSessao();
+            if (!sessao) return;
+            const estudanteId = sessao.usuarioId;
 
             // Tenta chamar a API
             const dados = await chamarApi(`/favoritos?estudanteId=${encodeURIComponent(estudanteId)}`);
@@ -63,10 +54,10 @@ document.addEventListener("DOMContentLoaded", () => {
                     
                     const popupContent = `
                         <div class="popup-vaga">
-                            <h3>${casa.titulo}</h3>
-                            <p class="endereco">${casa.endereco}</p>
-                            <p class="preco">${precoFormatado}</p>
-                            <a href="detalhes-vaga.html?id=${casa.id}" class="btn-detalhes">Ver detalhes da vaga</a>
+                            <h3>${escaparHtml(casa.titulo)}</h3>
+                            <p class="endereco">${escaparHtml(casa.endereco)}</p>
+                            <p class="preco">${escaparHtml(precoFormatado)}</p>
+                            <a href="detalhes-vaga.html?id=${escaparHtml(casa.id)}" class="btn-detalhes">Ver detalhes da vaga</a>
                         </div>
                     `;
 

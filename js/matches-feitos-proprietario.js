@@ -1,4 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
+  if (!exigirLogin("proprietario")) return;
+
   const appLayout = document.getElementById('appLayout');
   const sidebarToggle = document.getElementById('sidebarToggle');
   const grid = document.getElementById('matchesGrid');
@@ -19,20 +21,13 @@ document.addEventListener('DOMContentLoaded', () => {
     .map((parte) => parte.charAt(0).toUpperCase())
     .join('');
 
-  const escaparHtml = (valor) => String(valor ?? '')
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#039;');
-
   function criarCard(match) {
     const nome = escaparHtml(match.nomeEstudante || 'Estudante');
     const curso = escaparHtml(match.curso || 'Curso não informado');
     const tituloVaga = escaparHtml(match.tituloVaga || 'Moradia');
     const iniciaisAluno = escaparHtml(iniciais(match.nomeEstudante));
     const fotoPerfilUrl = typeof match.fotoPerfilUrl === 'string'
-      ? match.fotoPerfilUrl.trim()
+      ? urlImagemSegura(match.fotoPerfilUrl.trim(), '')
       : '';
     const dados = encodeURIComponent(JSON.stringify(match));
 
@@ -52,7 +47,7 @@ document.addEventListener('DOMContentLoaded', () => {
           <span class="label">Gostou de:</span>
           <span class="value">${tituloVaga}</span>
         </div>
-        <button class="btn-match" type="button" data-match="${dados}">Ver detalhes</button>
+        <button class="btn-match" type="button" data-match="${escaparHtml(dados)}">Ver detalhes</button>
       </div>
     `;
     return card;
@@ -79,7 +74,7 @@ document.addEventListener('DOMContentLoaded', () => {
       : '#';
 
     const fotoPerfilUrl = typeof match.fotoPerfilUrl === 'string'
-      ? match.fotoPerfilUrl.trim()
+      ? urlImagemSegura(match.fotoPerfilUrl.trim(), '')
       : '';
     modalFoto.src = fotoPerfilUrl;
     modalFoto.hidden = !fotoPerfilUrl;
@@ -102,11 +97,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   async function carregarMatches() {
     const sessao = obterSessao();
-    if (sessao.token === 'mock-token-de-teste') {
-      grid.innerHTML = '<p class="loading-msg">Faça login como proprietário para ver os matches.</p>';
-      return;
-    }
-
     try {
       const resposta = await chamarApi(
         `/vagas/responsavel/${encodeURIComponent(sessao.usuarioId)}/matches`

@@ -1,4 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
+  if (!exigirLogin("estudante")) return;
+
 
   const PERGUNTAS = [
     { icon: '🔊', texto: 'Você aceita barulho depois das 22h durante a semana?' },
@@ -57,8 +59,8 @@ document.addEventListener('DOMContentLoaded', () => {
       card.innerHTML = `
         <span class="card__stamp card__stamp--yes">SIM</span>
         <span class="card__stamp card__stamp--no">NÃO</span>
-        <div class="card__icon">${pergunta.icon}</div>
-        <h2 class="card__question">${pergunta.texto}</h2>
+        <div class="card__icon">${escaparHtml(pergunta.icon)}</div>
+        <h2 class="card__question">${escaparHtml(pergunta.texto)}</h2>
         <p class="card__hint">Arraste para responder</p>
       `;
 
@@ -284,8 +286,8 @@ document.addEventListener('DOMContentLoaded', () => {
       const texto  = r.resposta === 'sim' ? 'Sim' : 'Não';
 
       li.innerHTML = `
-        <span>${r.pergunta}</span>
-        <span class="answer answer--${classe}">${texto}</span>
+        <span>${escaparHtml(r.pergunta)}</span>
+        <span class="answer answer--${escaparHtml(classe)}">${escaparHtml(texto)}</span>
       `;
       resultList.appendChild(li);
     });
