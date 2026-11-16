@@ -24,14 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
     avisoVazio.style.display = 'none';
 
     try {
-      // Chama o novo endpoint que criamos no backend
-      const response = await fetch(`http://localhost:8081/api/vagas/meus-matches?estudanteId=${estudanteId}`, {
-        headers: { 'Authorization': `Bearer ${token}` }
-      });
-
-      if (!response.ok) throw new Error('Erro ao buscar matches');
-
-      const data = await response.json();
+      const data = await chamarApi(`/vagas/meus-matches?estudanteId=${encodeURIComponent(estudanteId)}`);
       const matches = data.matches || [];
 
       grid.innerHTML = ''; // Limpa o "Buscando..."
