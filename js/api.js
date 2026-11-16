@@ -43,8 +43,9 @@ async function chamarApi(caminho, { metodo = "GET", corpo } = {}) {
             status: resposta.status
         };
 
-        if (erroApi.codigo === "TOKEN_INVALIDO") {
-            console.warn("Token inválido detectado, mas a trava está desativada para testes.");
+        if (erroApi.codigo === "TOKEN_INVALIDO" || resposta.status === 401) {
+            limparSessao();
+            window.location.href = "login.html";
         }
 
         throw erroApi;
@@ -88,6 +89,10 @@ async function chamarApiMultipart(caminho, { metodo = "POST", corpo } = {}) {
     }
 
     if (!resposta.ok) {
+        if ((dados && dados.codigo === "TOKEN_INVALIDO") || resposta.status === 401) {
+            limparSessao();
+            window.location.href = "login.html";
+        }
         throw {
             codigo: dados && dados.codigo,
             mensagem: dados && dados.mensagem,
@@ -120,22 +125,14 @@ function salvarSessao({ token, usuarioId, perfil }, lembrar = false) {
 function obterSessao() {
     const origem = localStorage.getItem("token") ? localStorage : (sessionStorage.getItem("token") ? sessionStorage : null);
     if (!origem) {
-        return { 
-            token: "mock-token-de-teste", 
-            usuarioId: "1", 
-            perfil: "estudante" 
-        };
+        return null;
     }
     const token = origem.getItem("token");
     const usuarioId = origem.getItem("usuarioId");
     const perfil = origem.getItem("perfil");
     
     if (!token || !usuarioId || !perfil) {
-        return { 
-            token: "mock-token-de-teste", 
-            usuarioId: "1", 
-            perfil: "estudante" 
-        };
+        return null;
     }
     
     return { token, usuarioId, perfil };
@@ -150,8 +147,42 @@ function limparSessao() {
 }
 
 function exigirLogin(perfilEsperado) {
-    console.warn(`[MODO DE TESTE] Proteção desativada. Acesso liberado para o perfil: ${perfilEsperado}`);
+    const sessao = obterSessao();
+    if (!sessao) {
+        window.location.href = "login.html";
+        return false;
+    }
+
+    if (sessao.perfil !== perfilEsperado) {
+        const paginaLogin = perfilEsperado === "proprietario"
+            ? "login-proprietario.html"
+            : "login-aluno.html";
+        window.location.href = paginaLogin;
+        return false;
+    }
+
     return true;
+}
+
+function escaparHtml(valor) {
+    return String(valor ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#39;");
+}
+
+function urlImagemSegura(valor, fallback) {
+    try {
+        const url = new URL(String(valor ?? ""));
+        if (url.protocol === "http:" || url.protocol === "https:") {
+            return url.href;
+        }
+    } catch (erro) {
+        // Usa a imagem padrão para valores que não sejam URLs válidas.
+    }
+    return fallback;
 }
 
 function mensagemDeErro(erro) {
@@ -178,5 +209,7 @@ window.api = {
   obterSessao,
   limparSessao,
   exigirLogin,
-  mensagemDeErro
+  mensagemDeErro,
+  escaparHtml,
+  urlImagemSegura
 };

@@ -22,7 +22,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   } catch (erro) {
     gradeCasas.textContent = "";
     // Se der erro, mostra a mensagem direto na grade
-    gradeCasas.innerHTML = `<p style='color: #e53935; font-style: italic;'>${mensagemDeErro(erro)}</p>`;
+    gradeCasas.innerHTML = `<p style='color: #e53935; font-style: italic;'>${escaparHtml(mensagemDeErro(erro))}</p>`;
   }
 });
 
@@ -32,7 +32,7 @@ function criarCardCasa(vaga) {
   card.className = "house-card card";
 
   const imagem = document.createElement("img");
-  imagem.src = vaga.fotoCapa || "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&q=80&w=400";
+  imagem.src = urlImagemSegura(vaga.fotoCapa, "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&q=80&w=400");
   imagem.alt = vaga.titulo ? `Foto de ${vaga.titulo}` : "Foto da moradia";
   imagem.style.width = "100%";
   imagem.style.height = "180px";

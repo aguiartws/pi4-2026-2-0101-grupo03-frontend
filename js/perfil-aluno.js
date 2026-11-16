@@ -1,4 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
+  if (!exigirLogin("estudante")) return;
+
   // 1. Lógica da barra lateral retrátil
   const appLayout = document.getElementById('appLayout');
   const sidebarToggle = document.getElementById('sidebarToggle');
@@ -37,8 +39,8 @@ document.addEventListener('DOMContentLoaded', () => {
     if (perfilCidade) perfilCidade.textContent = perfil.cidade || "";
     if (perfilCurso) perfilCurso.textContent = perfil.curso || "";
 
-    const temFoto = typeof perfil.fotoPerfilUrl === "string" && perfil.fotoPerfilUrl.trim() !== "";
-    fotoPreview.src = temFoto ? perfil.fotoPerfilUrl : FOTO_PADRAO;
+    const fotoUrl = urlImagemSegura(perfil.fotoPerfilUrl, FOTO_PADRAO);
+    fotoPreview.src = fotoUrl;
     fotoPreview.hidden = false;
     avatarAlunoEl.hidden = true;
 
@@ -87,9 +89,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       try {
         const sessao = obterSessao();
-        if (sessao.token === "mock-token-de-teste") {
-          throw new Error("É necessário fazer login com uma sessão real para enviar a foto.");
-        }
+        if (!sessao) return;
         const formData = new FormData();
         formData.append("foto", arquivo);
 
@@ -98,7 +98,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         const fotoUrl = resultado?.fotoUrl;
-        if (fotoUrl) fotoPreview.src = fotoUrl;
+        if (fotoUrl) fotoPreview.src = urlImagemSegura(fotoUrl, FOTO_PADRAO);
         await carregarPerfil();
       } catch (erro) {
         console.error("Erro ao enviar foto:", erro);
@@ -110,9 +110,7 @@ document.addEventListener('DOMContentLoaded', () => {
   async function carregarPerfil() {
     try {
       const sessao = obterSessao();
-      if (sessao.token === "mock-token-de-teste") {
-        throw new Error("É necessário fazer login com uma sessão real para consultar o perfil.");
-      }
+      if (!sessao) return;
       const perfil = await chamarApi("/usuario/perfil");
       atualizarPerfil(perfil);
     } catch (erro) {

@@ -1,4 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
+  if (!exigirLogin("estudante")) return;
+
   // 1. Sidebar
   const appLayout = document.getElementById('appLayout');
   const sidebarToggle = document.getElementById('sidebarToggle');
@@ -33,7 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
       document.querySelector('.title-section h1').textContent = vaga.titulo;
       document.querySelector('.location').innerHTML = `
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-        ${vaga.endereco}
+        ${escaparHtml(vaga.endereco)}
       `;
       document.querySelector('.description-section p').textContent = vaga.descricao;
 
@@ -211,7 +213,9 @@ document.addEventListener('DOMContentLoaded', () => {
   let indexAtual = 0;
 
   function renderizarGaleria(fotos) {
-    imagens = fotos.filter((foto) => typeof foto === 'string' && foto.trim() !== "");
+    imagens = fotos
+      .map((foto) => urlImagemSegura(foto, ''))
+      .filter(Boolean);
     if (imagens.length === 0) imagens = [PLACEHOLDER_FOTO];
 
     const galeria = document.querySelector(".gallery");

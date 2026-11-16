@@ -1,4 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
+  if (!exigirLogin("estudante")) return;
+
   const appLayout = document.getElementById('appLayout');
   const sidebarToggle = document.getElementById('sidebarToggle');
   if (sidebarToggle && appLayout) sidebarToggle.addEventListener('click', () => appLayout.classList.toggle('collapsed'));
@@ -7,8 +9,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const avisoVazio = document.getElementById('avisoVazio');
 
   async function carregarMatches() {
-    const token = localStorage.getItem('token');
-    const estudanteId = localStorage.getItem('usuarioId');
+    const sessao = obterSessao();
+    const token = sessao.token;
+    const estudanteId = sessao.usuarioId;
 
     if (!token || !estudanteId) {
       grid.innerHTML = '';
@@ -50,16 +53,16 @@ document.addEventListener('DOMContentLoaded', () => {
         card.innerHTML = `
           <div class="match-img" style="background-image: url('${imagemPlaceholder}');"></div>
           <div class="match-info">
-            <h2>${match.titulo}</h2>
+            <h2>${escaparHtml(match.titulo)}</h2>
             <p class="match-location">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-              ${enderecoCurto}
+              ${escaparHtml(enderecoCurto)}
             </p>
-            <p class="match-price">R$ ${precoFormatado}<span>/mês</span></p>
+            <p class="match-price">R$ ${escaparHtml(precoFormatado)}<span>/mês</span></p>
             
             <div class="card-actions">
-              <a href="detalhes-moradia.html?id=${match.vagaId}" class="btn-match">Ver detalhes</a>
-              <button class="btn-match btn-desfazer" data-id="${match.vagaId}" style="background: #fee2e2; color: #dc2626;">Desfazer match</button>
+              <a href="detalhes-moradia.html?id=${escaparHtml(match.vagaId)}" class="btn-match">Ver detalhes</a>
+              <button class="btn-match btn-desfazer" data-id="${escaparHtml(match.vagaId)}" style="background: #fee2e2; color: #dc2626;">Desfazer match</button>
             </div>
           </div>
         `;

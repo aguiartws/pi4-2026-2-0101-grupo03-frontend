@@ -61,7 +61,7 @@ function statusAtual() {
 function atualizarPrevia() {
   $("#pvTitulo").textContent =
     campos.titulo.value.trim() || "Título do anúncio";
-  $("#pvPreco").innerHTML = `R$ ${brl(campos.preco.value)}<span>/mês</span>`;
+  $("#pvPreco").innerHTML = `R$ ${escaparHtml(brl(campos.preco.value))}<span>/mês</span>`;
   $("#pvEndereco").textContent = campos.endereco.value.trim() || "Endereço";
   const n = Number(campos.numeroMoradores.value || 0);
   $("#pvMeta").textContent = n ? `${n} ${n > 1 ? "moradores" : "morador"}` : "";
@@ -123,12 +123,18 @@ function renderizarPreviewsFotos() {
       div.style.overflow = "hidden";
       div.style.border = "1px solid var(--border)";
 
-      div.innerHTML = `
-        <img src="${e.target.result}" style="width: 100%; height: 100%; object-fit: cover;">
-        <button type="button" data-index="${index}" class="btn-remover-foto" style="position: absolute; top: 2px; right: 2px; background: rgba(0,0,0,0.6); color: white; border: none; border-radius: 50%; width: 20px; height: 20px; font-size: 10px; cursor: pointer;">×</button>
-      `;
+      const imagem = document.createElement("img");
+      imagem.src = URL.createObjectURL(arquivo);
+      imagem.style.cssText = "width: 100%; height: 100%; object-fit: cover;";
+      const remover = document.createElement("button");
+      remover.type = "button";
+      remover.dataset.index = String(index);
+      remover.className = "btn-remover-foto";
+      remover.style.cssText = "position: absolute; top: 2px; right: 2px; background: rgba(0,0,0,0.6); color: white; border: none; border-radius: 50%; width: 20px; height: 20px; font-size: 10px; cursor: pointer;";
+      remover.textContent = "×";
+      div.append(imagem, remover);
 
-      div.querySelector("button").addEventListener("click", () => {
+      remover.addEventListener("click", () => {
         fotosSelecionadas.splice(index, 1);
         renderizarPreviewsFotos();
       });

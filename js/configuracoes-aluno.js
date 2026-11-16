@@ -1,4 +1,6 @@
 (function configurarBarraLateral() {
+    if (!exigirLogin("estudante")) return;
+
     const appLayout = document.getElementById("appLayout");
     const sidebarToggle = document.getElementById("sidebarToggle");
 
@@ -223,7 +225,7 @@ if (form) {
                 corpo: dados
             });
             if (fotoPreview) {
-                fotoPreview.src = resultado?.fotoPerfilUrl || FOTO_PADRAO;
+                fotoPreview.src = urlImagemSegura(resultado?.fotoPerfilUrl, FOTO_PADRAO);
             }
 
             if (resultado.nome && nomeInput && nomeExibicao) {
@@ -293,7 +295,7 @@ async function carregarPerfil() {
         }
 
         if (fotoPreview) {
-            fotoPreview.src = perfil.fotoPerfilUrl || FOTO_PADRAO;
+            fotoPreview.src = urlImagemSegura(perfil.fotoPerfilUrl, FOTO_PADRAO);
         }
 
         if (nomeExibicao) {

@@ -1,4 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
+  if (!exigirLogin("proprietario")) return;
   // --- Lógica da Setinha da Barra Lateral ---
   const appLayout = document.getElementById('appLayout');
   const sidebarToggle = document.getElementById('sidebarToggle');
@@ -140,11 +141,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const botaoFinalizar = form.querySelector('button[type="submit"]');
     const sessao = obterSessao();
-
-    if (sessao.token === "mock-token-de-teste") {
-      alert("Faça login como proprietário antes de cadastrar uma moradia.");
-      return;
-    }
 
     const respostaSim = (nome) => form.querySelector(`input[name="${nome}"]:checked`)?.value === "sim";
     const dados = {

@@ -1,4 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
+  if (!exigirLogin("estudante")) return;
+
   const appLayout = document.getElementById('appLayout');
   const sidebarToggle = document.getElementById('sidebarToggle');
   if (sidebarToggle && appLayout) {
@@ -16,8 +18,8 @@ document.addEventListener('DOMContentLoaded', () => {
   let idsFavoritos = []; // Guarda apenas os IDs das vagas que o aluno favoritou
   
   const sessao = obterSessao();
-  const token = sessao.token === "mock-token-de-teste" ? null : sessao.token;
-  const estudanteId = token ? sessao.usuarioId : null;
+  const token = sessao.token;
+  const estudanteId = sessao.usuarioId;
 
   
   function renderizarGrid() {
@@ -58,7 +60,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     } catch (error) {
       console.error(error);
-      grid.innerHTML = `<p class="empty-msg">${mensagemDeErro(error)}</p>`;
+      grid.innerHTML = `<p class="empty-msg">${escaparHtml(mensagemDeErro(error))}</p>`;
     }
   }
 
@@ -66,7 +68,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const card = document.createElement('div');
     card.className = 'match-card';
     
-    const imagem = vaga.fotoCapa || 'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&q=80&w=400';
+    const imagemPlaceholder = 'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&q=80&w=400';
+    const imagem = urlImagemSegura(vaga.fotoCapa, imagemPlaceholder);
     const badge = 'Moradia'; 
     
     const precoFormatado = Number(vaga.valorAluguel).toLocaleString('pt-BR', { minimumFractionDigits: 0 });
@@ -78,19 +81,19 @@ document.addEventListener('DOMContentLoaded', () => {
     const isFavorito = idsFavoritos.includes(Number(vaga.id));
 
     card.innerHTML = `
-      <div class="match-img" style="background-image: url('${imagem}');">
+      <div class="match-img" style="background-image: url('${escaparHtml(imagem)}');">
         <span class="match-badge category-badge">${badge}</span>
       </div>
       <div class="match-info">
-        <h2>${vaga.titulo}</h2>
+        <h2>${escaparHtml(vaga.titulo)}</h2>
         <p class="match-location">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-          ${enderecoCurto} (${distanciaFormatada} km)
+          ${escaparHtml(enderecoCurto)} (${escaparHtml(distanciaFormatada)} km)
         </p>
-        <p class="match-price">R$ ${precoFormatado}<span>/mês</span></p>
+        <p class="match-price">R$ ${escaparHtml(precoFormatado)}<span>/mês</span></p>
         <div class="card-actions">
-          <a href="detalhes-moradia.html?id=${vaga.id}" class="btn-match">Ver detalhes</a>
-          <button class="btn-heart ${isFavorito ? 'active' : ''}" data-id="${vaga.id}">
+          <a href="detalhes-moradia.html?id=${escaparHtml(vaga.id)}" class="btn-match">Ver detalhes</a>
+          <button class="btn-heart ${isFavorito ? 'active' : ''}" data-id="${escaparHtml(vaga.id)}">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
           </button>
         </div>
