@@ -1,4 +1,6 @@
-const API_BASE = "http://localhost:8081/api";
+const API_BASE = window.location.port === "5500"
+    ? "http://localhost:8081/api"
+    : "/api";
 
 async function chamarApi(caminho, { metodo = "GET", corpo } = {}) {
     const cabecalhos = {

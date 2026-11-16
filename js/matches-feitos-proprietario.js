@@ -21,14 +21,17 @@ document.addEventListener('DOMContentLoaded', () => {
     .map((parte) => parte.charAt(0).toUpperCase())
     .join('');
 
+  const obterFotoPerfil = (match) => {
+    const foto = match.fotoPerfilUrl || match.fotoUrl;
+    return typeof foto === 'string' ? urlImagemSegura(foto.trim(), '') : '';
+  };
+
   function criarCard(match) {
     const nome = escaparHtml(match.nomeEstudante || 'Estudante');
     const curso = escaparHtml(match.curso || 'Curso não informado');
     const tituloVaga = escaparHtml(match.tituloVaga || 'Moradia');
     const iniciaisAluno = escaparHtml(iniciais(match.nomeEstudante));
-    const fotoPerfilUrl = typeof match.fotoPerfilUrl === 'string'
-      ? urlImagemSegura(match.fotoPerfilUrl.trim(), '')
-      : '';
+    const fotoPerfilUrl = obterFotoPerfil(match);
     const dados = encodeURIComponent(JSON.stringify(match));
 
     const card = document.createElement('div');
@@ -50,6 +53,15 @@ document.addEventListener('DOMContentLoaded', () => {
         <button class="btn-match" type="button" data-match="${escaparHtml(dados)}">Ver detalhes</button>
       </div>
     `;
+    const foto = card.querySelector('.student-avatar');
+    if (foto && foto.tagName === 'IMG') {
+      foto.addEventListener('error', () => {
+        const fallback = document.createElement('div');
+        fallback.className = 'student-avatar';
+        fallback.textContent = iniciais(match.nomeEstudante);
+        foto.replaceWith(fallback);
+      }, { once: true });
+    }
     return card;
   }
 
@@ -73,13 +85,15 @@ document.addEventListener('DOMContentLoaded', () => {
       ? `https://wa.me/55${match.telefone.replace(/\D/g, '')}`
       : '#';
 
-    const fotoPerfilUrl = typeof match.fotoPerfilUrl === 'string'
-      ? urlImagemSegura(match.fotoPerfilUrl.trim(), '')
-      : '';
+    const fotoPerfilUrl = obterFotoPerfil(match);
     modalFoto.src = fotoPerfilUrl;
     modalFoto.hidden = !fotoPerfilUrl;
     modalIniciais.hidden = Boolean(fotoPerfilUrl);
     modalIniciais.textContent = iniciais(match.nomeEstudante);
+    modalFoto.onerror = () => {
+      modalFoto.hidden = true;
+      modalIniciais.hidden = false;
+    };
     modalSobreMim.textContent = 'O estudante não escreveu nada sobre si.';
     modalRespostas.innerHTML = '<p>Preferências não disponíveis.</p>';
     modalOverlay.classList.add('active');
