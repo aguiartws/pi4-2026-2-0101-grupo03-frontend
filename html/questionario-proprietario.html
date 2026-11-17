@@ -86,14 +86,18 @@
                 <h2>Localização da residência</h2>
                 <p>Preencha os dados de localização da sua república.</p>
 
-                <label for="cep">CEP <span class="required">*</span></label>
+               <label for="cep">CEP <span class="required">*</span></label>
                 <input type="text" id="cep" name="cep" placeholder="00000-000" maxlength="9" inputmode="numeric" autocomplete="postal-code" required>
+                <small id="cepStatus" class="cep-status" aria-live="polite"></small>
 
                 <label for="cidade">Cidade <span class="required">*</span></label>
                 <input type="text" id="cidade" name="cidade" placeholder="Digite a cidade" required>
 
                 <label for="estado">Estado <span class="required">*</span></label>
                 <input type="text" id="estado" name="estado" placeholder="Digite o estado ou UF" required>
+
+                <label for="bairro">Bairro <span class="required">*</span></label>
+                <input type="text" id="bairro" name="bairro" placeholder="Digite o bairro" required>
 
                 <label for="endereco">Endereço <span class="required">*</span></label>
                 <input type="text" id="endereco" name="endereco" placeholder="Rua, avenida, etc." required>
