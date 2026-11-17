@@ -1,6 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
   if (!exigirLogin("proprietario")) return;
-  // --- Lógica da Setinha da Barra Lateral ---
+
+  // --- Setinha da barra lateral ---
   const appLayout = document.getElementById('appLayout');
   const sidebarToggle = document.getElementById('sidebarToggle');
 
@@ -10,7 +11,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // --- Navegação e Validação do Questionário ---
+  // --- Elementos principais ---
   const form = document.getElementById("formQuestionario");
   const etapas = [
     document.getElementById("etapa1"),
@@ -20,6 +21,86 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (!form || !etapas[0]) return;
 
+  // --- CEP: variáveis e funções (antes de validarEtapa) ---
+  const campoCep = document.getElementById("cep");
+  const cepStatus = document.getElementById("cepStatus");
+  const campoEndereco = document.getElementById("endereco");
+  const campoBairro = document.getElementById("bairro");
+  const campoCidade = document.getElementById("cidade");
+  const campoEstado = document.getElementById("estado");
+  const campoNumero = document.getElementById("numero");
+
+  let cepInexistente = false; // true só quando o servidor diz que o CEP é inválido
+  let consultaAtual = 0;      // evita que resposta antiga sobrescreva a nova
+
+  function definirStatusCep(mensagem, tipo = "info") {
+    if (!cepStatus) return;
+    cepStatus.textContent = mensagem;
+    cepStatus.className = "cep-status " + tipo;
+  }
+
+  function preencherEndereco(dados) {
+    campoEndereco.value = dados.logradouro || "";
+    campoBairro.value = dados.bairro || "";
+    campoCidade.value = dados.localidade || "";
+    campoEstado.value = dados.uf || "";
+  }
+
+  async function consultarCep(cep) {
+    const consulta = ++consultaAtual;
+    definirStatusCep("Validando CEP...", "info");
+
+    try {
+      const dados = await chamarApi(`/cep/${cep}`);
+      if (consulta !== consultaAtual) return;
+
+      if (!dados.valido) {
+        cepInexistente = true;
+        campoCep.setCustomValidity(dados.mensagem);
+        definirStatusCep(dados.mensagem + ".", "erro");
+        return;
+      }
+
+      cepInexistente = false;
+      campoCep.setCustomValidity("");
+      preencherEndereco({
+        logradouro: dados.logradouro,
+        bairro: dados.bairro,
+        localidade: dados.cidade,
+        uf: dados.uf
+      });
+      definirStatusCep("CEP válido. Endereço preenchido automaticamente.", "ok");
+
+      if (!dados.logradouro) campoEndereco.focus();
+      else campoNumero.focus();
+    } catch (erro) {
+      if (consulta !== consultaAtual) return;
+      cepInexistente = false;
+      campoCep.setCustomValidity("");
+      definirStatusCep("Não foi possível validar o CEP agora. Preencha o endereço manualmente.", "erro");
+    }
+  }
+
+  if (campoCep) {
+    campoCep.addEventListener("input", () => {
+      let valor = campoCep.value.replace(/\D/g, "").slice(0, 8);
+      if (valor.length > 5) valor = valor.slice(0, 5) + "-" + valor.slice(5);
+      campoCep.value = valor;
+
+      cepInexistente = false;
+      campoCep.setCustomValidity("");
+      consultaAtual++; // cancela consultas pendentes
+
+      const digitos = valor.replace(/\D/g, "");
+      if (digitos.length < 8) {
+        definirStatusCep("", "info");
+        return;
+      }
+      consultarCep(digitos);
+    });
+  }
+
+  // --- Navegação e validação ---
   function mostrarEtapa(indice) {
     etapas.forEach((etapa, i) => {
       if (!etapa) return;
@@ -32,6 +113,18 @@ document.addEventListener("DOMContentLoaded", () => {
   function validarEtapa(indice) {
     const etapa = etapas[indice];
     if (!etapa) return false;
+
+    if (indice === 0) {
+      const digitosCep = campoCep.value.replace(/\D/g, "");
+      if (digitosCep.length !== 8 || cepInexistente) {
+        definirStatusCep(
+          digitosCep.length !== 8 ? "Informe um CEP com 8 dígitos." : "CEP inválido. Confira os números.",
+          "erro"
+        );
+        campoCep.focus();
+        return false;
+      }
+    }
 
     const campos = etapa.querySelectorAll("input[required], textarea[required]");
     for (const campo of campos) {
@@ -69,16 +162,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const btnVoltarEtapa3 = document.getElementById("btnVoltarEtapa3");
   if (btnVoltarEtapa3) btnVoltarEtapa3.addEventListener("click", () => mostrarEtapa(1));
 
-  // CEP e Fotos
-  const campoCep = document.getElementById("cep");
-  if (campoCep) {
-    campoCep.addEventListener("input", () => {
-      let valor = campoCep.value.replace(/\D/g, "").slice(0, 8);
-      if (valor.length > 5) valor = valor.slice(0, 5) + "-" + valor.slice(5);
-      campoCep.value = valor;
-    });
-  }
-
+  // --- Fotos ---
   const inputFotos = document.getElementById("fotosMoradia");
   const previewFotos = document.getElementById("previewFotos");
   const TAMANHO_MAXIMO_FOTO = 5 * 1024 * 1024;
@@ -101,7 +185,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       const imagensValidas = novasFotos.filter((arquivo) => TIPOS_PERMITIDOS.includes(arquivo.type));
-      
+
       if (fotosSelecionadas.length + imagensValidas.length > 5) {
         alert("Você pode adicionar no máximo 5 fotos.");
       }
@@ -134,7 +218,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Envio e Modal de Sucesso
+  // --- Envio e modal de sucesso ---
   form.addEventListener("submit", async (evento) => {
     evento.preventDefault();
     if (!validarEtapa(2)) return;
@@ -150,6 +234,7 @@ document.addEventListener("DOMContentLoaded", () => {
       endereco: [
         document.getElementById("endereco").value.trim(),
         document.getElementById("numero").value.trim(),
+        document.getElementById("bairro").value.trim(),
         document.getElementById("cidade").value.trim(),
         document.getElementById("estado").value.trim()
       ].filter(Boolean).join(", "),

@@ -320,3 +320,8 @@ a { color: inherit; text-decoration: none; }
   .options { grid-template-columns: 1fr; }
   .photo-preview { grid-template-columns: repeat(3, 1fr); }
 }
+
+.cep-status { display: block; min-height: 18px; margin: -4px 0 8px; font-size: 13px; }
+.cep-status.info { color: #666; }
+.cep-status.ok { color: #1a8a4a; }
+.cep-status.erro { color: #d93025; }
