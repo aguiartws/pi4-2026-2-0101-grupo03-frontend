@@ -86,15 +86,25 @@ document.addEventListener('DOMContentLoaded', () => {
       ? `https://wa.me/${telefoneWhatsApp}`
       : '#';
 
+    const textoIniciais = iniciais(match.nomeEstudante);
     const fotoPerfilUrl = obterFotoPerfil(match);
-    modalFoto.src = fotoPerfilUrl;
-    modalFoto.hidden = !fotoPerfilUrl;
-    modalIniciais.hidden = Boolean(fotoPerfilUrl);
-    modalIniciais.textContent = iniciais(match.nomeEstudante);
-    modalFoto.onerror = () => {
+
+    const exibirIniciais = () => {
+      modalFoto.removeAttribute('src');
       modalFoto.hidden = true;
       modalIniciais.hidden = false;
+      modalIniciais.textContent = textoIniciais;
     };
+
+    if (fotoPerfilUrl) {
+      modalFoto.onerror = exibirIniciais;
+      modalFoto.src = fotoPerfilUrl;
+      modalFoto.hidden = false;
+      modalIniciais.hidden = true;
+    } else {
+      exibirIniciais();
+    }
+
     modalSobreMim.textContent = 'O estudante não escreveu nada sobre si.';
     modalRespostas.innerHTML = '<p>Preferências não disponíveis.</p>';
     modalOverlay.classList.add('active');
