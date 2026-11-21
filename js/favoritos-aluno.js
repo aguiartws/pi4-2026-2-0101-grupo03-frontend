@@ -9,7 +9,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const avisoVazio = document.getElementById('avisoVazio');
   
   const filtroPreco = document.getElementById('filtroPreco');
+  const filtroDistancia = document.getElementById('filtroDistancia');
   const spanPreco = document.getElementById('valorPreco');
+  const spanDistancia = document.getElementById('valorDistancia');
 
   let favoritosDoBanco = []; 
 
@@ -66,11 +68,26 @@ document.addEventListener('DOMContentLoaded', () => {
       spanPreco.textContent = `R$ ${precoMax}`;
     }
 
-    const filtrados = favoritosDoBanco.filter(fav => Number(fav.valorAluguel) <= precoMax);
+    let distanciaMax = 999999;
+    if (filtroDistancia) {
+      distanciaMax = Number(filtroDistancia.value);
+      spanDistancia.textContent = `${distanciaMax} km`;
+    }
+
+    // Filtra por preço e distância
+    const filtrados = favoritosDoBanco.filter(fav => {
+      const precoOk = Number(fav.valorAluguel) <= precoMax;
+      
+      // Usa 0 como fallback se distanciaCampus for nulo
+      const distanciaCasa = Number(fav.distanciaCampus || 0);
+      const distanciaOk = distanciaCasa <= distanciaMax;
+
+      return precoOk && distanciaOk;
+    });
 
     if (filtrados.length === 0) {
       avisoVazio.style.display = 'block';
-      avisoVazio.textContent = 'Você ainda não tem favoritos (ou nenhum atende ao filtro de preço).';
+      avisoVazio.textContent = 'Você ainda não tem favoritos (ou nenhum atende aos filtros).';
       return;
     }
     avisoVazio.style.display = 'none';
@@ -83,7 +100,6 @@ document.addEventListener('DOMContentLoaded', () => {
       
       const precoFormatado = Number(fav.valorAluguel).toLocaleString('pt-BR', { minimumFractionDigits: 0 });
       
-      // Proteção caso o endereço venha nulo
       const endereco = fav.endereco || "Endereço não informado";
       const enderecoCurto = endereco.split('-')[0];
 
@@ -108,7 +124,6 @@ document.addEventListener('DOMContentLoaded', () => {
         </div>
       `;
 
-      // Remove no banco e só depois tira da tela
       card.querySelector('.btn-heart').addEventListener('click', async (e) => {
         const btn = e.currentTarget;
         btn.disabled = true;
@@ -131,9 +146,9 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  if (filtroPreco) {
-    filtroPreco.addEventListener('input', renderizarGrid);
-  }
+  // Adiciona escuta para AMBOS os filtros
+  if (filtroPreco) filtroPreco.addEventListener('input', renderizarGrid);
+  if (filtroDistancia) filtroDistancia.addEventListener('input', renderizarGrid);
 
   carregarFavoritos();
   window.addEventListener('pageshow', (e) => { if (e.persisted) carregarFavoritos(); });

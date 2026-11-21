@@ -58,12 +58,13 @@ document.addEventListener("DOMContentLoaded", () => {
                         return;
                     }
                     
+                    // CORRIGIDO: O link agora aponta para detalhes-moradia.html com o ID da casa
                     const popupContent = `
                         <div class="popup-vaga">
                             <h3>${escaparHtml(casa.titulo)}</h3>
                             <p class="endereco">${escaparHtml(casa.endereco)}</p>
                             <p class="preco">${escaparHtml(precoFormatado)}</p>
-                            <a href="detalhes-vaga.html?id=${escaparHtml(casa.id)}" class="btn-detalhes">Ver detalhes da vaga</a>
+                            <a href="detalhes-moradia.html?id=${escaparHtml(casa.id)}" class="btn-detalhes">Ver detalhes</a>
                         </div>
                     `;
 
