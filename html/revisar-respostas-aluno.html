@@ -9,6 +9,32 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../css/revisar-respostas-aluno.css">
+
+  <!-- Cores das respostas: verde = Sim, vermelho = Não -->
+  <style>
+    .toggle-group input[value="sim"]:checked + .toggle-btn {
+      background: #16a34a !important;
+      border-color: #16a34a !important;
+      color: #fff !important;
+    }
+
+    .toggle-group input[value="nao"]:checked + .toggle-btn {
+      background: #dc2626 !important;
+      border-color: #dc2626 !important;
+      color: #fff !important;
+    }
+
+    /* Hover suave nas opções ainda não marcadas */
+    .toggle-group input[value="sim"]:not(:checked) + .toggle-btn:hover {
+      border-color: #16a34a;
+      color: #16a34a;
+    }
+
+    .toggle-group input[value="nao"]:not(:checked) + .toggle-btn:hover {
+      border-color: #dc2626;
+      color: #dc2626;
+    }
+  </style>
 </head>
 
 <body>
@@ -104,7 +130,7 @@
   </div>
 
   <script src="../js/api.js"></script>
-  <script src="../js/revisar-respostas-aluno.js"></script>
+  <script src="../js/revisar-respostas-aluno.js?v=2"></script>
 
 </body>
 </html>
