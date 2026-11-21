@@ -50,6 +50,30 @@ document.addEventListener("DOMContentLoaded", () => {
   // null = ainda sem resposta
   let respostas = PERGUNTAS.map(() => null);
 
+  // Toast (substitui o alert)
+  function mostrarToast(texto, tipo = "sucesso") {
+    const toast = document.createElement("div");
+    toast.className = `toast-sucesso${tipo === "erro" ? " toast-erro" : ""}`;
+
+    const icone =
+      tipo === "erro"
+        ? `<path d="M12 8v5M12 16.5h.01"/><circle cx="12" cy="12" r="9"/>`
+        : `<path d="M20 6L9 17l-5-5"/>`;
+
+    toast.innerHTML = `
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        ${icone}
+      </svg>
+      <span>${escaparHtml(texto)}</span>
+    `;
+    document.body.appendChild(toast);
+    setTimeout(() => toast.classList.add("show"), 100);
+    setTimeout(() => {
+      toast.classList.remove("show");
+      setTimeout(() => toast.remove(), 400);
+    }, 3500);
+  }
+
   // Valida a sessão do estudante
   function obterEstudanteId() {
     const sessao = obterSessao();
@@ -61,8 +85,11 @@ document.addEventListener("DOMContentLoaded", () => {
       !Number.isInteger(estudanteId) ||
       estudanteId <= 0
     ) {
-      alert("Sua sessão de estudante não é válida. Faça login novamente.");
-      window.location.href = "login.html";
+      mostrarToast(
+        "Sua sessão de estudante não é válida. Faça login novamente.",
+        "erro",
+      );
+      setTimeout(() => (window.location.href = "login.html"), 1500);
       return null;
     }
 
@@ -226,7 +253,7 @@ document.addEventListener("DOMContentLoaded", () => {
     try {
       await carregarQuestionario(estudanteId, perfil);
     } catch (erro) {
-      alert(mensagemDeErro(erro));
+      mostrarToast(mensagemDeErro(erro), "erro");
     }
 
     preencherSobreMim(perfil);
@@ -254,8 +281,9 @@ document.addEventListener("DOMContentLoaded", () => {
       .filter(Boolean);
 
     if (faltando.length > 0) {
-      alert(
+      mostrarToast(
         `Responda todas as perguntas antes de salvar. Faltam: ${faltando.join(", ")}.`,
+        "erro",
       );
       return;
     }
@@ -275,6 +303,7 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     btnSalvar.disabled = true;
+    let redirecionando = false;
 
     try {
       // Salva as respostas do questionário
@@ -300,20 +329,23 @@ document.addEventListener("DOMContentLoaded", () => {
       );
 
       if (!sobreMimSalvo) {
-        alert(
+        mostrarToast(
           "Suas respostas foram salvas, mas não foi possível salvar o 'Sobre mim' no servidor.",
+          "erro",
         );
         return;
       }
 
-      alert("Alterações salvas com sucesso!");
-
-      window.location.href = "perfil-aluno.html";
+      mostrarToast("Alterações salvas com sucesso!");
+      redirecionando = true;
+      setTimeout(() => {
+        window.location.href = "perfil-aluno.html";
+      }, 1200);
     } catch (erro) {
       console.error("Erro ao salvar alterações:", erro);
-      alert(mensagemDeErro(erro));
+      mostrarToast(mensagemDeErro(erro), "erro");
     } finally {
-      btnSalvar.disabled = false;
+      if (!redirecionando) btnSalvar.disabled = false;
     }
   });
 
