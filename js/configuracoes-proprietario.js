@@ -44,6 +44,71 @@ const TIPOS_PERMITIDOS = ["image/jpeg", "image/png", "image/webp"];
 let fotoSelecionada = null;
 let removerFotoSelecionada = false;
 let urlFotoTemporaria = null;
+// Última versão do perfil confirmada pelo servidor (usada pelo botão Descartar).
+let perfilSalvo = null;
+
+
+// Formata o telefone no padrão (00) 00000-0000
+function formatarTelefone(valor) {
+    let numeros = String(valor || "").replace(/\D/g, "").slice(0, 11);
+
+    if (numeros.length > 10) {
+        return numeros.replace(/^(\d{2})(\d{5})(\d{4}).*/, "($1) $2-$3");
+    }
+    if (numeros.length > 6) {
+        return numeros.replace(/^(\d{2})(\d{4})(\d{0,4}).*/, "($1) $2-$3");
+    }
+    if (numeros.length > 2) {
+        return numeros.replace(/^(\d{2})(\d{0,5}).*/, "($1) $2");
+    }
+    if (numeros.length > 0) {
+        return numeros.replace(/^(\d*)/, "($1");
+    }
+    return "";
+}
+
+// Preenche a tela com os dados do perfil (fonte única para carregar, salvar e descartar).
+function preencherFormulario(perfil) {
+    if (nomeInput) nomeInput.value = perfil.nome || "";
+
+    const emailEl = document.getElementById("email");
+    if (emailEl) emailEl.value = perfil.email || "";
+
+    if (telefoneInput) telefoneInput.value = formatarTelefone(perfil.telefone);
+
+    const cidadeEl = document.getElementById("cidade");
+    if (cidadeEl) cidadeEl.value = perfil.cidade || "";
+
+    if (fotoPreview) {
+        fotoPreview.src = urlImagemSegura(perfil.fotoPerfilUrl, FOTO_PADRAO);
+    }
+
+    if (nomeExibicao) {
+        nomeExibicao.textContent = perfil.nome || "Seu perfil";
+    }
+}
+
+// Descarta tudo o que foi alterado na tela e não foi salvo.
+function limparAlteracoesPendentes() {
+    if (urlFotoTemporaria) {
+        URL.revokeObjectURL(urlFotoTemporaria);
+        urlFotoTemporaria = null;
+    }
+
+    fotoSelecionada = null;
+    removerFotoSelecionada = false;
+
+    if (fotoInput) fotoInput.value = "";
+    if (novaSenha) novaSenha.value = "";
+    if (confirmarSenha) confirmarSenha.value = "";
+
+    if (erroFoto) erroFoto.textContent = "";
+    if (erroSenha) erroSenha.textContent = "";
+    if (mensagem) {
+        mensagem.textContent = "";
+        mensagem.className = "form-feedback";
+    }
+}
 
 // atualiza o nome mostrado no cartão de perfil.
 if (nomeInput && nomeExibicao) {
@@ -55,23 +120,7 @@ if (nomeInput && nomeExibicao) {
 // Máscara de telefone
 if (telefoneInput) {
     telefoneInput.addEventListener("input", (e) => {
-        let valor = e.target.value.replace(/\D/g, "");
-        
-        if (valor.length > 11) {
-            valor = valor.slice(0, 11);
-        }
-
-        if (valor.length > 10) {
-            valor = valor.replace(/^(\d{2})(\d{5})(\d{4}).*/, "($1) $2-$3");
-        } else if (valor.length > 6) {
-            valor = valor.replace(/^(\d{2})(\d{4})(\d{0,4}).*/, "($1) $2-$3");
-        } else if (valor.length > 2) {
-            valor = valor.replace(/^(\d{2})(\d{0,5}).*/, "($1) $2");
-        } else if (valor.length > 0) {
-            valor = valor.replace(/^(\d*)/, "($1");
-        }
-
-        e.target.value = valor;
+        e.target.value = formatarTelefone(e.target.value);
     });
 }
 
@@ -155,32 +204,17 @@ if (confirmarSenha && erroSenha) {
     });
 }
 
-// reset
+// reset (botão Descartar): volta para o que está salvo no banco
 if (form) {
-    form.addEventListener("reset", () => {
-        setTimeout(() => {
-            if (fotoInput) fotoInput.value = "";
-            fotoSelecionada = null;
-            removerFotoSelecionada = false;
+    form.addEventListener("reset", (event) => {
+        // Impede o reset nativo, que limparia os campos em vez de restaurá-los.
+        event.preventDefault();
 
-            if (fotoPreview) fotoPreview.src = FOTO_PADRAO;
+        limparAlteracoesPendentes();
 
-            if (nomeExibicao && nomeInput) {
-                nomeExibicao.textContent = nomeInput.value.trim() || "Seu perfil";
-            }
-
-            if (erroFoto) erroFoto.textContent = "";
-            if (erroSenha) erroSenha.textContent = "";
-            if (mensagem) {
-                mensagem.textContent = "";
-                mensagem.className = "form-feedback";
-            }
-
-            if (urlFotoTemporaria) {
-                URL.revokeObjectURL(urlFotoTemporaria);
-                urlFotoTemporaria = null;
-            }
-        }, 0);
+        if (perfilSalvo) {
+            preencherFormulario(perfilSalvo);
+        }
     });
 
     // submit
@@ -224,17 +258,8 @@ if (form) {
                 metodo: "PUT",
                 corpo: dados
             });
-            if (fotoPreview) {
-                fotoPreview.src = urlImagemSegura(resultado?.fotoPerfilUrl, FOTO_PADRAO);
-            }
-
-            if (resultado.nome && nomeInput && nomeExibicao) {
-                nomeInput.value = resultado.nome;
-                nomeExibicao.textContent = resultado.nome;
-            }
-            if (resultado.email) document.getElementById("email").value = resultado.email;
-            if (resultado.telefone) telefoneInput.value = resultado.telefone;
-            if (resultado.cidade) document.getElementById("cidade").value = resultado.cidade;
+            perfilSalvo = resultado;
+            preencherFormulario(perfilSalvo);
 
             if (mensagem) {
                 mensagem.textContent = "Alterações salvas com sucesso!";
@@ -243,6 +268,10 @@ if (form) {
 
             fotoSelecionada = null;
             removerFotoSelecionada = false;
+            if (urlFotoTemporaria) {
+                URL.revokeObjectURL(urlFotoTemporaria);
+                urlFotoTemporaria = null;
+            }
 
             if (fotoInput) fotoInput.value = "";
             if (novaSenha) novaSenha.value = "";
@@ -262,37 +291,8 @@ async function carregarPerfil() {
     try {
         const perfil = await chamarApi("/usuario/perfil");
 
-        if (nomeInput) nomeInput.value = perfil.nome || "";
-
-        const emailEl = document.getElementById("email");
-        if (emailEl) emailEl.value = perfil.email || "";
-
-        const telefoneSalvo = perfil.telefone || "";
-        let telefoneFormatado = telefoneSalvo.replace(/\D/g, "");
-
-        if (telefoneFormatado.length > 10) {
-            telefoneFormatado = telefoneFormatado.replace(/^(\d{2})(\d{5})(\d{4}).*/, "($1) $2-$3");
-        } else if (telefoneFormatado.length > 6) {
-            telefoneFormatado = telefoneFormatado.replace(/^(\d{2})(\d{4})(\d{0,4}).*/, "($1) $2-$3");
-        } else if (telefoneFormatado.length > 2) {
-            telefoneFormatado = telefoneFormatado.replace(/^(\d{2})(\d{0,5}).*/, "($1) $2");
-        } else if (telefoneFormatado.length > 0) {
-            telefoneFormatado = telefoneFormatado.replace(/^(\d*)/, "($1");
-        }
-
-        const telefoneEl = document.getElementById("telefone");
-        if (telefoneEl) telefoneEl.value = telefoneFormatado;
-
-        const cidadeEl = document.getElementById("cidade");
-        if (cidadeEl) cidadeEl.value = perfil.cidade || "";
-
-        if (fotoPreview) {
-            fotoPreview.src = urlImagemSegura(perfil.fotoPerfilUrl, FOTO_PADRAO);
-        }
-
-        if (nomeExibicao) {
-            nomeExibicao.textContent = perfil.nome || "Seu perfil";
-        }
+        perfilSalvo = perfil;
+        preencherFormulario(perfil);
 
     } catch (erro) {
         if (mensagem) {
