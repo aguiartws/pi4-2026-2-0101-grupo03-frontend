@@ -111,8 +111,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
       try {
         if (jaEraFavorito) {
+          await chamarApi(
+            `/favoritos/${encodeURIComponent(idVagaNumero)}?estudanteId=${encodeURIComponent(estudanteId)}`,
+            { metodo: 'DELETE' }
+          );
           idsFavoritos = idsFavoritos.filter(id => id !== idVagaNumero);
-          console.warn('Favorito removido da tela, mas o endpoint DELETE ainda não existe no backend.');
         } else {
           await chamarApi("/favoritos", {
             metodo: 'POST',
@@ -140,4 +143,8 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   inicializar();
+
+  // Ao voltar pelo botão "Voltar" do navegador, a página pode vir congelada (cache).
+  // Recarrega favoritos e vagas para refletir o que mudou em outras telas.
+  window.addEventListener('pageshow', (e) => { if (e.persisted) inicializar(); });
 });

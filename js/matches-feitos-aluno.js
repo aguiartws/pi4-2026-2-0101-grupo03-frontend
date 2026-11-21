@@ -61,7 +61,20 @@ document.addEventListener('DOMContentLoaded', () => {
         `;
 
         // Lógica visual para desfazer o match
-        card.querySelector('.btn-desfazer').addEventListener('click', () => {
+        card.querySelector('.btn-desfazer').addEventListener('click', async (e) => {
+          const btn = e.currentTarget;
+          btn.disabled = true;
+          try {
+            await chamarApi(
+              `/vagas/${encodeURIComponent(match.vagaId)}/interesse?estudanteId=${encodeURIComponent(estudanteId)}`,
+              { metodo: 'DELETE' }
+            );
+          } catch (error) {
+            console.error(error);
+            btn.disabled = false;
+            alert(mensagemDeErro(error));
+            return;
+          }
           card.style.transform = 'scale(0.9)';
           card.style.opacity = '0';
           setTimeout(() => {
@@ -82,4 +95,5 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   carregarMatches();
+  window.addEventListener('pageshow', (e) => { if (e.persisted) carregarMatches(); });
 });
