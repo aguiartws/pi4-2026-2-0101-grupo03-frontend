@@ -51,6 +51,12 @@ document.addEventListener("DOMContentLoaded", () => {
             if (dados && dados.favoritos && dados.favoritos.length > 0) {
                 dados.favoritos.forEach(casa => {
                     const precoFormatado = casa.valorAluguel.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+                    const latitude = Number(casa.latitude);
+                    const longitude = Number(casa.longitude);
+                    if (!Number.isFinite(latitude) || !Number.isFinite(longitude)) {
+                        console.warn('Favorito sem coordenadas válidas:', casa.id);
+                        return;
+                    }
                     
                     const popupContent = `
                         <div class="popup-vaga">
@@ -61,7 +67,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         </div>
                     `;
 
-                    L.marker([casa.latitude, casa.longitude])
+                    L.marker([latitude, longitude])
                         .addTo(map)
                         .bindPopup(popupContent);
                 });

@@ -81,8 +81,9 @@ document.addEventListener('DOMContentLoaded', () => {
     modalEmail.textContent = match.email || 'E-mail não informado';
     modalEmail.href = match.email ? `mailto:${match.email}` : '#';
     modalTelefone.textContent = match.telefone || 'Telefone não informado';
-    modalTelefone.href = match.telefone
-      ? `https://wa.me/55${match.telefone.replace(/\D/g, '')}`
+    const telefoneWhatsApp = window.api.normalizarTelefoneWhatsApp(match.telefone);
+    modalTelefone.href = telefoneWhatsApp
+      ? `https://wa.me/${telefoneWhatsApp}`
       : '#';
 
     const fotoPerfilUrl = obterFotoPerfil(match);
