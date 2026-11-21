@@ -74,13 +74,14 @@ document.addEventListener('DOMContentLoaded', () => {
       spanDistancia.textContent = `${distanciaMax} km`;
     }
 
-    // Filtra por preço e distância
+    // Filtra por preço e distância (distanciaCampus vem do backend, em km)
     const filtrados = favoritosDoBanco.filter(fav => {
       const precoOk = Number(fav.valorAluguel) <= precoMax;
-      
-      // Usa 0 como fallback se distanciaCampus for nulo
-      const distanciaCasa = Number(fav.distanciaCampus || 0);
-      const distanciaOk = distanciaCasa <= distanciaMax;
+
+      const distanciaCasa = fav.distanciaCampus == null ? null : Number(fav.distanciaCampus);
+      // Sem distância calculada não dá para comparar: a vaga não é escondida pelo filtro.
+      const distanciaOk = distanciaCasa === null || !Number.isFinite(distanciaCasa)
+        || distanciaCasa <= distanciaMax;
 
       return precoOk && distanciaOk;
     });
@@ -102,6 +103,9 @@ document.addEventListener('DOMContentLoaded', () => {
       
       const endereco = fav.endereco || "Endereço não informado";
       const enderecoCurto = endereco.split('-')[0];
+      const distanciaFormatada = fav.distanciaCampus !== null && fav.distanciaCampus !== undefined
+        ? Number(fav.distanciaCampus).toFixed(1).replace('.', ',')
+        : '?';
 
       card.innerHTML = `
         <div class="match-img" style="background-image: url('${escaparHtml(urlImagemSegura(fav.fotoCapa, imagemPlaceholder))}');"></div>
@@ -109,7 +113,7 @@ document.addEventListener('DOMContentLoaded', () => {
           <h2>${escaparHtml(fav.titulo)}</h2>
           <p class="match-location">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-            ${escaparHtml(enderecoCurto)}
+            ${escaparHtml(enderecoCurto)} (${escaparHtml(distanciaFormatada)} km)
           </p>
           <p class="match-price">R$ ${escaparHtml(precoFormatado)}<span>/mês</span></p>
           
@@ -146,7 +150,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Adiciona escuta para AMBOS os filtros
+  // Adiciona escuta para ambos os filtros
   if (filtroPreco) filtroPreco.addEventListener('input', renderizarGrid);
   if (filtroDistancia) filtroDistancia.addEventListener('input', renderizarGrid);
 
