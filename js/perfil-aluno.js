@@ -48,9 +48,11 @@ document.addEventListener("DOMContentLoaded", () => {
     avatarAlunoEl.hidden = true;
 
     if (sobreMimText) {
-      sobreMimText.textContent =
-        "Informações sobre você ainda não foram preenchidas.";
-    }
+  sobreMimText.textContent =
+    perfil.sobreMim?.trim() ||
+    perfil.sobre_mim?.trim() ||
+    "Informações sobre você ainda não foram preenchidas.";
+}
   }
 
   // 3. Foto de perfil do Aluno (Câmara e Upload)

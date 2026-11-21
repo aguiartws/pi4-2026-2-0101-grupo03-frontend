@@ -1,59 +1,64 @@
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener("DOMContentLoaded", () => {
   if (!exigirLogin("estudante")) return;
 
-
   const PERGUNTAS = [
-    { icon: '🔊', texto: 'Você aceita barulho depois das 22h durante a semana?' },
-    { icon: '🚬', texto: 'Você fuma?' },
-    { icon: '🐶', texto: 'Você aceita animais de estimação?' },
-    { icon: '🎉', texto: 'Você gosta de receber visitas em casa?' },
-    { icon: '🍳', texto: 'Você gosta de cozinhar em casa?' },
-    { icon: '📚', texto: 'Você costuma estudar em casa?' },
-    { icon: '🧹', texto: 'Você aceita dividir as tarefas domésticas?' },
-    { icon: '🛏️', texto: 'Você aceitaria dividir o quarto com outra pessoa?' },
-    { icon: '🎶', texto: 'Você topa que a casa receba festas de vez em quando?' },
-    { icon: '🤝', texto: 'Você é uma pessoa comunicativa com colegas?' },
+    {
+      icon: "🔊",
+      texto: "Você aceita barulho depois das 22h durante a semana?",
+    },
+    { icon: "🚬", texto: "Você fuma?" },
+    { icon: "🐶", texto: "Você aceita animais de estimação?" },
+    { icon: "🎉", texto: "Você gosta de receber visitas em casa?" },
+    { icon: "🍳", texto: "Você gosta de cozinhar em casa?" },
+    { icon: "📚", texto: "Você costuma estudar em casa?" },
+    { icon: "🧹", texto: "Você aceita dividir as tarefas domésticas?" },
+    { icon: "🛏️", texto: "Você aceitaria dividir o quarto com outra pessoa?" },
+    {
+      icon: "🎶",
+      texto: "Você topa que a casa receba festas de vez em quando?",
+    },
+    { icon: "🤝", texto: "Você é uma pessoa comunicativa com colegas?" },
   ];
 
   const LIMITE_ARRASTO = 100;
   const MIN_CARACTERES_SOBRE = 10;
 
   /* ---------------- Referências do DOM ---------------- */
-  const deck          = document.getElementById('deck');
-  const progressFill  = document.getElementById('progressFill');
-  const progressLabel = document.getElementById('progressLabel');
-  const btnNo         = document.getElementById('btnNo');
-  const btnYes        = document.getElementById('btnYes');
-  const introEl       = document.getElementById('intro');
-  const controlsEl    = document.getElementById('controls');
+  const deck = document.getElementById("deck");
+  const progressFill = document.getElementById("progressFill");
+  const progressLabel = document.getElementById("progressLabel");
+  const btnNo = document.getElementById("btnNo");
+  const btnYes = document.getElementById("btnYes");
+  const introEl = document.getElementById("intro");
+  const controlsEl = document.getElementById("controls");
 
-  const aboutMeEl     = document.getElementById('aboutMe');
-  const sobreMim      = document.getElementById('sobreMim');
-  const charCount     = document.getElementById('charCount');
-  const btnFinalizar  = document.getElementById('btnFinalizar');
+  const aboutMeEl = document.getElementById("aboutMe");
+  const sobreMim = document.getElementById("sobreMim");
+  const charCount = document.getElementById("charCount");
+  const btnFinalizar = document.getElementById("btnFinalizar");
 
-  const resultEl      = document.getElementById('result');
-  const resultList    = document.getElementById('resultList');
-  const resultAbout   = document.getElementById('resultAbout');
-  const resultAboutTx = document.getElementById('resultAboutText');
-  const btnRestart    = document.getElementById('btnRestart');
-  const btnConfirmar  = document.getElementById('btnConfirmar');
+  const resultEl = document.getElementById("result");
+  const resultList = document.getElementById("resultList");
+  const resultAbout = document.getElementById("resultAbout");
+  const resultAboutTx = document.getElementById("resultAboutText");
+  const btnRestart = document.getElementById("btnRestart");
+  const btnConfirmar = document.getElementById("btnConfirmar");
 
   /* ---------------- Estado ---------------- */
-  let indiceAtual   = 0;
-  let animando      = false;
-  let sobreMimTexto = '';
-  const respostas   = [];
+  let indiceAtual = 0;
+  let animando = false;
+  let sobreMimTexto = "";
+  const respostas = [];
 
   /* =========================================================
      CRIAÇÃO DOS CARTÕES
      ========================================================= */
   function criarCartoes() {
-    deck.innerHTML = '';
+    deck.innerHTML = "";
 
     PERGUNTAS.forEach((pergunta, i) => {
-      const card = document.createElement('div');
-      card.className = 'card';
+      const card = document.createElement("div");
+      card.className = "card";
       card.dataset.index = i;
 
       card.innerHTML = `
@@ -75,29 +80,28 @@ document.addEventListener('DOMContentLoaded', () => {
      ATUALIZA POSIÇÕES DO BARALHO E DO PROGRESSO
      ========================================================= */
   function atualizarCartoes() {
-    const cards = deck.querySelectorAll('.card');
+    const cards = deck.querySelectorAll(".card");
 
     cards.forEach((card) => {
-      if (card.dataset.leaving === 'true') return;
+      if (card.dataset.leaving === "true") return;
 
       const i = Number(card.dataset.index);
       const posicao = i - indiceAtual;
 
       if (posicao < 0) {
-        card.style.display = 'none';
+        card.style.display = "none";
       } else if (posicao === 0) {
-        card.style.display = '';
-        card.style.transform = '';
-        card.style.opacity = '1';
+        card.style.display = "";
+        card.style.transform = "";
+        card.style.opacity = "1";
         card.style.zIndex = 100;
-        card.classList.add('is-current');
+        card.classList.add("is-current");
       } else {
-        card.style.display = posicao > 2 ? 'none' : '';
-        card.style.transform =
-          `translateY(${posicao * 14}px) scale(${1 - posicao * 0.06})`;
-        card.style.opacity = posicao > 2 ? '0' : '1';
+        card.style.display = posicao > 2 ? "none" : "";
+        card.style.transform = `translateY(${posicao * 14}px) scale(${1 - posicao * 0.06})`;
+        card.style.opacity = posicao > 2 ? "0" : "1";
         card.style.zIndex = 100 - posicao;
-        card.classList.remove('is-current');
+        card.classList.remove("is-current");
       }
     });
 
@@ -115,8 +119,8 @@ document.addEventListener('DOMContentLoaded', () => {
      ARRASTO (pointer events)
      ========================================================= */
   function configurarArrasto(card) {
-    const stampYes = card.querySelector('.card__stamp--yes');
-    const stampNo  = card.querySelector('.card__stamp--no');
+    const stampYes = card.querySelector(".card__stamp--yes");
+    const stampNo = card.querySelector(".card__stamp--no");
 
     let startX = 0;
     let startY = 0;
@@ -124,8 +128,8 @@ document.addEventListener('DOMContentLoaded', () => {
     let dy = 0;
     let arrastando = false;
 
-    card.addEventListener('pointerdown', (e) => {
-      if (!card.classList.contains('is-current') || animando) return;
+    card.addEventListener("pointerdown", (e) => {
+      if (!card.classList.contains("is-current") || animando) return;
 
       arrastando = true;
       startX = e.clientX;
@@ -133,19 +137,18 @@ document.addEventListener('DOMContentLoaded', () => {
       dx = 0;
       dy = 0;
 
-      card.classList.add('is-dragging');
+      card.classList.add("is-dragging");
       card.setPointerCapture(e.pointerId);
     });
 
-    card.addEventListener('pointermove', (e) => {
+    card.addEventListener("pointermove", (e) => {
       if (!arrastando) return;
 
       dx = e.clientX - startX;
       dy = e.clientY - startY;
 
       const rotacao = dx / 20;
-      card.style.transform =
-        `translate(${dx}px, ${dy}px) rotate(${rotacao}deg)`;
+      card.style.transform = `translate(${dx}px, ${dy}px) rotate(${rotacao}deg)`;
 
       const opacidade = Math.min(Math.abs(dx) / LIMITE_ARRASTO, 1);
       if (dx > 0) {
@@ -160,29 +163,29 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
 
-    card.addEventListener('pointerup', () => {
+    card.addEventListener("pointerup", () => {
       if (!arrastando) return;
       arrastando = false;
-      card.classList.remove('is-dragging');
+      card.classList.remove("is-dragging");
 
       if (dx > LIMITE_ARRASTO) {
-        responder('sim');
+        responder("sim");
       } else if (dx < -LIMITE_ARRASTO) {
-        responder('nao');
+        responder("nao");
       } else {
         void card.offsetWidth;
-        card.style.transform = '';
+        card.style.transform = "";
         stampYes.style.opacity = 0;
         stampNo.style.opacity = 0;
       }
     });
 
-    card.addEventListener('pointercancel', () => {
+    card.addEventListener("pointercancel", () => {
       if (!arrastando) return;
       arrastando = false;
-      card.classList.remove('is-dragging');
+      card.classList.remove("is-dragging");
       void card.offsetWidth;
-      card.style.transform = '';
+      card.style.transform = "";
       stampYes.style.opacity = 0;
       stampNo.style.opacity = 0;
     });
@@ -194,7 +197,7 @@ document.addEventListener('DOMContentLoaded', () => {
   function responder(resposta) {
     if (animando) return;
 
-    const card = deck.querySelector('.card.is-current');
+    const card = deck.querySelector(".card.is-current");
     if (!card) return;
 
     animando = true;
@@ -204,26 +207,25 @@ document.addEventListener('DOMContentLoaded', () => {
       resposta,
     });
 
-    const direcao = resposta === 'sim' ? 1 : -1;
+    const direcao = resposta === "sim" ? 1 : -1;
 
     const selo = card.querySelector(
-      resposta === 'sim' ? '.card__stamp--yes' : '.card__stamp--no'
+      resposta === "sim" ? ".card__stamp--yes" : ".card__stamp--no",
     );
-    selo.style.opacity = '1';
+    selo.style.opacity = "1";
 
-    card.classList.remove('is-current');
-    card.classList.remove('is-dragging');
-    card.dataset.leaving = 'true';
-    card.style.pointerEvents = 'none';
+    card.classList.remove("is-current");
+    card.classList.remove("is-dragging");
+    card.dataset.leaving = "true";
+    card.style.pointerEvents = "none";
 
-    card.style.transition = 'none';
+    card.style.transition = "none";
     void card.offsetWidth;
 
     card.style.transition =
-      'transform 0.45s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.45s ease';
-    card.style.transform =
-      `translate(${direcao * 700}px, 30px) rotate(${direcao * 30}deg)`;
-    card.style.opacity = '0';
+      "transform 0.45s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.45s ease";
+    card.style.transform = `translate(${direcao * 700}px, 30px) rotate(${direcao * 30}deg)`;
+    card.style.opacity = "0";
 
     indiceAtual++;
     atualizarCartoes();
@@ -242,11 +244,11 @@ document.addEventListener('DOMContentLoaded', () => {
      TELA "SOBRE MIM"
      ========================================================= */
   function mostrarSobreMim() {
-    deck.style.display = 'none';
-    introEl.style.display = 'none';
-    controlsEl.style.display = 'none';
+    deck.style.display = "none";
+    introEl.style.display = "none";
+    controlsEl.style.display = "none";
 
-    aboutMeEl.classList.add('visible');
+    aboutMeEl.classList.add("visible");
     atualizarContador();
     sobreMim.focus();
   }
@@ -255,13 +257,15 @@ document.addEventListener('DOMContentLoaded', () => {
     charCount.textContent = `${sobreMim.value.length} / 500`;
   }
 
-  sobreMim.addEventListener('input', atualizarContador);
+  sobreMim.addEventListener("input", atualizarContador);
 
-  btnFinalizar.addEventListener('click', () => {
+  btnFinalizar.addEventListener("click", () => {
     const texto = sobreMim.value.trim();
 
     if (texto.length < MIN_CARACTERES_SOBRE) {
-      alert(`Escreva pelo menos ${MIN_CARACTERES_SOBRE} caracteres sobre você.`);
+      alert(
+        `Escreva pelo menos ${MIN_CARACTERES_SOBRE} caracteres sobre você.`,
+      );
       sobreMim.focus();
       return;
     }
@@ -274,16 +278,16 @@ document.addEventListener('DOMContentLoaded', () => {
      RESULTADO FINAL
      ========================================================= */
   function mostrarResultado() {
-    aboutMeEl.classList.remove('visible');
-    deck.style.display = 'none';
-    introEl.style.display = 'none';
-    controlsEl.style.display = 'none';
+    aboutMeEl.classList.remove("visible");
+    deck.style.display = "none";
+    introEl.style.display = "none";
+    controlsEl.style.display = "none";
 
-    resultList.innerHTML = '';
+    resultList.innerHTML = "";
     respostas.forEach((r) => {
-      const li = document.createElement('li');
-      const classe = r.resposta === 'sim' ? 'yes' : 'no';
-      const texto  = r.resposta === 'sim' ? 'Sim' : 'Não';
+      const li = document.createElement("li");
+      const classe = r.resposta === "sim" ? "yes" : "no";
+      const texto = r.resposta === "sim" ? "Sim" : "Não";
 
       li.innerHTML = `
         <span>${escaparHtml(r.pergunta)}</span>
@@ -299,7 +303,7 @@ document.addEventListener('DOMContentLoaded', () => {
       resultAbout.hidden = true;
     }
 
-    resultEl.classList.add('visible');
+    resultEl.classList.add("visible");
   }
 
   /* =========================================================
@@ -309,15 +313,15 @@ document.addEventListener('DOMContentLoaded', () => {
     indiceAtual = 0;
     animando = false;
     respostas.length = 0;
-    sobreMimTexto = '';
-    sobreMim.value = '';
+    sobreMimTexto = "";
+    sobreMim.value = "";
     atualizarContador();
 
-    deck.style.display = '';
-    introEl.style.display = '';
-    controlsEl.style.display = '';
-    aboutMeEl.classList.remove('visible');
-    resultEl.classList.remove('visible');
+    deck.style.display = "";
+    introEl.style.display = "";
+    controlsEl.style.display = "";
+    aboutMeEl.classList.remove("visible");
+    resultEl.classList.remove("visible");
     resultAbout.hidden = true;
 
     criarCartoes();
@@ -326,38 +330,80 @@ document.addEventListener('DOMContentLoaded', () => {
   /* =========================================================
      BOTÕES SIM / NÃO
      ========================================================= */
-  btnNo.addEventListener('click', () => {
+  btnNo.addEventListener("click", () => {
     if (animando) return;
-    const card = deck.querySelector('.card.is-current');
+    const card = deck.querySelector(".card.is-current");
     if (!card) return;
 
-    card.querySelector('.card__stamp--no').style.opacity = '1';
-    responder('nao');
+    card.querySelector(".card__stamp--no").style.opacity = "1";
+    responder("nao");
   });
 
-  btnYes.addEventListener('click', () => {
+  btnYes.addEventListener("click", () => {
     if (animando) return;
-    const card = deck.querySelector('.card.is-current');
+    const card = deck.querySelector(".card.is-current");
     if (!card) return;
 
-    card.querySelector('.card__stamp--yes').style.opacity = '1';
-    responder('sim');
+    card.querySelector(".card__stamp--yes").style.opacity = "1";
+    responder("sim");
   });
 
-  btnRestart.addEventListener('click', reiniciar);
+  btnRestart.addEventListener("click", reiniciar);
 
   /* =========================================================
      CONFIRMAR CADASTRO E SALVAR
      ========================================================= */
-  btnConfirmar.addEventListener('click', () => {
+  /* =========================================================
+   CONFIRMAR CADASTRO E SALVAR
+   ========================================================= */
+  btnConfirmar.addEventListener("click", async () => {
     const dadosFinais = {
       respostas: respostas,
-      sobreMim: sobreMimTexto
+      sobreMim: sobreMimTexto,
     };
 
-    localStorage.setItem('finduhouse_perfil_aluno', JSON.stringify(dadosFinais));
+    // Mantém o que já existia
+    localStorage.setItem(
+      "finduhouse_perfil_aluno",
+      JSON.stringify(dadosFinais),
+    );
 
-    window.location.href = 'perfil-aluno.html';
+    // Token salvo no login/cadastro (ajuste a chave se for outra)
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      alert("Sessão não encontrada. Faça login novamente.");
+      window.location.href = "login.html";
+      return;
+    }
+
+    btnConfirmar.disabled = true;
+    btnConfirmar.textContent = "Salvando...";
+
+    try {
+      const resp = await fetch(
+        "http://localhost:8081/api/usuario/perfil/sobre-mim",
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({ sobreMim: sobreMimTexto }),
+        },
+      );
+
+      if (!resp.ok) {
+        throw new Error(`Erro ${resp.status}`);
+      }
+
+      window.location.href = "perfil-aluno.html";
+    } catch (err) {
+      console.error('Falha ao salvar "sobre mim":', err);
+      alert('Não foi possível salvar seu "sobre mim". Tente novamente.');
+      btnConfirmar.disabled = false;
+      btnConfirmar.textContent = "Confirmar cadastro";
+    }
   });
 
   /* ---------------- Inicialização ---------------- */
