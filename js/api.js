@@ -2,6 +2,15 @@ const API_BASE = window.location.port === "5500"
     ? "http://localhost:8081/api"
     : "/api";
 
+function normalizarTelefoneWhatsApp(telefone) {
+    const digitos = String(telefone || '').replace(/\D/g, '');
+    if (!digitos) return '';
+    if (digitos.startsWith('55') && (digitos.length === 12 || digitos.length === 13)) {
+        return digitos;
+    }
+    return `55${digitos}`;
+}
+
 async function chamarApi(caminho, { metodo = "GET", corpo } = {}) {
     const cabecalhos = {
         "Content-Type": "application/json"
@@ -213,5 +222,6 @@ window.api = {
   exigirLogin,
   mensagemDeErro,
   escaparHtml,
-  urlImagemSegura
+  urlImagemSegura,
+  normalizarTelefoneWhatsApp
 };
