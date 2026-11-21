@@ -108,10 +108,23 @@ document.addEventListener('DOMContentLoaded', () => {
         </div>
       `;
 
-      // Apenas remove visualmente
-      card.querySelector('.btn-heart').addEventListener('click', () => {
-        favoritosDoBanco = favoritosDoBanco.filter(f => f.id !== fav.id);
-        renderizarGrid();
+      // Remove no banco e só depois tira da tela
+      card.querySelector('.btn-heart').addEventListener('click', async (e) => {
+        const btn = e.currentTarget;
+        btn.disabled = true;
+        try {
+          const estudanteId = obterSessao().usuarioId;
+          await chamarApi(
+            `/favoritos/${encodeURIComponent(fav.id)}?estudanteId=${encodeURIComponent(estudanteId)}`,
+            { metodo: 'DELETE' }
+          );
+          favoritosDoBanco = favoritosDoBanco.filter(f => f.id !== fav.id);
+          renderizarGrid();
+        } catch (error) {
+          console.error(error);
+          btn.disabled = false;
+          alert(mensagemDeErro(error));
+        }
       });
 
       grid.appendChild(card);
@@ -123,4 +136,5 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   carregarFavoritos();
+  window.addEventListener('pageshow', (e) => { if (e.persisted) carregarFavoritos(); });
 });

@@ -70,18 +70,23 @@ document.addEventListener('DOMContentLoaded', () => {
   carregarDetalhes();
 
   // ==========================================
-  // 4. BOTÃO FECHAR MATCH + TOAST DINÂMICO
+  // 4. ESTADO REAL (BANCO) DE FAVORITO E MATCH
   // ==========================================
   const btnFecharMatch = document.getElementById('btnFecharMatch');
-  
-  function mostrarToast() {
+  const btnFavoritar = document.getElementById('btnFavoritar');
+  const vagaIdNum = Number(vagaId);
+
+  // Fonte da verdade = banco. Nada de localStorage.
+  const estado = { favorito: false, match: false };
+
+  function mostrarToast(texto) {
     const toast = document.createElement('div');
     toast.className = 'toast-sucesso';
     toast.innerHTML = `
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
         <path d="M20 6L9 17l-5-5"/>
       </svg>
-      <span>Parabéns! Seu match foi feito. 🎉</span>
+      <span>${escaparHtml(texto)}</span>
     `;
     document.body.appendChild(toast);
     setTimeout(() => toast.classList.add('show'), 100);
@@ -91,120 +96,141 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 3500);
   }
 
+  function pintarFavorito() {
+    if (!btnFavoritar) return;
+    btnFavoritar.classList.toggle('active', estado.favorito);
+    btnFavoritar.querySelector('span').textContent = estado.favorito ? 'Favoritado' : 'Favoritar';
+  }
+
+  function pintarMatch() {
+    if (!btnFecharMatch) return;
+    if (estado.match) {
+      btnFecharMatch.textContent = 'Desfazer match';
+      btnFecharMatch.style.background = 'var(--primary-soft)';
+      btnFecharMatch.style.color = 'var(--accent)';
+      btnFecharMatch.style.border = '2px solid var(--border)';
+    } else {
+      btnFecharMatch.textContent = 'Fechar match';
+      btnFecharMatch.style.background = 'linear-gradient(135deg, var(--primary), var(--accent))';
+      btnFecharMatch.style.color = '#fff';
+      btnFecharMatch.style.border = 'none';
+    }
+  }
+
+  // Busca no backend se esta vaga já está nos favoritos / matches do aluno
+  async function carregarEstadoInicial() {
+    if (!token || !estudanteId) return;
+
+    // desabilita enquanto não sabe o estado, para não clicar errado
+    if (btnFavoritar) btnFavoritar.disabled = true;
+    if (btnFecharMatch) btnFecharMatch.disabled = true;
+
+    const [resFav, resMatch] = await Promise.allSettled([
+      chamarApi(`/favoritos?estudanteId=${encodeURIComponent(estudanteId)}`),
+      chamarApi(`/vagas/meus-matches?estudanteId=${encodeURIComponent(estudanteId)}`)
+    ]);
+
+    if (resFav.status === 'fulfilled') {
+      const lista = Array.isArray(resFav.value) ? resFav.value : (resFav.value?.favoritos || []);
+      estado.favorito = lista.some(f => Number(f.id) === vagaIdNum);
+    } else {
+      console.warn('Não foi possível carregar favoritos:', resFav.reason);
+    }
+
+    if (resMatch.status === 'fulfilled') {
+      const lista = resMatch.value?.matches || [];
+      estado.match = lista.some(m => Number(m.vagaId) === vagaIdNum);
+    } else {
+      console.warn('Não foi possível carregar matches:', resMatch.reason);
+    }
+
+    pintarFavorito();
+    pintarMatch();
+    if (btnFavoritar) btnFavoritar.disabled = false;
+    if (btnFecharMatch) btnFecharMatch.disabled = false;
+  }
+
+  carregarEstadoInicial();
+  window.addEventListener('pageshow', (e) => { if (e.persisted) carregarEstadoInicial(); });
+
+  // ==========================================
+  // 5. BOTÃO FECHAR / DESFAZER MATCH
+  // ==========================================
   if (btnFecharMatch) {
-    let matches = JSON.parse(localStorage.getItem('finduhouse_matches') || '[]');
-
-    const atualizarBotaoMatch = () => {
-      if (matches.includes(vagaId)) {
-        btnFecharMatch.textContent = 'Desfazer match';
-        btnFecharMatch.style.background = 'var(--primary-soft)';
-        btnFecharMatch.style.color = 'var(--accent)';
-        btnFecharMatch.style.border = '2px solid var(--border)';
-      } else {
-        btnFecharMatch.textContent = 'Fechar match';
-        btnFecharMatch.style.background = 'linear-gradient(135deg, var(--primary), var(--accent))';
-        btnFecharMatch.style.color = '#fff';
-        btnFecharMatch.style.border = 'none';
-      }
-    };
-
-    atualizarBotaoMatch();
-
     btnFecharMatch.addEventListener('click', async () => {
       if (!token || !estudanteId) {
         alert('Você precisa estar logado para fechar um match.');
         return;
       }
 
-      // Se já deu match, remove do localStorage (desfaz visualmente)
-      if (matches.includes(vagaId)) {
-        matches = matches.filter(id => id !== vagaId);
-        localStorage.setItem('finduhouse_matches', JSON.stringify(matches));
-        atualizarBotaoMatch();
-        return;
-      }
+      const caminho = `/vagas/${encodeURIComponent(vagaId)}/interesse?estudanteId=${encodeURIComponent(estudanteId)}`;
+      const desfazendo = estado.match;
 
-      // Se não, envia para o backend
       btnFecharMatch.textContent = 'Enviando...';
       btnFecharMatch.disabled = true;
 
       try {
-        await chamarApi(`/vagas/${encodeURIComponent(vagaId)}/interesse?estudanteId=${encodeURIComponent(estudanteId)}`, {
-          metodo: 'POST'
-        });
-
-        // Sucesso
-        matches.push(vagaId);
-        localStorage.setItem('finduhouse_matches', JSON.stringify(matches));
-        mostrarToast();
-        
+        await chamarApi(caminho, { metodo: desfazendo ? 'DELETE' : 'POST' });
+        estado.match = !desfazendo;
+        if (!desfazendo) mostrarToast('Parabéns! Seu match foi feito. 🎉');
       } catch (error) {
         console.error(error);
-        alert(error.message || 'Erro ao fechar match. Tente novamente.');
+        if (error.codigo === 'INTERESSE_JA_REGISTRADO') {
+          estado.match = true; // o banco já tinha; só sincroniza a tela
+        } else {
+          alert(mensagemDeErro(error));
+        }
       } finally {
         btnFecharMatch.disabled = false;
-        atualizarBotaoMatch();
+        pintarMatch();
       }
     });
   }
 
   // ==========================================
-  // 5. BOTÃO FAVORITAR
+  // 6. BOTÃO FAVORITAR / DESFAVORITAR
   // ==========================================
-    // ==========================================
-  // 5. BOTÃO FAVORITAR (INTEGRADO COM O BANCO)
-  // ==========================================
-  const btnFavoritar = document.getElementById('btnFavoritar');
-  
   if (btnFavoritar) {
-    // Verifica se já está favoritado (podemos checar na API ou só assumir que não)
-    // Para simplificar, vamos apenas deixar o visual para depois de clicar.
-
     btnFavoritar.addEventListener('click', async () => {
       if (!token || !estudanteId) {
         alert('Você precisa estar logado para favoritar.');
         return;
       }
 
-      // Se o botão já está ativo, significa que o usuário quer remover (mas vamos apenas avisar que precisa de delete)
-      if (btnFavoritar.classList.contains('active')) {
-        // Aqui entraria o DELETE /api/favoritos/{id}, mas como não existe, vamos remover só do visual
-        btnFavoritar.classList.remove('active');
-        btnFavoritar.querySelector('span').textContent = 'Favoritar';
-        alert('Favorito removido da tela (Implementar DELETE no backend para remover do banco).');
-        return;
-      }
-
+      const desfavoritando = estado.favorito;
       btnFavoritar.querySelector('span').textContent = 'Salvando...';
       btnFavoritar.disabled = true;
 
       try {
-        await chamarApi("/favoritos", {
-          metodo: 'POST',
-          corpo: {
-            estudanteId: estudanteId,
-            vagaId: vagaId
-          }
-        });
-        btnFavoritar.classList.add('active');
-        btnFavoritar.querySelector('span').textContent = 'Favoritado';
-        
+        if (desfavoritando) {
+          await chamarApi(
+            `/favoritos/${encodeURIComponent(vagaId)}?estudanteId=${encodeURIComponent(estudanteId)}`,
+            { metodo: 'DELETE' }
+          );
+          estado.favorito = false;
+        } else {
+          await chamarApi('/favoritos', {
+            metodo: 'POST',
+            corpo: { estudanteId: Number(estudanteId), vagaId: vagaIdNum }
+          });
+          estado.favorito = true;
+        }
       } catch (error) {
         console.error(error);
         if (error.codigo === 'VAGA_JA_FAVORITADA') {
-          alert('Esta vaga já está nos seus favoritos!');
+          estado.favorito = true; // o banco já tinha; só sincroniza a tela
         } else {
           alert(mensagemDeErro(error));
         }
-        btnFavoritar.querySelector('span').textContent = 'Favoritar';
       } finally {
         btnFavoritar.disabled = false;
+        pintarFavorito();
       }
     });
   }
 
   // ==========================================
-  // 6. LIGHTBOX (GALERIA)
+  // 7. LIGHTBOX (GALERIA)
   // ==========================================
   const lightbox = document.getElementById('lightbox');
   const lightboxImg = document.getElementById('lightboxImg');
