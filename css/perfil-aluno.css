@@ -666,3 +666,61 @@ body {
     font-size: 30px;
   }
 }
+
+.lista-perfil {
+  margin-top: 24px;
+}
+
+.moradias-perfil-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 18px;
+  margin-top: 20px;
+}
+
+.moradia-perfil-card {
+  overflow: hidden;
+  border: 1px solid #e8e8ee;
+  border-radius: 14px;
+  background: #fff;
+}
+
+.moradia-perfil-imagem {
+  display: block;
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+}
+
+.moradia-perfil-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 16px;
+}
+
+.moradia-perfil-info h3 {
+  margin: 0;
+  font-size: 16px;
+}
+
+.moradia-perfil-info p {
+  margin: 0;
+  color: #777;
+  font-size: 13px;
+}
+
+.moradia-perfil-info strong {
+  color: var(--accent);
+}
+
+.moradia-perfil-info .btn-small {
+  margin-top: 5px;
+}
+
+@media (max-width: 600px) {
+  .moradias-perfil-grid {
+    grid-template-columns: 1fr;
+  }
+}
