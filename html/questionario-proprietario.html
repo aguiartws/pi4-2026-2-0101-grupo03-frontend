@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 
@@ -86,7 +87,7 @@
                 <h2>Localização da residência</h2>
                 <p>Preencha os dados de localização da sua república.</p>
 
-               <label for="cep">CEP <span class="required">*</span></label>
+                <label for="cep">CEP <span class="required">*</span></label>
                 <input type="text" id="cep" name="cep" placeholder="00000-000" maxlength="9" inputmode="numeric" autocomplete="postal-code" required>
                 <small id="cepStatus" class="cep-status" aria-live="polite"></small>
 
@@ -112,19 +113,19 @@
                 <textarea id="descricao" name="descricao" placeholder="Descreva a moradia e seus espaços." required></textarea>
 
                 <label for="valorAluguel">Valor do aluguel <span class="required">*</span></label>
-                <input type="number" id="valorAluguel" name="valorAluguel" min="0.01" step="0.01" placeholder="Ex.: 850" required>
+                <input type="text" id="valorAluguel" name="valorAluguel" inputmode="decimal" placeholder="Ex.: 850,00" required>
 
                 <label for="numeroMoradores">Número de moradores <span class="required">*</span></label>
-                <input type="number" id="numeroMoradores" name="numeroMoradores" min="1" step="1" placeholder="Ex.: 4" required>
+                <input type="text" id="numeroMoradores" name="numeroMoradores" inputmode="numeric" placeholder="Ex.: 4" required>
 
                 <label for="regrasCasa">Regras da casa <span class="required">*</span></label>
                 <textarea id="regrasCasa" name="regrasCasa" placeholder="Informe as principais regras da moradia." required></textarea>
 
                 <label for="latitude">Latitude <span class="required">*</span></label>
-                <input type="number" id="latitude" name="latitude" step="any" placeholder="Ex.: -22.9056" required>
+                <input type="text" id="latitude" name="latitude" inputmode="decimal" placeholder="Ex.: -22.9056" required>
 
                 <label for="longitude">Longitude <span class="required">*</span></label>
-                <input type="number" id="longitude" name="longitude" step="any" placeholder="Ex.: -47.0608" required>
+                <input type="text" id="longitude" name="longitude" inputmode="decimal" placeholder="Ex.: -47.0608" required>
               </div>
 
               <section class="photo-upload">
@@ -293,7 +294,7 @@
                 <button class="back-step" id="btnVoltarEtapa3" type="button">
                   <svg><use href="#i-arrow-l"/></svg> Voltar
                 </button>
-                <!-- BOTÃO ALTERADO AQUI -->
+
                 <button class="next" type="submit">
                   Finalizar cadastro de moradia <svg><use href="#i-check"/></svg>
                 </button>
