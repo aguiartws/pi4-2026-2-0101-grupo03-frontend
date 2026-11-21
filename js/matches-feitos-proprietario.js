@@ -16,6 +16,60 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  // Perguntas do questionário (mesmas chaves usadas pela API)
+  const PERGUNTAS = [
+    {
+      texto: "Aceita barulho depois das 22h durante a semana?",
+      chave: "aceitaBarulhoDepoisDas22",
+    },
+    { texto: "Fuma?", chave: "fuma" },
+    { texto: "Aceita animais de estimação?", chave: "aceitaAnimais" },
+    { texto: "Gosta de receber visitas em casa?", chave: "gostaReceberVisitas" },
+    { texto: "Gosta de cozinhar em casa?", chave: "gostaCozinhar" },
+    { texto: "Costuma estudar em casa?", chave: "estudaEmCasa" },
+    {
+      texto: "Aceita dividir as tarefas domésticas?",
+      chave: "aceitaDividirTarefas",
+    },
+    {
+      texto: "Aceitaria dividir o quarto com outra pessoa?",
+      chave: "aceitaDividirQuarto",
+    },
+    {
+      texto: "Topa que a casa receba festas de vez em quando?",
+      chave: "aceitaFestas",
+    },
+    { texto: "É uma pessoa comunicativa com colegas?", chave: "comunicativo" },
+  ];
+
+  // Estilos das preferências do modal (verde = Sim, vermelho = Não)
+  const estilo = document.createElement("style");
+  estilo.textContent = `
+    .pref-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 10px 0;
+      border-bottom: 1px solid #ececf6;
+      font-size: 14px;
+    }
+    .pref-item:last-child { border-bottom: none; }
+    .pref-badge {
+      flex-shrink: 0;
+      min-width: 52px;
+      text-align: center;
+      padding: 4px 12px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+    }
+    .pref-badge--sim { background: #dcfce7; color: #15803d; }
+    .pref-badge--nao { background: #fee2e2; color: #b91c1c; }
+    .pref-msg { margin: 0; color: #6b6b8a; }
+  `;
+  document.head.appendChild(estilo);
+
   const iniciais = (nome) =>
     (nome || "")
       .trim()
@@ -29,6 +83,11 @@ document.addEventListener("DOMContentLoaded", () => {
     const foto = match.fotoPerfilUrl || match.fotoUrl;
     return typeof foto === "string" ? urlImagemSegura(foto.trim(), "") : "";
   };
+
+  // Descobre o id do estudante no objeto do match
+  // (só aceita campos que realmente identificam o estudante, para nunca buscar o aluno errado)
+  const obterEstudanteId = (match) =>
+    match.estudanteId ?? match.idEstudante ?? match.alunoId ?? null;
 
   function criarCard(match) {
     const nome = escaparHtml(match.nomeEstudante || "Estudante");
@@ -73,6 +132,80 @@ document.addEventListener("DOMContentLoaded", () => {
       );
     }
     return card;
+  }
+
+  // Renderiza as preferências no modal
+  function renderizarPreferencias(container, respostasApi) {
+    container.innerHTML = PERGUNTAS.map((pergunta) => {
+      const valor = respostasApi[pergunta.chave];
+
+      if (typeof valor !== "boolean") {
+        return `
+          <div class="pref-item">
+            <span>${escaparHtml(pergunta.texto)}</span>
+            <span class="pref-badge">—</span>
+          </div>`;
+      }
+
+      const classe = valor ? "sim" : "nao";
+      return `
+        <div class="pref-item">
+          <span>${escaparHtml(pergunta.texto)}</span>
+          <span class="pref-badge pref-badge--${classe}">${valor ? "Sim" : "Não"}</span>
+        </div>`;
+    }).join("");
+  }
+
+  // Controle para ignorar respostas de um modal que já foi fechado/trocado
+  let aberturaAtual = 0;
+
+  async function carregarPreferencias(match, modalRespostas, abertura) {
+    // 1) Se o back-end já devolveu as preferências dentro do match, usa direto
+    const embutido = match.questionario || match.respostas;
+    if (embutido && typeof embutido === "object") {
+      renderizarPreferencias(modalRespostas, embutido);
+      return;
+    }
+
+    // 2) Senão, busca pelo id do estudante
+    const estudanteId = obterEstudanteId(match);
+
+    if (!estudanteId) {
+      modalRespostas.innerHTML =
+        '<p class="pref-msg">Preferências não disponíveis.</p>';
+      console.warn(
+        "O match não traz o id do estudante (esperado: estudanteId). Campos recebidos:",
+        Object.keys(match),
+      );
+      return;
+    }
+
+    modalRespostas.innerHTML = '<p class="pref-msg">Carregando preferências...</p>';
+
+    try {
+      const respostaApi = await chamarApi(
+        `/estudantes/${encodeURIComponent(estudanteId)}/questionario`,
+      );
+      if (abertura !== aberturaAtual) return;
+
+      const respostasApi = respostaApi?.respostas || respostaApi;
+      if (!respostasApi || typeof respostasApi !== "object") {
+        throw { codigo: "DADOS_INVALIDOS" };
+      }
+
+      renderizarPreferencias(modalRespostas, respostasApi);
+    } catch (erro) {
+      if (abertura !== aberturaAtual) return;
+
+      console.error("Erro ao carregar preferências do estudante:", erro);
+
+      const mensagem = mensagemDeErro(erro) || "";
+      modalRespostas.innerHTML = mensagem.includes(
+        "ainda não respondeu o questionário",
+      )
+        ? '<p class="pref-msg">O estudante ainda não respondeu o questionário.</p>'
+        : '<p class="pref-msg">Preferências não disponíveis.</p>';
+    }
   }
 
   function abrirModal(match) {
@@ -120,13 +253,20 @@ document.addEventListener("DOMContentLoaded", () => {
     const sobreMim = (match.sobreMim || match.sobre_mim || "").trim();
     modalSobreMim.textContent =
       sobreMim || "O estudante não escreveu nada sobre si.";
-    modalRespostas.innerHTML = "<p>Preferências não disponíveis.</p>";
+
     modalOverlay.classList.add("active");
+
+    // Carrega as preferências do estudante
+    aberturaAtual++;
+    carregarPreferencias(match, modalRespostas, aberturaAtual);
   }
 
   function configurarModal() {
     const modalOverlay = document.getElementById("modalContato");
-    const fechar = () => modalOverlay.classList.remove("active");
+    const fechar = () => {
+      aberturaAtual++;
+      modalOverlay.classList.remove("active");
+    };
     document.getElementById("fecharModalX").addEventListener("click", fechar);
     document.getElementById("btnFecharModal").addEventListener("click", fechar);
     modalOverlay.addEventListener("click", (evento) => {
@@ -140,6 +280,8 @@ document.addEventListener("DOMContentLoaded", () => {
       const resposta = await chamarApi(
         `/vagas/responsavel/${encodeURIComponent(sessao.usuarioId)}/matches`,
       );
+      console.log("Resposta dos matches:", resposta);
+
       const matches = Array.isArray(resposta)
         ? resposta
         : resposta?.matches || [];
