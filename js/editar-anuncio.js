@@ -34,10 +34,25 @@ const BOOLEANOS = [
   "comunicativo",
 ];
 
-let fotosSelecionadas = [];
-let fotosAtuais = [];
+/* ---------- Estado das fotos ---------- */
+let fotosSelecionadas = []; // File[] novos, ainda não enviados
+let fotosAtuais = []; // [{ id, url }] vindas do servidor
+let fotosParaRemover = []; // ids marcados para exclusão ao salvar
+let blobUrls = []; // object URLs das prévias
+
 const TAMANHO_MAXIMO_FOTO = 5 * 1024 * 1024;
 const TIPOS_PERMITIDOS = ["image/jpeg", "image/png", "image/webp"];
+const MAX_FOTOS = 5;
+
+const fotosAtuaisVisiveis = () =>
+  fotosAtuais.filter((f) => !fotosParaRemover.includes(f.id));
+const totalFotos = () => fotosAtuaisVisiveis().length + fotosSelecionadas.length;
+
+// Aceita objetos { id, url } (formato atual da API)
+function extrairFotos(vaga) {
+  const lista = Array.isArray(vaga.fotos) ? vaga.fotos : [];
+  return lista.filter((f) => f && typeof f === "object" && f.id != null && f.url);
+}
 
 /* ---------- Toast ---------- */
 let toastTimer;
@@ -77,71 +92,99 @@ function atualizarContadores() {
   $("#contDescricao").textContent = campos.descricao.value.length;
 }
 
-/* ---------- Configurar Upload de Fotos da Moradia (Até 5) ---------- */
+/* ---------- Fotos da moradia (até 5) ---------- */
 function configurarFotosMoradia() {
   const inputFotos = $("#inputFotosMoradia");
-  const containerPreview = $("#containerPreviewFotos");
   const erroFotos = $("#erroFotosVaga");
-
   if (!inputFotos) return;
 
   inputFotos.addEventListener("change", (e) => {
     erroFotos.textContent = "";
-    const novosArquivos = Array.from(e.target.files);
+    const novos = Array.from(e.target.files);
 
-    if (fotosAtuais.length + fotosSelecionadas.length + novosArquivos.length > 5) {
+    if (totalFotos() + novos.length > MAX_FOTOS) {
       erroFotos.textContent = mensagemDeErro({ codigo: "LIMITE_FOTOS_EXCEDIDO" });
+      inputFotos.value = "";
       return;
     }
 
-    for (const arquivo of novosArquivos) {
-      if (!TIPOS_PERMITIDOS.includes(arquivo.type) || arquivo.size === 0 || arquivo.size > TAMANHO_MAXIMO_FOTO) {
+    for (const arquivo of novos) {
+      if (
+        !TIPOS_PERMITIDOS.includes(arquivo.type) ||
+        arquivo.size === 0 ||
+        arquivo.size > TAMANHO_MAXIMO_FOTO
+      ) {
         erroFotos.textContent = mensagemDeErro({ codigo: "ARQUIVO_INVALIDO" });
         inputFotos.value = "";
         return;
       }
-      fotosSelecionadas.push(arquivo);
     }
 
-    renderizarPreviewsFotos();
+    fotosSelecionadas.push(...novos);
     inputFotos.value = "";
+    renderizarPreviewsFotos();
   });
 }
 
+function criarMiniatura(src, alt, nova, aoRemover) {
+  const div = document.createElement("div");
+  div.style.cssText =
+    "position:relative;width:110px;height:110px;flex-shrink:0;border-radius:8px;overflow:hidden;" +
+    `border:1px ${nova ? "dashed" : "solid"} var(--border);`;
+
+  const img = document.createElement("img");
+  img.src = src;
+  img.alt = alt;
+  img.style.cssText = "width:100%;height:100%;object-fit:cover;display:block;";
+  img.onerror = () => console.error(`${LOG} Não foi possível carregar a foto:`, src);
+
+  const btn = document.createElement("button");
+  btn.type = "button";
+  btn.textContent = "×";
+  btn.title = "Remover foto";
+  btn.setAttribute("aria-label", "Remover foto");
+  btn.style.cssText =
+    "position:absolute;top:5px;right:5px;width:24px;height:24px;border:none;border-radius:50%;" +
+    "background:rgba(0,0,0,.7);color:#fff;font-size:18px;line-height:1;cursor:pointer;" +
+    "display:flex;align-items:center;justify-content:center;";
+  btn.addEventListener("click", aoRemover);
+
+  div.append(img, btn);
+  return div;
+}
+
 function renderizarPreviewsFotos() {
-  const containerPreview = $("#containerPreviewFotos");
-  containerPreview.innerHTML = "";
+  const container = $("#containerPreviewFotos");
+  if (!container) return;
 
-  fotosSelecionadas.forEach((arquivo, index) => {
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      const div = document.createElement("div");
-      div.style.position = "relative";
-      div.style.width = "80px";
-      div.style.height = "80px";
-      div.style.borderRadius = "6px";
-      div.style.overflow = "hidden";
-      div.style.border = "1px solid var(--border)";
+  blobUrls.forEach((u) => URL.revokeObjectURL(u));
+  blobUrls = [];
+  container.innerHTML = "";
 
-      const imagem = document.createElement("img");
-      imagem.src = URL.createObjectURL(arquivo);
-      imagem.style.cssText = "width: 100%; height: 100%; object-fit: cover;";
-      const remover = document.createElement("button");
-      remover.type = "button";
-      remover.dataset.index = String(index);
-      remover.className = "btn-remover-foto";
-      remover.style.cssText = "position: absolute; top: 2px; right: 2px; background: rgba(0,0,0,0.6); color: white; border: none; border-radius: 50%; width: 20px; height: 20px; font-size: 10px; cursor: pointer;";
-      remover.textContent = "×";
-      div.append(imagem, remover);
-
-      remover.addEventListener("click", () => {
-        fotosSelecionadas.splice(index, 1);
+  // Fotos já salvas (as marcadas para remoção somem da tela)
+  fotosAtuaisVisiveis().forEach((foto, i) => {
+    const url = urlImagemSegura(foto.url, "");
+    console.log(`${LOG} Foto ${i + 1}:`, foto, url);
+    if (!url) return;
+    container.appendChild(
+      criarMiniatura(url, `Foto da moradia ${i + 1}`, false, () => {
+        fotosParaRemover.push(foto.id);
+        $("#erroFotosVaga").textContent = "";
         renderizarPreviewsFotos();
-      });
+      }),
+    );
+  });
 
-      containerPreview.appendChild(div);
-    };
-    reader.readAsDataURL(arquivo);
+  // Fotos novas, ainda não enviadas
+  fotosSelecionadas.forEach((arquivo, i) => {
+    const u = URL.createObjectURL(arquivo);
+    blobUrls.push(u);
+    container.appendChild(
+      criarMiniatura(u, `Nova foto ${i + 1}`, true, () => {
+        fotosSelecionadas.splice(i, 1);
+        renderizarPreviewsFotos();
+      }),
+    );
   });
 }
 
@@ -182,14 +225,19 @@ async function carregar() {
   try {
     const resposta = await chamarApi(`/vagas/${encodeURIComponent(casaId)}`);
     const vaga = resposta && resposta.vaga ? resposta.vaga : resposta;
-      fotosAtuais = Array.isArray(vaga.fotos) ? vaga.fotos : [];
+    console.log(`${LOG} Dados da vaga:`, vaga);
+    console.log(`${LOG} Fotos recebidas:`, vaga.fotos);
+
+    fotosAtuais = extrairFotos(vaga);
     preencherFormulario(vaga);
+    renderizarPreviewsFotos();
   } catch (err) {
     toast(mensagemDeErro(err), true);
     console.error(`${LOG} Erro ao carregar GET /vagas:`, err);
   }
 }
 
+/* ---------- Salvar ---------- */
 async function salvar(e) {
   e.preventDefault();
 
@@ -223,26 +271,35 @@ async function salvar(e) {
     regrasConvivencia: regras,
   };
 
-  const url = `/vagas/${encodeURIComponent(casaId)}`;
+  const idSeguro = encodeURIComponent(casaId);
   const btn = $("#btnSalvar");
   btn.disabled = true;
   btn.textContent = "Salvando...";
 
   try {
-    // 1. Atualiza os dados JSON da vaga
-    await chamarApi(url, { metodo: "PATCH", corpo: dados });
+    // 1. Atualiza os dados da vaga
+    await chamarApi(`/vagas/${idSeguro}`, { metodo: "PATCH", corpo: dados });
 
-    // 2. Se houver fotos selecionadas, envia via FormData para o endpoint de fotos da moradia
+    // 2. Remove as fotos marcadas (antes de enviar, para liberar espaço no limite de 5)
+    for (const fotoId of [...fotosParaRemover]) {
+      await chamarApi(`/vagas/${idSeguro}/fotos/${encodeURIComponent(fotoId)}`, {
+        metodo: "DELETE",
+      });
+      fotosAtuais = fotosAtuais.filter((f) => f.id !== fotoId);
+      fotosParaRemover = fotosParaRemover.filter((id) => id !== fotoId);
+    }
+
+    // 3. Envia as fotos novas
     if (fotosSelecionadas.length > 0) {
-      if (fotosAtuais.length + fotosSelecionadas.length > 5) {
+      if (fotosAtuais.length + fotosSelecionadas.length > MAX_FOTOS) {
         throw { codigo: "LIMITE_FOTOS_EXCEDIDO" };
       }
 
       const formData = new FormData();
       fotosSelecionadas.forEach((foto) => formData.append("fotos", foto));
 
-      const resultadoFotos = await chamarApiMultipart(`/vagas/${encodeURIComponent(casaId)}/fotos`, {
-        corpo: formData
+      const resultadoFotos = await chamarApiMultipart(`/vagas/${idSeguro}/fotos`, {
+        corpo: formData,
       });
       if (!resultadoFotos || !Array.isArray(resultadoFotos.fotos)) {
         throw { codigo: "FALHA_UPLOAD_IMAGEM" };
@@ -256,13 +313,14 @@ async function salvar(e) {
     setTimeout(() => (location.href = PAGINA_LISTA), 1000);
   } catch (err) {
     toast(mensagemDeErro(err), true);
-    console.error(`${LOG} Erro ao salvar PATCH /vagas:`, err);
+    console.error(`${LOG} Erro ao salvar:`, err);
+    renderizarPreviewsFotos();
     btn.disabled = false;
     btn.textContent = "Salvar alterações";
   }
 }
 
-/* ---------- Excluir ---------- */
+/* ---------- Excluir anúncio ---------- */
 function configurarExcluir() {
   const btnExcluir = $("#btnExcluir");
   const dlg = $("#dlgExcluir");
@@ -276,7 +334,7 @@ function configurarExcluir() {
   });
 
   btnConfirmar.addEventListener("click", async (e) => {
-    e.preventDefault(); 
+    e.preventDefault();
     if (!casaId) return;
 
     const textoOriginal = btnConfirmar.textContent;
@@ -293,7 +351,7 @@ function configurarExcluir() {
         window.location.href = PAGINA_LISTA;
       }, 1500);
     } catch (err) {
-      console.error(`[editar-anuncio] ✖ DELETE falhou:`, err);
+      console.error(`${LOG} ✖ DELETE falhou:`, err);
       if (err.status === 401 || err.status === 403) {
         toast("Você não tem permissão para excluir este anúncio.", true);
       } else {
