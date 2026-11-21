@@ -365,7 +365,16 @@ function configurarExcluir() {
 }
 
 /* ---------- Init ---------- */
+/* ---------- Barra lateral (recolher/expandir) ---------- */
+function configurarSidebar() {
+  const layout = $("#appLayout");
+  const toggle = $("#sidebarToggle");
+  if (!layout || !toggle) return;
+  toggle.addEventListener("click", () => layout.classList.toggle("collapsed"));
+}
+
 function iniciar() {
+  configurarSidebar();
   form.addEventListener("input", () => {
     atualizarContadores();
     atualizarPrevia();
